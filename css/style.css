@@ -26,6 +26,11 @@ ul{
     color: white;
     font-weight: bold;
 }
+@media screen and (max-width : 496px){
+    .button_1{
+        margin-top: 3px;
+    }
+}
 /* Header */
 header{
     background: #354241;
