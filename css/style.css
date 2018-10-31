@@ -120,34 +120,34 @@ header a:hover{
     float: right;
 }
 
-#newsletter input[type="email"]{
+.input_g{
     padding: 4px;
     height: 25px;
     width: 250px;
 }
-#newsletter input[type="password"]{
-    padding: 4px;
-    height: 25px;
-    width: 250px;
+/* quote */
+#quote{
+    background: white;
 }
-
-/* boses */
-
-#boxes{
-    margin-top: 20px;
-}
-
-#boxes .box{
-    float: left;
-    text-align: center;
+/* about */
+aside#sideBar{
+    float: right;
     width: 30%;
-    padding: 10px;
-
+    margin-top: 10px;
 }
-
-#boxes .box img{
-    width: 90px;
+article#main-article{
+    float: left;
+    width: 70%;
+    margin-top: 10px;
 }
+.dark{
+    padding: 15px;
+    background: #35424a;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+/* footer */
 footer{
     padding: 20px;
     margin-top: 20px;
@@ -177,4 +177,28 @@ footer{
     text-align: left;
     background-color: #e8491d;
     color: white;
+}
+
+.division_left{
+    margin-top: 15px;
+    width: 50%;
+    float: left;
+}
+.division_right{
+    margin-top: 15px;
+    width: 50%;
+    float: right;
+}
+
+@media(max-width: 600px){
+    header #branding,
+    header nav,
+    header nav li{
+        float: none;
+        text-align: center;
+        width: 100%;
+    }
+    #showcase h1{
+        margin-top: 40px;
+    }
 }
