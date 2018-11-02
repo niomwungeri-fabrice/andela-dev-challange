@@ -16,6 +16,9 @@
             <div id="branding">
               <h1><span class="highlight">SendIT</span></h1>
             </div>
+            <form action="login.html">
+                <button type="submit" class="button_2">Log Out</button>
+           </form>
             <nav>
                 <ul>
                     <li><a href="index.html">Home |</a></li>
@@ -27,84 +30,119 @@
     </header>
     <section id="viewParcel">
         <div class="container">
-            <button type="submit" class="btn_send" >Send a Parcel</button>
+          <form action="">
+            <input class="input_send" type="text" placeholder="From *" required>
+            <input class="input_send" type="text" placeholder="Destination *" required>
+            <input class="input_send" type="number" placeholder=" Length *"required>
+            <input class="input_send" type="number" placeholder=" Width *"required>
+            <input class="input_send" type="number" placeholder=" Height *"required>
+            <input class="input_send" type="number" placeholder=" Weight *"required>
+         <br>
+          <button type="submit" class="btn_send">Create a Parcel</button>
+          </form>
             <table id="parcels">
                 <tr>
-                  <th>Company</th>
-                  <th>Contact</th>
-                  <th>Country</th>
+                  <th>From</th>
+                  <th>Destination</th>
+                  <th>Length</th>
+                  <th>Width</th>
+                  <th>Height</th>
+                  <th>Weight</th>
+                  <th>Price</th>
                   <th>Status</th>
                   <th>Track</th>
                 </tr>
                 <tr>
-                  <td>Alfreds Futterkiste</td>
-                  <td>Maria Anders</td>
-                  <td>Germany</td>
+                  <td>Rwanda</td>
+                  <td>Uganda</td>
+                  <td>24</td>
+                  <td>54</td>
+                  <td>61</td>
+                  <td>13</td>
+                  <td>12000</td>
                   <td>Pending</td>
                   <td><a href="#">View</a></td>
                 </tr>
                 <tr>
-                  <td>Berglunds snabbköp</td>
-                  <td>Christina Berglund</td>
-                  <td>Sweden</td>
+                  <td>Rwanda</td>
+                  <td>Uganda</td>
+                  <td>30</td>
+                  <td>20</td>
+                  <td>20</td>
+                  <td>13</td>
+                  <td>9000</td>
                   <td>Pending</td>
                   <td><a href="#">View</a></td>
                 </tr>
                 <tr>
-                  <td>Centro comercial Moctezuma</td>
-                  <td>Francisco Chang</td>
-                  <td>Mexico</td>
+                  <td>Kenya</td>
+                  <td>RDC</td>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>6</td>
+                  <td>3</td>
+                  <td>600</td>
                   <td>Pending</td>
                   <td><a href="#">View</a></td>
                 </tr>
                 <tr>
-                  <td>Ernst Handel</td>
-                  <td>Roland Mendel</td>
-                  <td>Austria</td>
+                  <td>Rwanda</td>
+                  <td>Burundi</td>
+                  <td>7</td>
+                  <td>12</td>
+                  <td>9</td>
+                  <td>5</td>
+                  <td>1000</td>
                   <td>Pending</td>
                   <td><a href="#">View</a></td>
                 </tr>
                 <tr>
-                  <td>Island Trading</td>
-                  <td>Helen Bennett</td>
-                  <td>UK</td>
+                  <td>Somalia</td>
+                  <td>South Africa</td>
+                  <td>9</td>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>13</td>
+                  <td>900</td>
                   <td>Pending</td>
                   <td><a href="#">View</a></td>
                 </tr>
                 <tr>
-                  <td>Königlich Essen</td>
-                  <td>Philip Cramer</td>
-                  <td>Germany</td>
+                  <td>Rwanda</td>
+                  <td>Ethiopia</td>
+                  <td>41</td>
+                  <td>15</td>
+                  <td>16</td>
+                  <td>13</td>
+                  <td>60000</td>
                   <td>Pending</td>
                   <td><a href="#">View</a></td>
                 </tr>
                 <tr>
-                  <td>Laughing Bacchus Winecellars</td>
-                  <td>Yoshi Tannamuri</td>
-                  <td>Canada</td>
+                  <td>Rwanda</td>
+                  <td>Kenya</td>
+                  <td>14</td>
+                  <td>39</td>
+                  <td>2</td>
+                  <td>12</td>
+                  <td>8000</td>
                   <td>Pending</td>
                   <td><a href="#">View</a></td>
                 </tr>
                 <tr>
-                  <td>Magazzini Alimentari Riuniti</td>
-                  <td>Giovanni Rovelli</td>
-                  <td>Italy</td>
+                  <td>Rwanda</td>
+                  <td>Kenya</td>
+                  <td>7</td>
+                  <td>12</td>
+                  <td>8</td>
+                  <td>20</td>
+                  <td>2000</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
-                </tr>
-                <tr>
-                  <td>North/South</td>
-                  <td>Simon Crowther</td>
-                  <td>UK</td>
-                  <td>Pending</td>
-                  <td><a href="#">View</a></td>
-                </tr>
-                <tr>
-                  <td>Paris spécialités</td>
-                  <td>Marie Bertrand</td>
-                  <td>France</td>
-                  <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                    <a href="#">View</a>
+                    <a href="#">change</a>
+                    <a href="#">Cancel</a>
+                  </td>
                 </tr>
               </table>
         </div>
