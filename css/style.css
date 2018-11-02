@@ -40,7 +40,6 @@ ul{
 .btn_send{
     margin-top: 15px;
     margin-bottom: 15px;
-    margin-left: 30px;
     height: 38px;
     background: #2600fd;
     border: 0;
@@ -49,6 +48,13 @@ ul{
     color: white;
     font-weight: bold;
     float: left;
+}
+.create_Quote{
+    height: 38px;
+    background: #2600fd;
+    color: white;
+    font-weight: bold;
+    border: 0;
 }
 .input_g{
     padding: 4px;
@@ -70,7 +76,15 @@ ul{
     float: right;
 }
 
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+}
 
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 
 @media screen and (max-width : 496px){
     .button_1{
@@ -138,7 +152,6 @@ article#main-article{
     float: left;
     width: 65%;
     margin-top: 10px;
-    background: white;
     padding: 5px;
 }
 .dark{
@@ -164,6 +177,7 @@ footer{
 #parcels {
     border-collapse: collapse;
     width: 100%;
+    margin-bottom: 25px;
 }
 
 #parcels td, #parcels th {
@@ -202,4 +216,20 @@ footer{
     transition: 0.3s;
     width:25%; 
     margin:0 auto;
+}
+table {
+    margin-bottom: 30px;
+    margin-top: 20px;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }
