@@ -40,6 +40,7 @@ ul{
 .btn_send{
     margin-top: 15px;
     margin-bottom: 15px;
+    margin-left: 30px;
     height: 38px;
     background: #2600fd;
     border: 0;
@@ -47,6 +48,7 @@ ul{
     padding-right: 20px;
     color: white;
     font-weight: bold;
+    float: left;
 }
 .input_g{
     padding: 4px;
@@ -57,9 +59,17 @@ ul{
 .input_send{
     padding: 4px;
     height: 25px;
-    width: 200px;
+    width: 170px;
     margin:7px;
 }
+#search{
+    padding: 4px;
+    height: 25px;
+    width: 170px;
+    margin:7px;
+    float: right;
+}
+
 
 
 @media screen and (max-width : 496px){
@@ -159,6 +169,9 @@ footer{
 #parcels td, #parcels th {
     border: 1px solid #ddd;
     padding: 8px;
+}
+#parcels td{
+   text-align: center;
 }
 
 #parcels tr:nth-child(even){background-color: #f2f2f2;}

@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>SendIT | Home </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="descrition" content="Learn">
-    <meta name="kewords" content="Web design, Responsive">
+    <meta name="descrition" content="Web app to deliver parcels">
+    <meta name="kewords" content="Parcel, Delivery">
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
+    <script type="text/javascript" src="./js/script.js"></script>
 </head>
 <body>
     <header>
@@ -19,10 +20,11 @@
             <form action="login.html">
                 <button type="submit" class="button_2">Log Out</button>
            </form>
+           <div id="sayHello"></div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home |</a></li>
-                    <li><a href="index.html">Service |</a></li>
+                    <li class="current"><a href="index.html">Send a Parcel |</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
             </nav>
@@ -30,18 +32,20 @@
     </header>
     <section id="viewParcel">
         <div class="container">
-          <form action="">
-            <input class="input_send" type="text" placeholder="From *" required>
-            <input class="input_send" type="text" placeholder="Destination *" required>
-            <input class="input_send" type="number" placeholder=" Length *"required>
-            <input class="input_send" type="number" placeholder=" Width *"required>
-            <input class="input_send" type="number" placeholder=" Height *"required>
-            <input class="input_send" type="number" placeholder=" Weight *"required>
-         <br>
-          <button type="submit" class="btn_send">Create a Parcel</button>
-          </form>
+            <form>
+              <input class="input_send" type="text" placeholder="From *" required>
+              <input class="input_send" type="text" placeholder="Destination *" required>
+              <input class="input_send" type="number" placeholder=" Length *"required>
+              <input class="input_send" type="number" placeholder=" Width *"required>
+              <input class="input_send" type="number" placeholder=" Height *"required>
+              <input class="input_send" type="number" placeholder=" Weight *"required>
+              <br>
+              <button type="submit" class="btn_send">Create a Parcel</button>
+              <input id="search" type="text" placeholder="Search">
+            </form>
             <table id="parcels">
                 <tr>
+                  <th>#</th>
                   <th>From</th>
                   <th>Destination</th>
                   <th>Length</th>
@@ -53,6 +57,7 @@
                   <th>Track</th>
                 </tr>
                 <tr>
+                  <td>KDJ6305</td>
                   <td>Rwanda</td>
                   <td>Uganda</td>
                   <td>24</td>
@@ -61,9 +66,14 @@
                   <td>13</td>
                   <td>12000</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                      <a href="#">View</a>
+                      <a href="#">change</a>
+                      <a href="#">Cancel</a>
+                  </td>
                 </tr>
                 <tr>
+                  <td>KDJ4315</td>
                   <td>Rwanda</td>
                   <td>Uganda</td>
                   <td>30</td>
@@ -72,9 +82,14 @@
                   <td>13</td>
                   <td>9000</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                      <a href="#">View</a>
+                      <a href="#">change</a>
+                      <a href="#">Cancel</a>
+                  </td>
                 </tr>
                 <tr>
+                  <td>KDJ6305</td>
                   <td>Kenya</td>
                   <td>RDC</td>
                   <td>4</td>
@@ -83,9 +98,14 @@
                   <td>3</td>
                   <td>600</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                      <a href="#">View</a>
+                      <a href="#">change</a>
+                      <a href="#">Cancel</a>
+                  </td>
                 </tr>
                 <tr>
+                  <td>KDJ6606</td>
                   <td>Rwanda</td>
                   <td>Burundi</td>
                   <td>7</td>
@@ -94,9 +114,14 @@
                   <td>5</td>
                   <td>1000</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                      <a href="#">View</a>
+                      <a href="#">change</a>
+                      <a href="#">Cancel</a>
+                  </td>
                 </tr>
                 <tr>
+                  <td>KDJ6401</td>
                   <td>Somalia</td>
                   <td>South Africa</td>
                   <td>9</td>
@@ -105,9 +130,14 @@
                   <td>13</td>
                   <td>900</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                      <a href="#">View</a>
+                      <a href="#">change</a>
+                      <a href="#">Cancel</a>
+                  </td>
                 </tr>
                 <tr>
+                  <td>KDJ6335</td>
                   <td>Rwanda</td>
                   <td>Ethiopia</td>
                   <td>41</td>
@@ -116,9 +146,14 @@
                   <td>13</td>
                   <td>60000</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                      <a href="#">View</a>
+                      <a href="#">change</a>
+                      <a href="#">Cancel</a>
+                  </td>
                 </tr>
                 <tr>
+                  <td>KDJ6307</td>
                   <td>Rwanda</td>
                   <td>Kenya</td>
                   <td>14</td>
@@ -127,9 +162,14 @@
                   <td>12</td>
                   <td>8000</td>
                   <td>Pending</td>
-                  <td><a href="#">View</a></td>
+                  <td>
+                      <a href="#">View</a>
+                      <a href="#">change</a>
+                      <a href="#">Cancel</a>
+                  </td>
                 </tr>
                 <tr>
+                  <td>KDJ6305</td>
                   <td>Rwanda</td>
                   <td>Kenya</td>
                   <td>7</td>
