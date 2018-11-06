@@ -1,0 +1,24 @@
+{
+  "name": "andela-dev-challange",
+  "version": "1.0.0",
+  "description": "Website prototype",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niomwungeri-fabrice/andela-dev-challange.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niomwungeri-fabrice/andela-dev-challange/issues"
+  },
+  "homepage": "https://github.com/niomwungeri-fabrice/andela-dev-challange#readme"
+}
