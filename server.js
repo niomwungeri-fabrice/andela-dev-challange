@@ -79,7 +79,7 @@ app.put('/api/v1/parcels/:parcelId/cancel', (req, res) => {
     return res.status(200).send("Oops, We can't cancel this parece, Parcel already Delivered");
   }
   parcel.status = 'Canceled';
-  return res.send(parcels);
+  return res.send(parcel);
 });
 // createParcel
 app.post('/api/v1/parcels', (req, res) => {
