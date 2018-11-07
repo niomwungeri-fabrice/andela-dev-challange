@@ -1,4 +1,3 @@
-/* global require */
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -45,8 +44,11 @@ app.get("/api/v1/parcels/:parcelId",(req, res) => {
 });
 //findByUserID
 app.get("/api/v1/users/:userId/parcels",(req, res) => {
-    let parcel = parcels.find(p => p.parcelId === parseInt(req.params.parcelId));
-    res.send(parcels);
+    let user = parcels.find(u => u.userId === req.params.userId);
+    if(!user){
+        return res.status(404).send("User not found")
+    }
+    res.send(user);
 });
 
 //cancel parcel 
