@@ -30,7 +30,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/", (req, res) => res.send("Hello World!"));
+app.get("/", (req, res) => res.send("API root for SendIT application"));
 
 //findAll
 app.get("/api/v1/parcels", (req, res) => {
@@ -76,5 +76,19 @@ app.post("/api/v1/parcels",(req,res) =>{
     parcels.push(parcel);
     res.send(parcel);
 });
+
+
+app.post("/api/v1/courses",(req,res) =>{
+    const { error } = validateCourse(req.body);
+    
+    if (error) res.status(400).send(error.details[0].message);
+    let course = {
+        id : courses.length + 1,
+        name : req.body.name
+    };
+    courses.push(course);
+    res.send(course);
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
