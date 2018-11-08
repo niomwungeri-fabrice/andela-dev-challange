@@ -31,7 +31,6 @@ const parcels = [
     parcelId: 8, userId: 'caleb', from: 'Ethiopia', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
   },
 ];
-
 // permissions
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -92,17 +91,17 @@ app.get('/api/v1/users/:userId/parcels', (req, res) => {
 });
 
 // cancel parcel
-app.put('/api/v1/parcels/:parcelId/cancel', (req, res) => {
+app.put('/api/v1/parcels/:parcelId/:cancel', (req, res) => {
   const parcel = parcels.find(p => p.parcelId === parseInt(req.params.parcelId, 10));
   if (!parcel) {
     return res.status(404).send(`Parcel with this id > ${req.params.parcelId} < was not found`);
   } if (parcel.status === 'Canceled') {
     return res.status(200).send('Parcel Canceled already');
   } if (parcel.status === 'Delivered') {
-    return res.status(200).send("Oops, We can't cancel this parece, Parcel already Delivered");
+    return res.status(200).send('Oops, We cant cancel this parece, Parcel already Delivered');
   }
-  parcel.status = 'Canceled';
-  return res.send(parcel);
+  parcel.status = req.params.parcelId;
+  return res.send.send(parcel);
 });
 
 
