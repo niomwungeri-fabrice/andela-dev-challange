@@ -4,6 +4,8 @@
   "description": "Website prototype",
   "main": "server.js",
   "dependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "express": "^4.16.4"
   },
   "devDependencies": {

@@ -5,40 +5,28 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const parcels = [
-  {
-    parcelId: 1, userId: 'niomwungeri', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'In Transit',
-  },
-  {
-    parcelId: 2, userId: 'admin', from: 'Rwanda', to: 'Uganda', length: 45, width: 42, height: 2, status: 'Pending',
-  },
-  {
-    parcelId: 3, userId: 'niomwungeri', from: 'Uganda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Canceled',
-  },
-  {
-    parcelId: 4, userId: 'admin', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Pending',
-  },
-  {
-    parcelId: 5, userId: 'clovis', from: 'RDC', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Delivered',
-  },
-  {
-    parcelId: 6, userId: 'caleb', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
-  },
-  {
-    parcelId: 7, userId: 'niomwungeri', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Canceled',
-  },
-  {
-    parcelId: 8, userId: 'caleb', from: 'Ethiopia', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
-  },
-];
+const parcels = [{
+  parcelId: 1, userId: 'niomwungeri', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'In Transit',
+}, {
+  parcelId: 2, userId: 'admin', from: 'Rwanda', to: 'Uganda', length: 45, width: 42, height: 2, status: 'Pending',
+}, {
+  parcelId: 3, userId: 'niomwungeri', from: 'Uganda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Canceled',
+}, {
+  parcelId: 4, userId: 'admin', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Pending',
+}, {
+  parcelId: 5, userId: 'clovis', from: 'RDC', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Delivered',
+}, {
+  parcelId: 6, userId: 'caleb', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
+}, {
+  parcelId: 7, userId: 'niomwungeri', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Canceled',
+}, {
+  parcelId: 8, userId: 'caleb', from: 'Ethiopia', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
+}];
 
 // permissions
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-  );
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
     return res.status(200).json({});
@@ -104,6 +92,5 @@ app.put('/api/v1/parcels/:parcelId/cancel', (req, res) => {
   parcel.status = 'Canceled';
   return res.send(parcel);
 });
-
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
