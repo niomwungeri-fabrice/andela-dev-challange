@@ -100,9 +100,8 @@ app.put('/api/v1/parcels/:parcelId/cancel', (req, res) => {
   } if (parcel.status === 'Delivered') {
     return res.status(200).send('Oops, We cant cancel this parece, Parcel already Delivered');
   }
-  parcel.status = req.body.status;
-  return res.send.send(parcel);
+  parcel.status = 'Canceled';
+  return res.send(parcel);
 });
-
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
