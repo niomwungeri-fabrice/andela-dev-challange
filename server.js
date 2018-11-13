@@ -61,18 +61,18 @@ app.post('/api/v1/parcels', (req, res) => {
     status: 'Pending',
   };
   parcels.push(parcel);
-  res.send(parcel);
+  res.status(200).send(parcel);
 });
 // findAll
 app.get('/api/v1/parcels', (req, res) => {
-  res.send(parcels);
+  res.status(200).send(parcels);
 });
 
 // findByParcelID
 app.get('/api/v1/parcels/:parcelId', (req, res) => {
   const parcel = parcels.find(p => p.parcelId === parseInt(req.params.parcelId, 10));
   if (!parcel) return res.status(404).send(`Parcel with this id >${req.params.parcelId}< was not found`);
-  return res.send(parcel);
+  return res.status(200).send(parcel);
 });
 // findByUserID
 app.get('/api/v1/users/:userId/parcels', (req, res) => {
@@ -87,7 +87,7 @@ app.get('/api/v1/users/:userId/parcels', (req, res) => {
     });
     results = parcelPerUser;
   }
-  return res.send(results);
+  return res.status(200).send(results);
 });
 
 // cancel parcel
@@ -101,7 +101,8 @@ app.put('/api/v1/parcels/:parcelId/cancel', (req, res) => {
     return res.status(200).send('Oops, We cant cancel this parece, Parcel already Delivered');
   }
   parcel.status = 'Canceled';
-  return res.send(parcel);
+  return res.status(200).send(parcel);
 });
 
+// eslint-disable-next-line no-console
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
