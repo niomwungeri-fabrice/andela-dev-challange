@@ -7,28 +7,28 @@ app.use(express.json());
 
 const parcels = [
   {
-    parcelId: 'gtwu7b2aq', userId: 'niomwungeri', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'In Transit',
+    parcelId: 1, userId: 'niomwungeri', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'In Transit',
   },
   {
-    parcelId: '8u5vs9fmv', userId: 'admin', from: 'Rwanda', to: 'Uganda', length: 45, width: 42, height: 2, status: 'Pending',
+    parcelId: 2, userId: 'admin', from: 'Rwanda', to: 'Uganda', length: 45, width: 42, height: 2, status: 'Pending',
   },
   {
-    parcelId: 'm1nyez8nf', userId: 'niomwungeri', from: 'Uganda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Canceled',
+    parcelId: 3, userId: 'niomwungeri', from: 'Uganda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Canceled',
   },
   {
-    parcelId: 'zpgvb5pl0', userId: 'admin', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Pending',
+    parcelId: 4, userId: 'admin', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Pending',
   },
   {
-    parcelId: 'r9kvkyng6', userId: 'clovis', from: 'RDC', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Delivered',
+    parcelId: 5, userId: 'clovis', from: 'RDC', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Delivered',
   },
   {
-    parcelId: 'ggmtsr1mn', userId: 'caleb', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
+    parcelId: 6, userId: 'caleb', from: 'Rwanda', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
   },
   {
-    parcelId: 'kqnkk1tpo', userId: 'niomwungeri', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Canceled',
+    parcelId: 7, userId: 'niomwungeri', from: 'Rwanda', to: 'Somalia', length: 45, width: 42, height: 2, status: 'Canceled',
   },
   {
-    parcelId: 'j8qga0p21', userId: 'caleb', from: 'Ethiopia', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
+    parcelId: 8, userId: 'caleb', from: 'Ethiopia', to: 'Kenya', length: 45, width: 42, height: 2, status: 'Pick Up',
   },
 ];
 // permissions
@@ -51,7 +51,7 @@ app.get('/', (req, res) => res.send('API root for SendIT application'));
 // createParcel
 app.post('/api/v1/parcels', (req, res) => {
   const parcel = {
-    parcelId: Math.random().toString(36).substr(2, 9),
+    parcelId: parcels.length + 1,
     userId: req.body.userId,
     from: req.body.from,
     to: req.body.to,
