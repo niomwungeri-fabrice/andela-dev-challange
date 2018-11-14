@@ -2,6 +2,7 @@
 const request = require('request');
 
 const basePoint = 'https://andela-dev-challenge.herokuapp.com';
+// const basePoint = 'http://localhost:3000';
 
 describe('API root for SendIT application', () => {
   it('GET /', (done) => {
@@ -9,20 +10,20 @@ describe('API root for SendIT application', () => {
       expect(body).toBe('API root for SendIT application');
       done();
     });
-  }, 6000);
+  }, 7000);
   it('GET /', (done) => {
     request.get(`${basePoint}/api/v1/parcels/99`, (error, response) => {
       expect(response.statusCode).toEqual(404);
       done();
     });
-  }, 6000);
+  }, 7000);
   it('GET /', (done) => {
     const parcelId = 1;
     request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
       expect(response.statusCode).toEqual(200);
       done();
     });
-  }, 6000);
+  }, 7000);
 
   const user = 'niomwungeri';
   it('GET /', (done) => {
@@ -30,7 +31,7 @@ describe('API root for SendIT application', () => {
       expect(response.statusCode).toEqual(200);
       done();
     });
-  }, 6000);
+  }, 7000);
   it('should return 200 response code on POST', (done) => {
     request.post(`${basePoint}/api/v1/parcels`, {
       json: true,
@@ -46,5 +47,5 @@ describe('API root for SendIT application', () => {
       expect(response.statusCode).toEqual(200);
       done();
     });
-  }, 6000);
+  }, 7000);
 });
