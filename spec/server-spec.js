@@ -12,13 +12,14 @@ describe('API root for SendIT application', () => {
     });
   }, 7000);
   it('GET /', (done) => {
-    request.get(`${basePoint}/api/v1/parcels/99`, (error, response) => {
+    const parcelId = 'j8qga0p23';
+    request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
       expect(response.statusCode).toEqual(404);
       done();
     });
   }, 7000);
   it('GET /', (done) => {
-    const parcelId = 1;
+    const parcelId = 'j8qga0p21';
     request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
       expect(response.statusCode).toEqual(200);
       done();
