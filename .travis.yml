@@ -2,4 +2,8 @@ language: node_js
 node_js:
   - "node"
 after_success:
-  -npm run coveralls
+  - npm install istanbul
+  - npm install coveralls
+  - npm run coverage
+notifications:
+  email: false
