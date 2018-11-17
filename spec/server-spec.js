@@ -36,7 +36,7 @@ describe('API root for SendIT application', () => {
 });
 // findOne
 describe('Test for Get one Parcel endPoint API', () => {
-  const parcelId = 1;
+  const parcelId = 2;
   const notParcelId = 8894;
   it('should return 200 response code on GET', (done) => {
     request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
@@ -71,7 +71,7 @@ describe('Test for Get parcels by users endPoint API', () => {
 });
 // cancel
 describe('Test for Cenceling the parcel', () => {
-  const parcelId = 1;
+  const parcelId = 2;
   const notParcelId = 685;
   it('should return 200 response code on GET', (done) => {
     request.put(`${basePoint}/api/v1/parcels/${parcelId}/cancel`, (error, response) => {
@@ -89,7 +89,7 @@ describe('Test for Cenceling the parcel', () => {
 
 // delete
 describe('Test for deleting a parcel', () => {
-  const parcelId = 1;
+  const parcelId = 2;
   const notParcelId = 84844;
   it('should return 200 response code on GET', (done) => {
     request.delete(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
