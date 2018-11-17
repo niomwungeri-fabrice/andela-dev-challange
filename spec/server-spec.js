@@ -5,8 +5,9 @@ const basePoint = 'https://andela-dev-challenge.herokuapp.com';
 
 // const basePoint = 'http://localhost:3000';
 
+// root api
 describe('API root for SendIT application', () => {
-  it('GET /', (done) => {
+  it('should return => API root for SendIT application <=', (done) => {
     request.get(basePoint, (error, response, body) => {
       expect(body).toBe('API root for SendIT application');
       done();
@@ -14,32 +15,7 @@ describe('API root for SendIT application', () => {
   }, 6000);
 });
 
-describe('API root for SendIT application', () => {
-  it('GET /', (done) => {
-    request.get(`${basePoint}/api/v1/parcels/99`, (error, response) => {
-      expect(response.statusCode).toEqual(404);
-      done();
-    });
-  }, 6000);
-});
-describe('API root for SendIT application', () => {
-  it('GET /', (done) => {
-    const parcelId = 1;
-    request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
-      expect(response.statusCode).toEqual(200);
-      done();
-    });
-  }, 6000);
-});
-describe('API root for SendIT application', () => {
-  const user = 'niomwungeri';
-  it('GET /', (done) => {
-    request.get(`${basePoint}/api/v1/users/${user}/parcels`, (error, response) => {
-      expect(response.statusCode).toEqual(200);
-      done();
-    });
-  }, 6000);
-});
+// create
 describe('API root for SendIT application', () => {
   it('should return 200 response code on POST', (done) => {
     request.post(`${basePoint}/api/v1/parcels`, {
@@ -52,8 +28,78 @@ describe('API root for SendIT application', () => {
         height: 1,
         width: 42,
       },
-    }, (error, response) => {
+    }, (_error, response) => {
       expect(response.statusCode).toEqual(200);
+      done();
+    });
+  }, 6000);
+});
+// findOne
+describe('Test for Get one Parcel endPoint API', () => {
+  const parcelId = 1;
+  const notParcelId = 8894;
+  it('should return 200 response code on GET', (done) => {
+    request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
+      expect(response.statusCode).toEqual(200);
+      done();
+    });
+  }, 6000);
+  it('should return 404 response code on GET', (done) => {
+    request.get(`${basePoint}/api/v1/parcels/${notParcelId}`, (error, response) => {
+      expect(response.statusCode).toEqual(404);
+      done();
+    });
+  }, 6000);
+});
+
+// parcelByUser
+describe('Test for Get parcels by users endPoint API', () => {
+  const user = 'niomwungeri';
+  const notUser = 47473;
+  it('should return 200 response code on GET', (done) => {
+    request.get(`${basePoint}/api/v1/users/${user}/parcels`, (error, response) => {
+      expect(response.statusCode).toEqual(200);
+      done();
+    });
+  }, 6000);
+  it('should return 404 response code on GET', (done) => {
+    request.get(`${basePoint}/api/v1/users/${notUser}/parcels`, (error, response) => {
+      expect(response.statusCode).toEqual(404);
+      done();
+    });
+  }, 6000);
+});
+// cancel
+describe('Test for Cenceling the parcel', () => {
+  const parcelId = 1;
+  const notParcelId = 685;
+  it('should return 200 response code on GET', (done) => {
+    request.put(`${basePoint}/api/v1/parcels/${parcelId}/cancel`, (error, response) => {
+      expect(response.statusCode).toEqual(200);
+      done();
+    });
+  }, 6000);
+  it('should return 404 response code on GET', (done) => {
+    request.put(`${basePoint}/api/v1/parcels/${notParcelId}/cancel`, (error, response) => {
+      expect(response.statusCode).toEqual(404);
+      done();
+    });
+  }, 6000);
+});
+
+// delete
+describe('Test for deleting a parcel', () => {
+  const parcelId = 1;
+  const notParcelId = 84844;
+  it('should return 200 response code on GET', (done) => {
+    request.delete(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
+      expect(response.statusCode).toEqual(200);
+      done();
+    });
+  }, 6000);
+  it('should return 404 response code on GET', (done) => {
+    request.delete(`${basePoint}/api/v1/parcels/${notParcelId}`, (error, response) => {
+      expect(response.statusCode).toEqual(404);
       done();
     });
   }, 6000);

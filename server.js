@@ -5,10 +5,10 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 const port = process.env.PORT || 3000;
 
@@ -31,4 +31,4 @@ app.get('/', (req, res) => res.send('API root for SendIT application'));
 
 require('./app/routes/routes.js')(app);
 // eslint-disable-next-line no-console
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`SendIT app listening on port ${port}!`));
