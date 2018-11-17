@@ -37,7 +37,7 @@ describe('API root for SendIT application', () => {
 // findOne
 describe('Test for Get one Parcel endPoint API', () => {
   const parcelId = 2;
-  const notParcelId = 8894;
+  const invalidParcelId = 8894;
   it('should return 200 response code on GET', (done) => {
     request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
       expect(response.statusCode).toEqual(200);
@@ -45,7 +45,7 @@ describe('Test for Get one Parcel endPoint API', () => {
     });
   }, 6000);
   it('should return 404 response code on GET', (done) => {
-    request.get(`${basePoint}/api/v1/parcels/${notParcelId}`, (error, response) => {
+    request.get(`${basePoint}/api/v1/parcels/${invalidParcelId}`, (error, response) => {
       expect(response.statusCode).toEqual(404);
       done();
     });
@@ -55,7 +55,7 @@ describe('Test for Get one Parcel endPoint API', () => {
 // parcelByUser
 describe('Test for Get parcels by users endPoint API', () => {
   const user = 'niomwungeri';
-  const notUser = 47473;
+  const invalidUserId = 47473;
   it('should return 200 response code on GET', (done) => {
     request.get(`${basePoint}/api/v1/users/${user}/parcels`, (error, response) => {
       expect(response.statusCode).toEqual(200);
@@ -63,7 +63,7 @@ describe('Test for Get parcels by users endPoint API', () => {
     });
   }, 6000);
   it('should return 404 response code on GET', (done) => {
-    request.get(`${basePoint}/api/v1/users/${notUser}/parcels`, (error, response) => {
+    request.get(`${basePoint}/api/v1/users/${invalidUserId}/parcels`, (error, response) => {
       expect(response.statusCode).toEqual(404);
       done();
     });
@@ -72,7 +72,7 @@ describe('Test for Get parcels by users endPoint API', () => {
 // cancel
 describe('Test for Cenceling the parcel', () => {
   const parcelId = 2;
-  const notParcelId = 685;
+  const invalidParcelId = 685;
   it('should return 200 response code on GET', (done) => {
     request.put(`${basePoint}/api/v1/parcels/${parcelId}/cancel`, (error, response) => {
       expect(response.statusCode).toEqual(200);
@@ -80,7 +80,7 @@ describe('Test for Cenceling the parcel', () => {
     });
   }, 6000);
   it('should return 404 response code on GET', (done) => {
-    request.put(`${basePoint}/api/v1/parcels/${notParcelId}/cancel`, (error, response) => {
+    request.put(`${basePoint}/api/v1/parcels/${invalidParcelId}/cancel`, (error, response) => {
       expect(response.statusCode).toEqual(404);
       done();
     });
@@ -89,16 +89,9 @@ describe('Test for Cenceling the parcel', () => {
 
 // delete
 describe('Test for deleting a parcel', () => {
-  const parcelId = 2;
-  const notParcelId = 84844;
-  it('should return 200 response code on GET', (done) => {
-    request.delete(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
-      expect(response.statusCode).toEqual(200);
-      done();
-    });
-  }, 6000);
+  const invalidParcelId = 97978;
   it('should return 404 response code on GET', (done) => {
-    request.delete(`${basePoint}/api/v1/parcels/${notParcelId}`, (error, response) => {
+    request.delete(`${basePoint}/api/v1/parcels/${invalidParcelId}`, (error, response) => {
       expect(response.statusCode).toEqual(404);
       done();
     });
