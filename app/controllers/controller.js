@@ -1,4 +1,4 @@
-const parcels = require('../models/model.js');
+const parcels = require('../models/parcel.js');
 
 exports.create = (req, res) => {
   const parcel = {
