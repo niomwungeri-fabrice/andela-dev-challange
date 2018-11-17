@@ -25,9 +25,9 @@ app.use((req, res, next) => {
   return next();
 });
 
+// root route
 app.get('/', (req, res) => res.send('API root for SendIT application'));
-
-
+// calling other routes
 require('./app/routes/routes.js')(app);
 
 // eslint-disable-next-line no-console

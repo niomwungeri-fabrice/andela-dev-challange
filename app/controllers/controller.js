@@ -12,7 +12,7 @@ exports.create = (req, res) => {
     status: 'Pending',
   };
   parcels.push(parcel);
-  res.status(200).send(parcel);
+  res.status(201).send(parcel);
 };
 
 exports.findAll = (req, res) => {

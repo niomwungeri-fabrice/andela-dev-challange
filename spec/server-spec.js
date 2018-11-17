@@ -29,7 +29,7 @@ describe('API root for SendIT application', () => {
         width: 42,
       },
     }, (_error, response) => {
-      expect(response.statusCode).toEqual(200);
+      expect(response.statusCode).toEqual(201);
       done();
     });
   }, 6000);
