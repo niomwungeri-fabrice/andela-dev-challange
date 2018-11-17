@@ -10,6 +10,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "body-parser": "^1.18.3",
     "coveralls": "^3.0.2",
     "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -19,7 +20,7 @@
   },
   "scripts": {
     "test": "jasmine spec/server-spec.js",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "coveralls": "istanbul cover node_modules/jasmine/bin/jasmine.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
