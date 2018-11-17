@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SendIT | Welcome </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="descrition" content="Web app to deliver parcels">
+    <meta name="kewords" content="Parcel, Delivery">
+    <meta name="author" content="Fabrice Niyomwungeri">
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
+    <script src="./js/script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">SendIT</span></h1>
+            </div>
+            <form action="login.html">
+                <button type="submit" class="button_2" >Log out</button>
+           </form>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home |</a></li>
+                    <li><a href="quote.html">Send a Parcel |</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+        <div class="container">
+            <div class="login-page">     
+                <form method="POST" >
+                    <input id="username" class="input_g" type="text" placeholder="username"/><br>
+                    <input id="password" class="input_g" type="password" placeholder="password" /><br>
+                    <input class="button_1" type="button" value="Login" id="submit" onclick="validate()"/>
+                    <br>
+                    Login as admin use: <br>
+                    username : <b>admin</b><br>
+                    password : <b>admin123</b>
+                    <p class="message">Not registered? <a href="signUp.html">Create an account</a></p>
+                </form>
+            </div>
+            
+        </div>
+    <footer>SendIT &copy; 2018</footer>
+</body>
+</html>
