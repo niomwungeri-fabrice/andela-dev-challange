@@ -26,6 +26,8 @@ ul{
     margin-left: 2px;
     color:#ffffff;
     font-weight: bold;
+    width: 72%;
+    margin-left:14%; 
 }
 .button_2{
     float: right;
@@ -61,6 +63,7 @@ ul{
     height: 25px;
     width: 70%;
     margin:7px;
+    margin-left:14%;
 }
 .input_send{
     padding: 4px;
@@ -214,7 +217,7 @@ footer{
 .login-page, .register-form{
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width:25%; 
+    width:40%; 
     margin:0 auto;
 }
 table {
@@ -232,4 +235,7 @@ td, th {
 
 tr:nth-child(even) {
     background-color: #dddddd;
+}
+.message{
+    margin-left:14%; 
 }
