@@ -4,7 +4,8 @@
   "description": "Website prototype",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "joi": "^14.0.6"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",

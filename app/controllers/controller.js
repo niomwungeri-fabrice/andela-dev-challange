@@ -1,9 +1,27 @@
+const Joi = require('joi');
+
 const parcels = require('../models/parcel.js');
 
+const validateParcel = (parcel) => {
+  const schema = {
+    userId: Joi.string().min(4).required(),
+    from: Joi.string().min(2).required(),
+    to: Joi.string().min(2).required(),
+    length: Joi.number().required(),
+    width: Joi.number().required(),
+    email: Joi.string().email({ minDomainAtoms: 2 }),
+    height: Joi.number().required(),
+  };
+  return Joi.validate(parcel, schema);
+};
+
 exports.create = (req, res) => {
+  const { error } = validateParcel(req.body);
+  if (error) return res.status(404).json({ error: error.details[0].message });
   const parcel = {
     parcelId: Math.random().toString(36).substr(2, 9),
     userId: req.body.userId,
+    email: req.body.email,
     from: req.body.from,
     to: req.body.to,
     length: req.body.length,
@@ -12,7 +30,7 @@ exports.create = (req, res) => {
     status: 'Pending',
   };
   parcels.push(parcel);
-  res.status(201).json(parcel);
+  return res.status(201).json(parcel);
 };
 
 exports.findAll = (req, res) => {
