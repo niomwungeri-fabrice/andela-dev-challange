@@ -4,8 +4,7 @@
   "description": "Website prototype",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.4",
-    "request": "^2.88.0"
+    "express": "^4.16.4"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
@@ -14,7 +13,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "istanbul": "^0.4.5",
-    "jasmine": "^3.3.0"
+    "jasmine": "^3.3.0",
+    "request": "^2.88.0"
   },
   "scripts": {
     "test": "jasmine spec/server-spec.js",
