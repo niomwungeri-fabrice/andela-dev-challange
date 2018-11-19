@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 const request = require('request');
 
-// const basePoint = 'https://andela-dev-challenge.herokuapp.com';
+const basePoint = 'https://andela-dev-challenge.herokuapp.com';
 
-const basePoint = 'http://localhost:3000';
+// const basePoint = 'http://localhost:3000';
 
 // root api
 describe('API root for SendIT application', () => {
