@@ -2,7 +2,7 @@ const parcels = require('../models/parcel.js');
 
 exports.create = (req, res) => {
   const parcel = {
-    parcelId: parcels.length + 1,
+    parcelId: Math.random().toString(36).substr(2, 9),
     userId: req.body.userId,
     from: req.body.from,
     to: req.body.to,
@@ -20,13 +20,13 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-  const parcel = parcels.find(p => p.parcelId === parseInt(req.params.parcelId, 10));
+  const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
   if (!parcel) return res.status(404).send(`Parcel with this id >${req.params.parcelId}< was not found`);
   return res.status(200).send(parcel);
 };
 
 exports.cancel = (req, res) => {
-  const parcel = parcels.find(p => p.parcelId === parseInt(req.params.parcelId, 10));
+  const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
   if (!parcel) {
     return res.status(404).send(`Parcel with this id > ${req.params.parcelId} < was not found`);
   } if (parcel.status === 'Canceled') {
@@ -51,7 +51,7 @@ exports.parcelByUser = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const parcel = parcels.find(p => p.parcelId === parseInt(req.params.parcelId, 10));
+  const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
   if (!parcel) return res.status(404).send('Parcel not found');
   const index = parcels.indexOf(parcel);
   parcels.splice(index, 1);
@@ -59,7 +59,7 @@ exports.delete = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  const parcel = parcels.find(p => p.parcelId === parseInt(req.params.parcelId, 10));
+  const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
   if (!parcel) return res.status(404).send('Parcel not found');
   parcel.to = req.body.to;
   parcel.status = req.body.status;
