@@ -12,56 +12,56 @@ exports.create = (req, res) => {
     status: 'Pending',
   };
   parcels.push(parcel);
-  res.status(201).send(parcel);
+  res.status(201).json(parcel);
 };
 
 exports.findAll = (req, res) => {
-  res.status(200).send(parcels);
+  res.status(200).json(parcels);
 };
 
 exports.findOne = (req, res) => {
   const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
-  if (!parcel) return res.status(404).send(`Parcel with this id >${req.params.parcelId}< was not found`);
-  return res.status(200).send(parcel);
+  if (!parcel) return res.status(404).json({ ParcelNotFound: `Parcel with this id >${req.params.parcelId}< was not found` });
+  return res.status(200).json(parcel);
 };
 
 exports.cancel = (req, res) => {
   const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
   if (!parcel) {
-    return res.status(404).send(`Parcel with this id > ${req.params.parcelId} < was not found`);
-  } if (parcel.status === 'Canceled') {
-    return res.status(200).send('Parcel Canceled already');
+    return res.status(404).json({ ParcelNotFound: `Parcel with this id > ${req.params.parcelId} < was not found` });
+  } if (parcel.status === 'Cancelled') {
+    return res.status(200).json({ Cancelled: 'Parcel Canceled already' });
   } if (parcel.status === 'Delivered') {
-    return res.status(200).send('Oops, We cant cancel this parece, Parcel already Delivered');
+    return res.status(200).json({ Cancelled: 'Oops, We cant cancel this parece, Parcel already Delivered' });
   }
-  parcel.status = 'Canceled';
-  return res.status(200).send(parcel);
+  parcel.status = 'Cancelled';
+  return res.status(200).json(parcel);
 };
 
 exports.parcelByUser = (req, res) => {
   const user = parcels.find(u => u.userId === req.params.userId);
   const parcelPerUser = [];
   if (!user) {
-    return res.status(404).send('user not found');
+    return res.status(404).json({ UserNotFound: 'User not found' });
   }
   parcels.forEach((item) => {
     if (item.userId === user.userId) parcelPerUser.push(item);
   });
-  return res.status(200).send(parcelPerUser);
+  return res.status(200).json(parcelPerUser);
 };
 
 exports.delete = (req, res) => {
   const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
-  if (!parcel) return res.status(404).send('Parcel not found');
+  if (!parcel) return res.status(404).json({ ParcelNotFound: `Parcel with this id > ${req.params.parcelId} < was not found` });
   const index = parcels.indexOf(parcel);
   parcels.splice(index, 1);
-  return res.status(200).send(parcel);
+  return res.status(200).json(parcel);
 };
 
 exports.update = (req, res) => {
   const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
-  if (!parcel) return res.status(404).send('Parcel not found');
+  if (!parcel) return res.status(404).json({ ParcelNotFound: `Parcel with this id > ${req.params.parcelId} < was not found` });
   parcel.to = req.body.to;
   parcel.status = req.body.status;
-  return res.status(200).send(parcel);
+  return res.status(200).json(parcel);
 };
