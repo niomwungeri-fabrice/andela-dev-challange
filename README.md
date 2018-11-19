@@ -17,3 +17,6 @@ provides courier quotes based on weight categories.
 | `PUT /api/v1/parcels/<parcelId>` | Update the specific parcel delivery order |
 | `DELETE /api/v1/parcels/<parcelId>` | Delete the specific parcel delivery order |
 
+## Project links
+UI : https://niomwungeri-fabrice.github.io/andela-dev-challange/
+Server : https://andela-dev-challenge.herokuapp.com/
