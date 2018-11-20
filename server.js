@@ -1,5 +1,5 @@
 const express = require('express');
-
+const router = require('./app/routes/routes.js');
 // create express app
 const app = express();
 
@@ -26,9 +26,12 @@ app.use((req, res, next) => {
 });
 
 // root route
-app.get('/', (req, res) => res.send('API root for SendIT application'));
+app.get('/', (req, res) => res.status(200).send('API root for SendIT application'));
+
 // calling other routes
-require('./app/routes/routes.js')(app);
+app.use(router);
+
+module.exports = app;
 
 // eslint-disable-next-line no-console
 app.listen(port, () => console.log(`SendIT app listening on port ${port}!`));
