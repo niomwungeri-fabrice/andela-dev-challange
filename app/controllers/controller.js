@@ -16,9 +16,9 @@ const validateParcel = (parcel) => {
 };
 
 exports.create = (req, res) => {
+  console.log(req.body);
   const { error } = validateParcel(req.body);
   if (error) return res.status(404).json({ error: error.details[0].message });
-  if (parcels.find(p => p.parcelId === req.params.parcelId)) return res.status(409).json({ duplicate: 'Parcel ID already exists' });
   const parcel = {
     parcelId: Math.random().toString(36).substr(2, 9),
     userId: req.body.userId,

@@ -22,7 +22,7 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "nyc mocha test/test.js --exit",
+    "test": "nyc mocha test/* --exit",
     "start": "nodemon --exec babel-node --presets env server.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
