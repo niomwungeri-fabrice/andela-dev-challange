@@ -1,2 +1,3 @@
-const parcels = [{}];
+const parcels = [];
+
 module.exports = parcels;
