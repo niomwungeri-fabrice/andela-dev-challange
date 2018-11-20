@@ -16,7 +16,6 @@ const validateParcel = (parcel) => {
 };
 
 exports.create = (req, res) => {
-  console.log(req.body);
   const { error } = validateParcel(req.body);
   if (error) return res.status(404).json({ error: error.details[0].message });
   const parcel = {
@@ -67,20 +66,4 @@ exports.parcelByUser = (req, res) => {
     if (item.userId === user.userId) parcelPerUser.push(item);
   });
   return res.status(200).json(parcelPerUser);
-};
-
-exports.delete = (req, res) => {
-  const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
-  if (!parcel) return res.status(404).json({ ParcelNotFound: `Parcel with this id > ${req.params.parcelId} < was not found` });
-  const index = parcels.indexOf(parcel);
-  parcels.splice(index, 1);
-  return res.status(200).json(parcel);
-};
-
-exports.update = (req, res) => {
-  const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
-  if (!parcel) return res.status(404).json({ ParcelNotFound: `Parcel with this id > ${req.params.parcelId} < was not found` });
-  parcel.to = req.body.to;
-  parcel.status = req.body.status;
-  return res.status(200).json(parcel);
 };

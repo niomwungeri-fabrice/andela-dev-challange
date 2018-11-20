@@ -14,8 +14,6 @@ provides courier quotes based on weight categories.
 | `GET /api/v1/users/<userId>/parcels` | Fetch all parcel delivery orders by a specific user |
 | `POST /api/v1/parcels` | Create a parcel delivery order |
 | `PUT /api/v1/parcels/<parcelId>/cancel` | Cancel the specific parcel delivery order |
-| `PUT /api/v1/parcels/<parcelId>` | Update the specific parcel delivery order |
-| `DELETE /api/v1/parcels/<parcelId>` | Delete the specific parcel delivery order |
 
 ## Project links
 UI : https://niomwungeri-fabrice.github.io/andela-dev-challange/<br>
