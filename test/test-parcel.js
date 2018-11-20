@@ -26,13 +26,6 @@ describe('Parcels test Suite', () => {
       done();
     });
   });
-  it('should return 200(Success) - CANCEL', (done) => {
-    chai.request(app).put('/api/v1/parcels/kbpc1us0k/cancel').end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(200);
-      done();
-    });
-  });
-
   it('should return 201 - CREATE PARCEL', (done) => {
     const parcel = {
       userId: 'niomwungeri',
