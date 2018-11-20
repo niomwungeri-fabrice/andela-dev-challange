@@ -39,7 +39,7 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
   const parcel = parcels.find(p => p.parcelId === req.params.parcelId);
-  if (!parcel) return res.status(404).json({ ParcelNotFound: `Parcel with this id >${req.params.parcelId}< was not found` });
+  if (!parcel) return res.status(404).json({ ParcelNotFound: 'Parcel was not found' });
   return res.status(200).json(parcel);
 };
 
