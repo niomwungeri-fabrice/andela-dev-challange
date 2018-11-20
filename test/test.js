@@ -1,99 +1,86 @@
 /* eslint-disable no-undef */
+const { expect } = require('chai');
 const request = require('request');
 
-const basePoint = 'https://andela-dev-challenge.herokuapp.com';
 
-// const basePoint = 'http://localhost:3000';
+// const basePoint = 'https://andela-dev-challenge.herokuapp.com';
 
-// root api
+const basePoint = 'http://localhost:3000';
+
 describe('API root for SendIT application', () => {
   it('should return => API root for SendIT application <=', (done) => {
     request.get(basePoint, (error, response, body) => {
-      expect(body).toBe('API root for SendIT application');
+      expect(body).to.equal('API root for SendIT application');
       done();
     });
-  }, 6000);
+  });
+  it('should return 200', (done) => {
+    request.get(basePoint, (error, response) => {
+      expect(response.statusCode).to.equal(200);
+      done();
+    });
+  });
 });
 
-// create
-describe('API root for SendIT application', () => {
-  it('should return 200 response code on POST', (done) => {
-    request.post(`${basePoint}/api/v1/parcels`, {
-      json: true,
-      body: {
-        userId: 'jimmy',
-        from: 'Kenya',
-        to: 'Uganda',
-        length: 45,
-        height: 1,
-        width: 42,
-      },
-    }, (_error, response) => {
-      expect(response.statusCode).toEqual(201);
-      done();
-    });
-  }, 6000);
-});
 // findOne
 describe('Test for Get one Parcel endPoint API', () => {
   const parcelId = 2;
   const invalidParcelId = 8894;
-  it('should return 200 response code on GET', (done) => {
+  it('should return 404 response code on GET', (done) => {
     request.get(`${basePoint}/api/v1/parcels/${parcelId}`, (error, response) => {
-      expect(response.statusCode).toEqual(200);
+      expect(response.statusCode).to.equal(404);
       done();
     });
-  }, 6000);
+  });
   it('should return 404 response code on GET', (done) => {
     request.get(`${basePoint}/api/v1/parcels/${invalidParcelId}`, (error, response) => {
-      expect(response.statusCode).toEqual(404);
+      expect(response.statusCode).to.equal(404);
       done();
     });
-  }, 6000);
+  });
 });
 
 // parcelByUser
 describe('Test for Get parcels by users endPoint API', () => {
   const user = 'niomwungeri';
   const invalidUserId = 47473;
-  it('should return 200 response code on GET', (done) => {
+  it('should return 404 response code on GET', (done) => {
     request.get(`${basePoint}/api/v1/users/${user}/parcels`, (error, response) => {
-      expect(response.statusCode).toEqual(200);
+      expect(response.statusCode).to.equal(404);
       done();
     });
-  }, 6000);
+  });
   it('should return 404 response code on GET', (done) => {
     request.get(`${basePoint}/api/v1/users/${invalidUserId}/parcels`, (error, response) => {
-      expect(response.statusCode).toEqual(404);
+      expect(response.statusCode).to.equal(404);
       done();
     });
-  }, 6000);
+  });
 });
 // cancel
 describe('Test for Cenceling the parcel', () => {
   const parcelId = 2;
   const invalidParcelId = 685;
-  it('should return 200 response code on GET', (done) => {
+  it('should return 404 response code on GET', (done) => {
     request.put(`${basePoint}/api/v1/parcels/${parcelId}/cancel`, (error, response) => {
-      expect(response.statusCode).toEqual(200);
+      expect(response.statusCode).to.equal(404);
       done();
     });
-  }, 6000);
+  });
   it('should return 404 response code on GET', (done) => {
     request.put(`${basePoint}/api/v1/parcels/${invalidParcelId}/cancel`, (error, response) => {
-      expect(response.statusCode).toEqual(404);
+      expect(response.statusCode).to.equal(404);
       done();
     });
-  }, 6000);
+  });
 });
-
 // delete
 describe('Test for deleting a parcel', () => {
   const invalidParcelId = 97978;
   it('should return 404 response code on GET', (done) => {
     request.delete(`${basePoint}/api/v1/parcels/${invalidParcelId}`, (error, response) => {
-      expect(response.statusCode).toEqual(404);
+      expect(response.statusCode).to.equal(404);
       done();
     });
-  }, 6000);
+  });
 });
