@@ -21,7 +21,7 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 10000",
     "start": "nodemon --exec babel-node --presets env server.js",
     "cover": "istanbul cover _mocha",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
