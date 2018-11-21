@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 
 // create express app
 const app = express();
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 // root route
 app.get('/', (req, res) => res.status(200).send('API root for SendIT application'));
 // calling other routes
-require('./app/routes/routes.js')(app);
+require('../dist/routes/routes.js')(app);
 
 module.exports = app;
 // eslint-disable-next-line no-console

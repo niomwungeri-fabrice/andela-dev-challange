@@ -1,4 +1,4 @@
-const parcels = require('../controllers/controller.js');
+import parcels from '../controllers/controller';
 
 module.exports = (app) => {
   app.post('/api/v1/parcels', parcels.create);
