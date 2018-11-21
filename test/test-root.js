@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
 
-const app = require('../server');
+const app = require('../dist/server');
 
 chai.use(chaiHttp);
 

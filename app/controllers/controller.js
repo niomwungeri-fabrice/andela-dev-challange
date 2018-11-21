@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const parcels = require('../models/parcel.js');
+import parcels from '../models/parcel';
 
 const validateParcel = (parcel) => {
   const schema = {
