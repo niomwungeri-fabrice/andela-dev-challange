@@ -25,7 +25,7 @@
   },
   "scripts": {
     "test": "npm run build && npm run testBuild && nyc mocha dist-test/* --exit",
-    "start": "nodemon  app/server.js",
+    "start": "nodemon  dist/server.js",
     "build": "babel --presets es2015 app/ -d dist",
     "testBuild": "babel --presets es2015 test/ -d dist-test",
     "nyc": "nyc npm test",
