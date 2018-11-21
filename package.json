@@ -8,6 +8,7 @@
     "joi": "^14.0.6"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
@@ -24,7 +25,7 @@
   "scripts": {
     "test": "npm run build && npm run testBuild && nyc mocha dist-test/* --exit",
     "start": "nodemon  app/server.js",
-    "build": "babel --presets env app/ -d dist", 
+    "build": "babel --presets env app/ -d dist",
     "testBuild": "babel --presets env test/ -d dist-test",
     "nyc": "nyc npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
