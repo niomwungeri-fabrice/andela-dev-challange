@@ -4,14 +4,23 @@
   "description": "Website prototype",
   "main": "server.js",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bcrypt": "^3.0.2",
+    "dotenv": "^6.1.0",
     "express": "^4.16.4",
-    "joi": "^14.0.6"
+    "joi": "^14.0.6",
+    "jsonwebtoken": "^8.4.0",
+    "make-runnable": "^1.3.6",
+    "moment": "^2.22.2",
+    "pg": "^7.6.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.1.6",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-watch": "^2.0.7",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "coveralls": "^3.0.2",
@@ -25,8 +34,8 @@
   },
   "scripts": {
     "test": "npm run build && npm run testBuild && nyc mocha dist-test/* --exit",
-    "start": "nodemon  dist/server.js",
-    "build": "babel --presets es2015 app/ -d dist",
+    "dev-start": "babel-watch server.js",
+    "build": "babel server.js --out-dir build",
     "testBuild": "babel --presets es2015 test/ -d dist-test",
     "nyc": "nyc npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
