@@ -79,7 +79,7 @@ describe('Parcels test Suite', function () {
   });
   it('should return 200(NotFound) - CREATE PARCEL', function (done) {
     _chai2.default.request(_server2.default).post('/api/v1/parcels').send(parcel).end(function (err, res) {
-      _chai2.default.expect(res.unauthorized).to.be.equal(false);
+      _chai2.default.expect(res.unauthorized).to.be.eql(false);
       done();
     });
   });

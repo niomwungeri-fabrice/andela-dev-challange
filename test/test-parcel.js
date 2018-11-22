@@ -67,7 +67,7 @@ describe('Parcels test Suite', () => {
   });
   it('should return 200(NotFound) - CREATE PARCEL', (done) => {
     chai.request(app).post('/api/v1/parcels').send(parcel).end((err, res) => {
-      chai.expect(res.unauthorized).to.be.equal(false);
+      chai.expect(res.unauthorized).to.be.eql(false);
       done();
     });
   });
