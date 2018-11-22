@@ -11,7 +11,7 @@ var _chaiHttp2 = _interopRequireDefault(_chaiHttp);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable no-undef */
-var app = require('../dist/server');
+var app = require('../spec/server');
 
 _chai2.default.use(_chaiHttp2.default);
 

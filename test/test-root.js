@@ -2,7 +2,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
-const app = require('../dist/server');
+const app = require('../spec/server');
 
 chai.use(chaiHttp);
 

@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 // root route
 app.get('/', (req, res) => res.status(200).send({message:'API root for SendIT application'}));
 // calling other routes
-require('../dist/routes/routes.js')(app);
+require('../spec/routes/routes.js')(app);
 
 module.exports = app;
 // eslint-disable-next-line no-console

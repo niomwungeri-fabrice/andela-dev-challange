@@ -8,13 +8,13 @@ var _chaiHttp = require('chai-http');
 
 var _chaiHttp2 = _interopRequireDefault(_chaiHttp);
 
-var _server = require('../dist/server');
+var _server = require('../spec/server');
 
 var _server2 = _interopRequireDefault(_server);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var newParcels = require('../dist/models/parcel'); /* eslint-disable no-undef */
+var newParcels = require('../spec/models/parcel'); /* eslint-disable no-undef */
 
 
 _chai2.default.use(_chaiHttp2.default);
@@ -54,7 +54,6 @@ describe('Parcels test Suite', function () {
   });
   it('should return 200(Success) - SPECIFIC ID', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/parcels/' + fistId).end(function (err, res) {
-      console.log(res);
       _chai2.default.expect(res.forbidden).to.be.eq(!true);
       done();
     });
