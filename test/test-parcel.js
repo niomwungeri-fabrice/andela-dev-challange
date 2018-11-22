@@ -1,3 +1,4 @@
+
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
@@ -74,11 +75,7 @@ describe('Parcels test Suite', () => {
   it('should return 404(NotFound) - CREATE PARCEL', (done) => {
     const parcels = {};
     chai.request(app).post('/api/v1/parcels/').send(parcels).end((err, res) => {
-<<<<<<< HEAD
       chai.expect(res.links).to.be.empty;
-=======
-      chai.expect(res.badRequest).to.be.equal(false);
->>>>>>> ae0b0b23564de6e693b94a9a4ddba0bdc4d16487
       done();
     });
   });

@@ -86,11 +86,7 @@ describe('Parcels test Suite', function () {
   it('should return 404(NotFound) - CREATE PARCEL', function (done) {
     var parcels = {};
     _chai2.default.request(_server2.default).post('/api/v1/parcels/').send(parcels).end(function (err, res) {
-<<<<<<< HEAD:spec-test/test-parcel.js
       _chai2.default.expect(res.links).to.be.empty;
-=======
-      _chai2.default.expect(res.badRequest).to.be.equal(false);
->>>>>>> ae0b0b23564de6e693b94a9a4ddba0bdc4d16487:dist-test/test-parcel.js
       done();
     });
   });
