@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import 'babel-polyfill';
-import Parcel from './src/controller/Parcels';
-import User from './src/controller/Users';
+import Parcel from './src/controller/Parcel-controller';
+import User from './src/controller/User-controller';
 
 dotenv.config();
 const app = express();
@@ -24,3 +24,5 @@ app.post('/api/v1/auth/signup', User.signup);
 app.get('/api/v1/auth/login', User.login);
 
 app.listen(port, () => console.log(`SendIT app listening on port ${port}!`));
+
+export default app;

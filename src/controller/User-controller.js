@@ -1,34 +1,28 @@
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
+import Helper from './Helper-controller';
 import db from '../db';
-import Helper from './Helper';
+import User from '../model/user';
 
-const User = {
+const Users = {
   async signup(req, res) {
+    const {
+      email, username, firstName, lastName, password,
+    } = req.body;
+    const newUser = new User(uuidv4(), email, username, firstName, lastName,
+      Helper.hashPassword(password), moment(new Date()), moment(new Date()));
     if (!req.body.email || !req.body.password) {
       return res.status(400).send({ message: 'Some values are missing' });
     }
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ message: 'Please enter a valid email address' });
     }
-    const hashPassword = Helper.hashPassword(req.body.password);
     const createQuery = `INSERT INTO
       users(id, email, username, first_name, last_name, password, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8)
       returning *`;
-    const values = [
-      uuidv4(),
-      req.body.email,
-      req.body.username,
-      req.body.first_name,
-      req.body.last_name,
-      hashPassword,
-      moment(new Date()),
-      moment(new Date()),
-    ];
-
     try {
-      const { rows } = await db.query(createQuery, values);
+      const { rows } = await db.query(createQuery, Object.values(newUser));
       return res.status(201).send(rows[0].id);
     } catch (error) {
       return res.status(400).send(error);
@@ -58,4 +52,4 @@ const User = {
   },
 };
 
-export default User;
+export default Users;
