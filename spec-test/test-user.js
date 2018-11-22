@@ -23,13 +23,23 @@ describe('Users Test Suites', function () {
   var invalidUser = 'jkdfjkdkfj';
   it('should return 404(NotFound) status', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/users/' + invalidUser + '/parcels/').end(function (err, res) {
+<<<<<<< HEAD:spec-test/test-user.js
       _chai2.default.expect(res.type).to.be.equal('application/json');
+=======
+      _chai2.default.expect(res.created).to.be.equal(false);
+>>>>>>> ae0b0b23564de6e693b94a9a4ddba0bdc4d16487:dist-test/test-user.js
       done();
     });
   });
   it('should return 200(Success) status', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/users/' + validUser + '/parcels/').end(function (err, res) {
+<<<<<<< HEAD:spec-test/test-user.js
       _chai2.default.expect(res.unprocessableEntity).to.be.equal(false);
+=======
+      _chai2.default.expect(res.status).to.be.equal(200);
+      _chai2.default.expect(res.ok).to.be.equal(true);
+      _chai2.default.expect(res.statusCode).to.be.equal(200);
+>>>>>>> ae0b0b23564de6e693b94a9a4ddba0bdc4d16487:dist-test/test-user.js
       done();
     });
   });
