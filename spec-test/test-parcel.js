@@ -48,7 +48,7 @@ describe('Parcels test Suite', function () {
   });
   it('should return 404(NotFound) - SPECIFIC ID', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/parcels/' + newParcels.parcelId).end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(404);
+      _chai2.default.expect(res.forbidden).to.be.false;
       done();
     });
   });
@@ -73,7 +73,7 @@ describe('Parcels test Suite', function () {
   });
   it('should return 200(Success) - CANCEL', function (done) {
     _chai2.default.request(_server2.default).put('/api/v1/parcels/' + fistId + '/cancel').end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(200);
+      _chai2.default.expect(res.redirects).to.be.empty;
       done();
     });
   });
@@ -86,7 +86,7 @@ describe('Parcels test Suite', function () {
   it('should return 404(NotFound) - CREATE PARCEL', function (done) {
     var parcels = {};
     _chai2.default.request(_server2.default).post('/api/v1/parcels/').send(parcels).end(function (err, res) {
-      _chai2.default.expect(res.notAcceptable).to.be.equal(false);
+      _chai2.default.expect(res.links).to.be.empty;
       done();
     });
   });

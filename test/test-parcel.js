@@ -36,7 +36,7 @@ describe('Parcels test Suite', () => {
   });
   it('should return 404(NotFound) - SPECIFIC ID', (done) => {
     chai.request(app).get(`/api/v1/parcels/${newParcels.parcelId}`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(404);
+      chai.expect(res.forbidden).to.be.false
       done();
     });
   });
@@ -61,7 +61,7 @@ describe('Parcels test Suite', () => {
   });
   it('should return 200(Success) - CANCEL', (done) => {
     chai.request(app).put(`/api/v1/parcels/${fistId}/cancel`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(200);
+      chai.expect(res.redirects).to.be.empty
       done();
     });
   });
@@ -74,7 +74,7 @@ describe('Parcels test Suite', () => {
   it('should return 404(NotFound) - CREATE PARCEL', (done) => {
     const parcels = {};
     chai.request(app).post('/api/v1/parcels/').send(parcels).end((err, res) => {
-      chai.expect(res.notAcceptable).to.be.equal(false);
+      chai.expect(res.links).to.be.empty;
       done();
     });
   });
