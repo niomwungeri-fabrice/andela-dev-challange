@@ -42,7 +42,7 @@ describe('Parcels test Suite', () => {
   });
   it('should return 200(Success) - SPECIFIC ID', (done) => {
     chai.request(app).get(`/api/v1/parcels/${fistId}`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(200);
+      chai.expect(res.forbidden).to.be.eq(!true);
       done();
     });
   });
@@ -67,7 +67,7 @@ describe('Parcels test Suite', () => {
   });
   it('should return 200(NotFound) - CREATE PARCEL', (done) => {
     chai.request(app).post('/api/v1/parcels').send(parcel).end((err, res) => {
-      chai.expect(res.unauthorized).to.be.eql(false);
+      chai.expect(res.statusCode).to.be.eql(201);
       done();
     });
   });

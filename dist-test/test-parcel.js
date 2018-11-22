@@ -54,7 +54,8 @@ describe('Parcels test Suite', function () {
   });
   it('should return 200(Success) - SPECIFIC ID', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/parcels/' + fistId).end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(200);
+      console.log(res);
+      _chai2.default.expect(res.forbidden).to.be.eq(!true);
       done();
     });
   });
@@ -79,7 +80,7 @@ describe('Parcels test Suite', function () {
   });
   it('should return 200(NotFound) - CREATE PARCEL', function (done) {
     _chai2.default.request(_server2.default).post('/api/v1/parcels').send(parcel).end(function (err, res) {
-      _chai2.default.expect(res.unauthorized).to.be.eql(false);
+      _chai2.default.expect(res.statusCode).to.be.eql(201);
       done();
     });
   });

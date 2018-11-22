@@ -18,7 +18,7 @@ _chai2.default.use(_chaiHttp2.default);
 describe('Root Test Suites', function () {
   it('should return 200(success) status', function (done) {
     _chai2.default.request(app).get('/').end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.eql(200);
+      _chai2.default.expect(res.body.message).to.be.eql('API root for SendIT application');
       done();
     });
   });

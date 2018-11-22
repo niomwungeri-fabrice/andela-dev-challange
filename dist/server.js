@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
 
 // root route
 app.get('/', function (req, res) {
-  return res.status(200).send('API root for SendIT application');
+  return res.status(200).send({ message: 'API root for SendIT application' });
 });
 // calling other routes
 require('../dist/routes/routes.js')(app);
