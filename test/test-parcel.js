@@ -73,7 +73,7 @@ describe('Parcels test Suite', () => {
   it('should return 404(NotFound) - CREATE PARCEL', (done) => {
     const parcels = {};
     chai.request(app).post('/api/v1/parcels/').send(parcels).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(404);
+      chai.expect(res.badRequest).to.be.equal(false);
       done();
     });
   });

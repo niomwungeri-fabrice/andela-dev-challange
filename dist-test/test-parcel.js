@@ -85,7 +85,7 @@ describe('Parcels test Suite', function () {
   it('should return 404(NotFound) - CREATE PARCEL', function (done) {
     var parcels = {};
     _chai2.default.request(_server2.default).post('/api/v1/parcels/').send(parcels).end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(404);
+      _chai2.default.expect(res.badRequest).to.be.equal(false);
       done();
     });
   });
