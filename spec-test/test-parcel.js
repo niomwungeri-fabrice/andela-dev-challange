@@ -8,13 +8,13 @@ var _chaiHttp = require('chai-http');
 
 var _chaiHttp2 = _interopRequireDefault(_chaiHttp);
 
-var _server = require('../dist/server');
+var _server = require('../spec/server');
 
 var _server2 = _interopRequireDefault(_server);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var newParcels = require('../dist/models/parcel'); /* eslint-disable no-undef */
+var newParcels = require('../spec/models/parcel'); /* eslint-disable no-undef */
 
 
 _chai2.default.use(_chaiHttp2.default);
@@ -48,44 +48,45 @@ describe('Parcels test Suite', function () {
   });
   it('should return 404(NotFound) - SPECIFIC ID', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/parcels/' + newParcels.parcelId).end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(404);
+      _chai2.default.expect(res.forbidden).to.be.false;
       done();
     });
   });
   it('should return 200(Success) - SPECIFIC ID', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/parcels/' + fistId).end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(200);
+      _chai2.default.expect(res.forbidden).to.be.eq(!true);
       done();
     });
   });
-  it('should return 400(NotFound) - ALL PARCELS', function (done) {
+  it('should return 200(Found) - ALL PARCELS', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/parcels').end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(200);
+
+      _chai2.default.expect(res.noContent).to.be.equal(false);
       done();
     });
   });
   it('should return 404(NotFound) - CANCEL', function (done) {
     _chai2.default.request(_server2.default).put('/api/v1/parcels/' + newParcels.parcelId + '/cancel').end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(404);
+      _chai2.default.expect(res.badRequest).to.be.eq(false);
       done();
     });
   });
   it('should return 200(Success) - CANCEL', function (done) {
     _chai2.default.request(_server2.default).put('/api/v1/parcels/' + fistId + '/cancel').end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(200);
+      _chai2.default.expect(res.redirects).to.be.empty;
       done();
     });
   });
   it('should return 200(NotFound) - CREATE PARCEL', function (done) {
     _chai2.default.request(_server2.default).post('/api/v1/parcels').send(parcel).end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(201);
+      _chai2.default.expect(res.statusCode).to.be.eql(201);
       done();
     });
   });
   it('should return 404(NotFound) - CREATE PARCEL', function (done) {
     var parcels = {};
     _chai2.default.request(_server2.default).post('/api/v1/parcels/').send(parcels).end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(404);
+      _chai2.default.expect(res.links).to.be.empty;
       done();
     });
   });

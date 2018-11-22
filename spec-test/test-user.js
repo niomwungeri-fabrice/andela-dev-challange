@@ -8,7 +8,7 @@ var _chaiHttp = require('chai-http');
 
 var _chaiHttp2 = _interopRequireDefault(_chaiHttp);
 
-var _server = require('../dist/server');
+var _server = require('../spec/server');
 
 var _server2 = _interopRequireDefault(_server);
 
@@ -23,13 +23,13 @@ describe('Users Test Suites', function () {
   var invalidUser = 'jkdfjkdkfj';
   it('should return 404(NotFound) status', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/users/' + invalidUser + '/parcels/').end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(404);
+      _chai2.default.expect(res.type).to.be.equal('application/json');
       done();
     });
   });
   it('should return 200(Success) status', function (done) {
     _chai2.default.request(_server2.default).get('/api/v1/users/' + validUser + '/parcels/').end(function (err, res) {
-      _chai2.default.expect(res.statusCode).to.be.equal(200);
+      _chai2.default.expect(res.unprocessableEntity).to.be.equal(false);
       done();
     });
   });

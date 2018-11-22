@@ -24,10 +24,10 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "npm run build && npm run testBuild && nyc mocha dist-test/* --exit",
-    "start": "nodemon  dist/server.js",
-    "build": "babel --presets es2015 app/ -d dist",
-    "testBuild": "babel --presets es2015 test/ -d dist-test",
+    "test": "npm run build && npm run testBuild && nyc mocha spec-test/* --exit",
+    "start": "nodemon  spec/server.js",
+    "build": "babel --presets es2015 app/ -d spec",
+    "testBuild": "babel --presets es2015 test/ -d spec-test",
     "nyc": "nyc npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
