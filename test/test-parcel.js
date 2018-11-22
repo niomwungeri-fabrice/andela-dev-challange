@@ -46,15 +46,16 @@ describe('Parcels test Suite', () => {
       done();
     });
   });
-  it('should return 400(NotFound) - ALL PARCELS', (done) => {
+  it('should return 200(Found) - ALL PARCELS', (done) => {
     chai.request(app).get('/api/v1/parcels').end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(200);
+      
+      chai.expect(res.noContent).to.be.equal(false);
       done();
     });
   });
   it('should return 404(NotFound) - CANCEL', (done) => {
     chai.request(app).put(`/api/v1/parcels/${newParcels.parcelId}/cancel`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(404);
+      chai.expect(res.badRequest).to.be.eq(false);
       done();
     });
   });
@@ -66,14 +67,14 @@ describe('Parcels test Suite', () => {
   });
   it('should return 200(NotFound) - CREATE PARCEL', (done) => {
     chai.request(app).post('/api/v1/parcels').send(parcel).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(201);
+      chai.expect(res.unauthorized).to.be.equal(false);
       done();
     });
   });
   it('should return 404(NotFound) - CREATE PARCEL', (done) => {
     const parcels = {};
     chai.request(app).post('/api/v1/parcels/').send(parcels).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(404);
+      chai.expect(res.notAcceptable).to.be.equal(false);
       done();
     });
   });
