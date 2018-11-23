@@ -90,7 +90,7 @@ describe('Test Suits - Delete a user', () => {
       done();
     });
   });
-  it.only('should return 204 - Delete a user', (done) => {
+  it('should return 204 - Delete a user', (done) => {
     const email = 'niomwungeri@gmail.com';
   chai.request(app).delete(`/api/v1/users/${email}/delete`).end((err, res) => {
     chai.expect(res.statusCode).to.be.equal(204);

@@ -1,5 +1,4 @@
 class User {
-  // add user role -- user, admin
   constructor(id, email, username, firstName, lastName, userRole, password, createdDate, modifiedDate) {
     this.id = id;
     this.email = email;

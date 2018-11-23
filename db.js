@@ -1,11 +1,11 @@
-// db.js
+/* Code modified from a file obtained from https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-and-postgresql-db-masuu56t7 */
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL_TEST,
 });
 
 pool.on('connect', () => {
@@ -80,9 +80,6 @@ const dropParcel = () => {
     });
 };
 
-/**
- * Drop User Table
- */
 const dropUser = () => {
   const queryText = 'DROP TABLE IF EXISTS users returning *';
   pool.query(queryText)

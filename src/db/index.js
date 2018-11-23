@@ -1,10 +1,14 @@
+/* Code modified from a file obtained from https://github.com/olawalejarvis/reflection_app_server */
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
+import dbconfig from '../db/config'
 
 dotenv.config();
 
+const env = process.env.NODE_ENV || "development"
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: dbconfig[env],
 });
 
 export default {
