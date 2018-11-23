@@ -16,6 +16,7 @@ app.post('/api/v1/parcels', Parcel.create);
 app.get('/api/v1/parcels', Parcel.getAll);
 app.get('/api/v1/parcels/:parcelId', Parcel.getOne);
 app.get('/api/v1/users/:userId/parcels', Parcel.parcelByUser);
+app.delete('/api/v1/users/:userId/delete', User.delete);
 app.put('/api/v1/parcels/:parcelId/cancel', Parcel.cancel);
 app.put('/api/v1/parcels/:parcelId/presentLocation', Parcel.presentLocation);
 app.put('/api/v1/parcels/:parcelId/destination', Parcel.destination);

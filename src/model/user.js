@@ -1,9 +1,11 @@
 class User {
-  constructor(id, email, username, firstName, lastName, password, createdDate, modifiedDate) {
+  // add user role -- user, admin
+  constructor(id, email, username, firstName, lastName, userRole, password, createdDate, modifiedDate) {
     this.id = id;
     this.email = email;
-    this.first_name = firstName;
+    this.firstName = firstName;
     this.lastName = lastName;
+    this.userRole = userRole;
     this.password = password;
     this.username = username;
     this.createdDate = createdDate;
