@@ -29,8 +29,11 @@ const Parcels = {
     const findAllQuery = 'SELECT * FROM parcels';
     try {
       const { rows, rowCount } = await db.query(findAllQuery);
-      return res.status(200).send({ rows, rowCount });
+      return res.status(200).send({
+        message: 'Success', status: 200, rows, rowCount,
+      });
     } catch (error) {
+      console.log(error.stack);
       return res.status(400).send(error);
     }
   },
@@ -39,7 +42,9 @@ const Parcels = {
     const parcelByUserQuery = 'SELECT * FROM parcels where owner_id = $1';
     try {
       const { rows, rowCount } = await db.query(parcelByUserQuery, [req.params.userId]);
-      return res.status(200).send({ rows, rowCount });
+      return res.status(200).send({
+        message: 'Success', status: 200, rows, rowCount,
+      });
     } catch (error) {
       return res.status(400).send(error);
     }
@@ -83,17 +88,17 @@ const Parcels = {
     }
   },
   // Change the present location of a specific parcel delivery order
-  async presentLocation(req, res) {
+  async ChangePresentLocation(req, res) {
     return res.status(200).send({ message: 'presentLocation' });
   },
   // Change the location ofa specific parcel delivery order -
   // only for the user who created it
-  async destination(req, res) {
+  async changeDestination(req, res) {
     return res.status(200).send({ message: 'destination' });
   },
   // Change the status of a specific parcel delivery order -
   // This endpoint should be accessible by the Admin only
-  async status(req, res) {
+  async changeStatus(req, res) {
     return res.status().send({ message: 'status' });
   },
 };
