@@ -17,11 +17,9 @@ const Users = {
       return res.status(400).send({ message: 'Some values are missing' });
     }
     if (!Helper.isValidEmail(req.body.email)) {
-      console.log('bad email format');
       return res.status(400).send({ message: 'Please enter a valid email address' });
     }
     if (req.body.routine === '_bt_check_unique') {
-      console.log('bad email format');
       return res.status(400).send({ message: 'User already exist' });
     }
     const createQuery = `INSERT INTO
@@ -62,15 +60,14 @@ const Users = {
     const deleteQuery = 'DELETE FROM users WHERE email = $1 returning *';
     try {
       const { rows } = await db.query(deleteQuery, [req.params.userId]);
-      if(!rows[0]) {
-        return res.status(404).send({message: 'user not found'});
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'user not found' });
       }
       return res.status(204).send({ message: 'deleted' });
-    } catch(error) {
-      console.log(error.stack);
+    } catch (error) {
       return res.status(400).send(error);
     }
-  }
+  },
 };
 
 export default Users;

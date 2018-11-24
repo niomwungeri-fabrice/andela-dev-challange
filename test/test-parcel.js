@@ -7,7 +7,7 @@ import Parcel from '../src/model/parcel';
 import User from '../src/model/user'
 import uuidv4 from 'uuid/v4'
 import Helper from '../src/controller/Helper-controller';
-import db from '../db';
+import db from '../src/db';
 
 
 chai.use(chaiHttp);
@@ -20,31 +20,37 @@ users(id, email, username, first_name, last_name,user_role, password, created_da
 VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
 returning *`;
 
+const newUser = new User(uuidv4(), 'niomwunderi.fabrice@gmail.com', 'niomdungeri', 'Fabrce', 
+'Niyomwungeri', 'Admin', Helper.hashPassword('123'), moment(new Date()), moment(new Date()));
+
 const createQueryParcel = `INSERT INTO
- parcels(id, location, destination, length, width, height, owner_id, status, created_date, modified_date)
+ parcels(id, location, destination, length, width, height, owner_id, status, 
+  created_date, modified_date)
  VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
  returning *`;
 
-
-const signup = async () => {
-  const newUser = new User(uuidv4(), 'niomwungeri.fabrice@gmail.com', 'niomwungeri', 'Fabrice', 
-  'Niyiomwungeri', 'Admin', Helper.hashPassword('123'), moment(new Date()), moment(new Date()));
-  const createQuery = `INSERT INTO
-    users(id, email, username, first_name, last_name,user_role, password, created_date, modified_date)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
-    returning *`;
-  try {
-    const { rows } = await db.query(createQuery, Object.values(newUser));
-    return rows[0].id;
-  } catch (error) {
-    return error;
-  }
+const createUser = () => {
+  db.query(createQueryUser, Object.values(newUser))
+    .then(res => {
+      return res;
+    }).catch(err=>{
+      return err;
+    });
+    
+};
+const deleteUser = () => {
+  const deleteQuery = 'DELETE FROM users';
+  db.query(deleteQuery)
+  .then(res => {
+    return res[0];
+  }).catch(err=>{
+    return err;
+  });
 };
 
-console.log(signup());
 
-
-describe('Create a parcel delivery order', async () => {
+describe('Create a parcel delivery order',  async () => {
+await createUser();
   it.skip('should return 200 - Create a parcel delivery order', (done) => {
     chai.request(app).post('/api/v1/parcels').send(newParcel).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(201);
@@ -88,5 +94,9 @@ describe('Create a parcel delivery order', async () => {
       chai.expect(res.statusCode).to.be.equal(200);
       done();
     });
+  });
+  after(async () => {
+    await deleteUser();
+    console.log('executed');
   });
 });
