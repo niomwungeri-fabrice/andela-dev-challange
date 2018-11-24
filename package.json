@@ -1,0 +1,57 @@
+{
+  "name": "andela-dev-challange",
+  "version": "1.0.0",
+  "description": "Website prototype",
+  "main": "server.js",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bcrypt": "^3.0.2",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "joi": "^14.0.6",
+    "jsonwebtoken": "^8.4.0",
+    "make-runnable": "^1.3.6",
+    "moment": "^2.22.2",
+    "pg": "^7.6.1",
+    "uuid": "^3.3.2",
+    "babel-cli": "^6.26.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.1.6",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-watch": "^2.0.7",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "coffeescript": "^2.3.2",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^13.1.0",
+    "request": "^2.88.0"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test nyc mocha --require babel-core/register ./test/ --exit",
+    "start": "nodemon server.js --exec babel-node --",
+    "nyc": "nyc npm test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niomwungeri-fabrice/andela-dev-challange.git"
+  },
+  "keywords": [],
+  "author": "Niyomwungeri Fabrice",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niomwungeri-fabrice/andela-dev-challange/issues"
+  },
+  "engines": {
+    "node": "v8.12.0"
+  },
+  "homepage": "https://github.com/niomwungeri-fabrice/andela-dev-challange#readme"
+}
