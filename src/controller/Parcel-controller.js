@@ -20,7 +20,7 @@ const Parcels = {
     try {
       const { rows, rowCount } = await db.query(createQuery, Object.values(newParcel));
       return res.status(201).send({
-        message: 'Success', status: 200, rowCount, data: rows,
+        message: 'Success', status: 201, rowCount, data: rows,
       });
     } catch (error) {
       return res.status(400).send({
@@ -85,7 +85,7 @@ const Parcels = {
         return res.status(404).send({ message: 'parcel not found' });
       }
       const updateValues = [
-        'Canceled',
+        'Cancelled',
         moment(new Date()),
         rows[0].id,
       ];
@@ -113,9 +113,27 @@ const Parcels = {
   // Change the status of a specific parcel delivery order -
   // This endpoint should be accessible by the Admin only
   async changeStatus(req, res) {
-    return res.status(200).send({
-      message: 'status', status: 200,
-    });
+    const findOneQuery = 'SELECT * FROM parcels WHERE id = $1';
+    const updateOneQuery = `UPDATE parcels
+      SET status=$1,modified_date=$2
+      WHERE id=$3 returning *`;
+    try {
+      const { rows } = await db.query(findOneQuery, [req.params.parcelId]);
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'Parcel not found' });
+      }
+      const updateValues = [
+        req.body.status,
+        moment(new Date()),
+        rows[0].id,
+      ];
+      const response = await db.query(updateOneQuery, updateValues);
+      return res.status(200).send({
+        message: 'Success', status: 200, data: response.rows[0],
+      });
+    } catch (err) {
+      return res.status(400).send(err);
+    }
   },
   async delete(req, res) {
     const deleteQuery = 'DELETE FROM parcels WHERE id = $1 returning *';
