@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* Code modified from a file obtained from https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-and-postgresql-db-masuu56t7 */
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
@@ -19,9 +20,10 @@ const createParcel = () => {
         id UUID PRIMARY KEY,
         location VARCHAR(128) NOT NULL,
         destination VARCHAR(128) NOT NULL,
-        length INTEGER NOT NULL,
+        present_location VARCHAR(128),
+        length INTEGER,
         width INTEGER NOT NULL,
-        height INTEGER NOT NULL,
+        height INTEGER,
         owner_id UUID NOT NULL,
         status VARCHAR(128) NOT NULL,
         created_date TIMESTAMP,

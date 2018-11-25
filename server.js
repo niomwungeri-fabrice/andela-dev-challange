@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import 'babel-polyfill';
 import Parcel from './src/controller/Parcel-controller';
 import User from './src/controller/User-controller';
-import Auth from './src/middleware/Auth';
 
 dotenv.config();
 const app = express();
@@ -28,6 +27,7 @@ app.post('/api/v1/auth/login', User.login);
 app.delete('/api/v1/users/:userId/delete', User.delete);
 app.delete('/api/v1/parcels/:parcelId/delete', Parcel.delete);
 
+// eslint-disable-next-line no-console
 app.listen(port, () => console.log(`SendIT app listening on port ${port}!`));
 
 export default app;
