@@ -48,7 +48,7 @@ const Parcels = {
     try {
       const { rows, rowCount } = await db.query(parcelByUserQuery, [req.params.userId]);
       return res.status(200).send({
-        message: 'Success', status: 200, rowCount, data: rows,
+        message: 'Success', status: 200, rowCount, data: rows[0],
       });
     } catch (error) {
       return res.status(400).send({
@@ -124,12 +124,28 @@ const Parcels = {
   // Change the location ofa specific parcel delivery order -
   // only for the user who created it
   async changeDestination(req, res) {
-    return res.status(200).send({
-      message: 'destination', status: 200,
-    });
+    const findOneQuery = 'SELECT * FROM parcels WHERE id = $1';
+    const updateOneQuery = `UPDATE parcels
+      SET destination=$1,modified_date=$2
+      WHERE id=$3 returning *`;
+    try {
+      const { rows } = await db.query(findOneQuery, [req.params.parcelId]);
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'Parcel not found' });
+      }
+      const updateValues = [
+        req.body.destination,
+        moment(new Date()),
+        rows[0].id,
+      ];
+      const response = await db.query(updateOneQuery, updateValues);
+      return res.status(200).send({
+        message: 'Success', status: 200, data: response.rows[0],
+      });
+    } catch (err) {
+      return res.status(400).send(err);
+    }
   },
-  // Change the status of a specific parcel delivery order -
-  // This endpoint should be accessible by the Admin only
   async changeStatus(req, res) {
     const findOneQuery = 'SELECT * FROM parcels WHERE id = $1';
     const updateOneQuery = `UPDATE parcels

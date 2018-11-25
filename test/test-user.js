@@ -5,25 +5,6 @@ import app from '../server';
 
 chai.use(chaiHttp);
 
-
-describe('GET /api/v1/users', () => {
-  const validUser = 'niomwungeri@gmail.com';
-  const invalidUser = 'jkdfjkdkfj';
-  it('should return 404 - Fetch all parcel delivery orders by a specific user', (done) => {
-    chai.request(app).get(`/api/v1/users/${invalidUser}/parcels/`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(400);
-      done();
-    });
-  });
-  it.skip('should return 200 - Fetch all parcel delivery orders by a specific user', (done) => {
-    chai.request(app).get(`/api/v1/users/${validUser}/parcels/`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(200);
-      done();
-    });
-  });
-  // for testing
-});
-
 describe('POST /api/v1/auth/signup', () => {
   it('should return 400 - valid email address', (done) => {
     const newUser = {
