@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 
 
 describe('GET /api/v1/users', () => {
-  const validUser = '25caef94-ad21-4745-be83-9a4af82934ae';
+  const validUser = 'niomwungeri@gmail.com';
   const invalidUser = 'jkdfjkdkfj';
   it('should return 404 - Fetch all parcel delivery orders by a specific user', (done) => {
     chai.request(app).get(`/api/v1/users/${invalidUser}/parcels/`).end((err, res) => {
@@ -21,6 +21,7 @@ describe('GET /api/v1/users', () => {
       done();
     });
   });
+  // for testing
 });
 
 describe('POST /api/v1/auth/signup', () => {
@@ -52,21 +53,7 @@ describe('POST /api/v1/auth/signup', () => {
       done();
     });
   });
-  it.skip('should return 200 - Register a user', (done) => {
-    const newUser = {
-      email: 'niomwungeri@gmail.com',
-      firstName: 'admin',
-      lastName: 'admin',
-      userRole: 'admin',
-      password: '123',
-      username: 'admin',
-    };
-    chai.request(app).post('/api/v1/auth/signup').send(newUser).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(201);
-      done();
-    });
-  });
-  it.skip('should return 200 - Check Unique', (done) => {
+  it('should return 200 - Check Unique', (done) => {
     const newUser = {
       email: 'niomwungeri@gmail.com',
       firstName: 'admin',
@@ -81,8 +68,9 @@ describe('POST /api/v1/auth/signup', () => {
     });
   });
 });
+
 describe('DELETE /api/v1/users/:userId/delete', () => {
-  it.skip('should return 404 - User not found', (done) => {
+  it('should return 404 - User not found', (done) => {
     const email = '';
     chai.request(app).post(`/api/v1/users/${email}/delete`).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(404);
@@ -100,19 +88,19 @@ describe('DELETE /api/v1/users/:userId/delete', () => {
 
 describe('GET /api/v1/auth/login', () => {
   it.skip('should return 400 - The credentials you provided is incorrect', (done) => {
-    chai.request(app).post('/api/v1/auth/login').end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(400);
+    chai.request(app).post('/api/v1/auth/login').send({ email: '', password: '' }).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(200);
       done();
     });
   });
   it.skip('should return 400 - User not found', (done) => {
-    chai.request(app).post('/api/v1/auth/login').end((err, res) => {
+    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungderi', password: '123' }).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(400);
       done();
     });
   });
   it.skip('should return 200 - Success', (done) => {
-    chai.request(app).post('/api/v1/auth/login').end((err, res) => {
+    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri', password: '123' }).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(200);
       done();
     });

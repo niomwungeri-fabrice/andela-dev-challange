@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.status(200).send({ message: 'Welcome' }));
+app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to home SendIT API', status: 200 }));
 
 app.post('/api/v1/parcels', Parcel.create);
 app.get('/api/v1/parcels', Parcel.getAll);
@@ -18,11 +18,13 @@ app.get('/api/v1/parcels/:parcelId', Parcel.getOne);
 app.get('/api/v1/users/:userId/parcels', Parcel.parcelByUser);
 app.put('/api/v1/parcels/:parcelId/cancel', Parcel.cancel);
 app.delete('/api/v1/users/:userId/delete', User.delete);
+app.delete('/api/v1/parcels/:parcelId/delete', Parcel.delete);
 app.put('/api/v1/parcels/:parcelId/presentLocation', Parcel.ChangePresentLocation);
 app.put('/api/v1/parcels/:parcelId/destination', Parcel.changeDestination);
 app.put('/api/v1/parcels/:parcelId/status', Parcel.changeStatus);
 app.post('/api/v1/auth/signup', User.signup);
-app.get('/api/v1/auth/login', User.login);
+app.post('/api/v1/auth/login', User.signin);
+app.get('/api/v1/users/:userId', User.allUser);
 
 app.listen(port, () => console.log(`SendIT app listening on port ${port}!`));
 
