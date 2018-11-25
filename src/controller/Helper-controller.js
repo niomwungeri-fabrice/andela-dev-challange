@@ -12,6 +12,12 @@ const Helper = {
   isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   },
+  isValidateEmpty(email, password) {
+    if (!email || !password) {
+      return true;
+    }
+    return false;
+  },
   generateToken(id) {
     const token = jwt.sign({
       userId: id,

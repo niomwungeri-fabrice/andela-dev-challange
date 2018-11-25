@@ -53,7 +53,7 @@ describe('POST /api/v1/auth/signup', () => {
       done();
     });
   });
-  it.skip('should return 200 - Check Unique', (done) => {
+  it('should return 200 - Check Unique', (done) => {
     const newUser = {
       email: 'niomwungeri@gmail.com',
       firstName: 'admin',
@@ -64,23 +64,6 @@ describe('POST /api/v1/auth/signup', () => {
     };
     chai.request(app).post('/api/v1/auth/signup').send(newUser).end((err, res) => {
       chai.expect(res.body.routine).to.be.equal('_bt_check_unique');
-      done();
-    });
-  });
-});
-
-describe('DELETE /api/v1/users/:userId/delete', () => {
-  it('should return 404 - User not found', (done) => {
-    const email = '';
-    chai.request(app).post(`/api/v1/users/${email}/delete`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(404);
-      done();
-    });
-  });
-  it.skip('should return 204 - Delete a user', (done) => {
-    const email = 'niomwungeri@gmail.com';
-    chai.request(app).delete(`/api/v1/users/${email}/delete`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(204);
       done();
     });
   });
@@ -99,9 +82,26 @@ describe('GET /api/v1/auth/login', () => {
       done();
     });
   });
-  it.skip('should return 200 - Success', (done) => {
-    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri', password: '123' }).end((err, res) => {
+  it('should return 200 - Success', (done) => {
+    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri@gmail.com', password: '123' }).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(200);
+      done();
+    });
+  });
+});
+describe('DELETE /api/v1/users/:userId/delete', () => {
+  it('should return 404 - User not found', (done) => {
+    const email = '';
+    chai.request(app).post(`/api/v1/users/${email}/delete`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(404);
+      done();
+    });
+  });
+
+  it('should return 204 - Delete a user', (done) => {
+    const email = 'niomwungeri@gmail.com';
+    chai.request(app).delete(`/api/v1/users/${email}/delete`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(204);
       done();
     });
   });

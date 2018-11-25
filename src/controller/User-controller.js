@@ -13,23 +13,12 @@ const Users = {
     } = req.body;
     const newUser = new User(uuidv4(), email, username, firstName, lastName, userRole,
       Helper.hashPassword(password), moment(new Date()), moment(new Date()));
-    if (!req.body.email || !req.body.password) {
-      return res.status(400).send({
-        message: 'Email and Password are required', status: 400,
-      });
+    if (Helper.isValidateEmpty(req.body.email, req.body.password)) {
+      return res.status(400).send({ message: 'Email and Password are required', status: 400 });
     }
-    if (!Helper.isValidEmail(req.body.email)) {
-      return res.status(400).send({
-        message: 'Please enter a valid email address', status: 400,
-      });
-    }
-    if (req.body.routine === '_bt_check_unique') {
-      return res.status(400).send({ message: 'User already exist', status: 400 });
-    }
-    const createQuery = `INSERT INTO
-      users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      returning *`;
+    if (!Helper.isValidEmail(req.body.email)) { return res.status(400).send({ message: 'Please enter a valid email address', status: 400 }); }
+    if (req.body.routine === '_bt_check_unique') { return res.status(400).send({ message: 'User already exist', status: 400 }); }
+    const createQuery = 'INSERT INTO users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
     try {
       const { rows } = await db.query(createQuery, Object.values(newUser));
       return res.status(201).send({ message: 'Account Created Successfully', status: 201, data: rows[0] });
@@ -39,7 +28,7 @@ const Users = {
   },
   // Login a user
   async login(req, res) {
-    if (!req.body.email || !req.body.password) {
+    if (Helper.isValidateEmpty(req.body.email, req.body.password)) {
       return res.status(400).send({ message: 'Email and Password are required', status: 400 });
     }
     if (!Helper.isValidEmail(req.body.email)) {
@@ -69,10 +58,8 @@ const Users = {
     }
   },
   async delete(req, res) {
-    const deleteQueryParcel = 'DELETE FROM parcels WHERE owner_id = $1 returning *';
-    const deleteQuery = 'DELETE FROM users WHERE id = $1 returning *';
+    const deleteQuery = 'DELETE FROM users WHERE email = $1 returning *';
     try {
-      await db.query(deleteQueryParcel, [req.params.userId]);
       const { rows } = await db.query(deleteQuery, [req.params.userId]);
       if (!rows[0]) {
         return res.status(404).send({ message: 'user not found', status: 404 });
