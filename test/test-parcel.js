@@ -2,101 +2,112 @@
 import moment from 'moment';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import uuidv4 from 'uuid/v4';
 import app from '../server';
 import Parcel from '../src/model/parcel';
-import User from '../src/model/user'
-import uuidv4 from 'uuid/v4'
-import Helper from '../src/controller/Helper-controller';
-import db from '../src/db';
 
 
 chai.use(chaiHttp);
-const invalidUser = '6509a627-3e44-4285-ae0d-3466d5a50103';
-const validUser = '6509a627-3e44-4285-ae0d-3466d5a50105';
-const validParcel = '0a092a42-c8c0-447a-b2d6-b3549a4f114d';
-
-const createQueryUser = `INSERT INTO
-users(id, email, username, first_name, last_name,user_role, password, created_date, modified_date)
-VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
-returning *`;
-
-const newUser = new User(uuidv4(), 'niomwunderi.fabrice@gmail.com', 'niomdungeri', 'Fabrce', 
-'Niyomwungeri', 'Admin', Helper.hashPassword('123'), moment(new Date()), moment(new Date()));
-
-const createQueryParcel = `INSERT INTO
- parcels(id, location, destination, length, width, height, owner_id, status, 
-  created_date, modified_date)
- VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
- returning *`;
-
-const createUser = () => {
-  db.query(createQueryUser, Object.values(newUser))
-    .then(res => {
-      return res;
-    }).catch(err=>{
-      return err;
-    });
-    
-};
-const deleteUser = () => {
-  const deleteQuery = 'DELETE FROM users';
-  db.query(deleteQuery)
-  .then(res => {
-    return res[0];
-  }).catch(err=>{
-    return err;
-  });
-};
+const invalidParcel = '6509a627-3e44-4285-ae0d-3466d5a50103';
+const validUser = 'niomwungeri@gmail.com';
 
 
-describe('Create a parcel delivery order',  async () => {
-await createUser();
-  it.skip('should return 200 - Create a parcel delivery order', (done) => {
-    chai.request(app).post('/api/v1/parcels').send(newParcel).end((err, res) => {
+describe('POST /api/v1/parcels', () => {
+  it('should return 200 - Register a user', (done) => {
+    const newUser = {
+      email: 'niomwungeri@gmail.com',
+      firstName: 'admin',
+      lastName: 'admin',
+      userRole: 'admin',
+      password: '123',
+      username: 'admin',
+    };
+    chai.request(app).post('/api/v1/auth/signup').send(newUser).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(201);
       done();
     });
   });
-  it.skip('should return 400 - Create a parcel delivery order', (done) => {
+  it('should return 201 - Create a parcel delivery order', (done) => {
+    chai.request(app).get(`/api/v1/users/${validUser}`).end((err, res) => {
+      const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 4, 5, 5,
+        res.body.id, 'Pending', moment(new Date()), moment(new Date()));
+      chai.request(app).post('/api/v1/parcels').send(newParcel).end((error, response) => {
+        chai.expect(response.statusCode).to.be.equal(201);
+        done();
+      });
+    });
+  });
+  it('should return 400 - Create a parcel delivery order', (done) => {
     const parcels = {};
     chai.request(app).post('/api/v1/parcels/').send(parcels).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(400);
       done();
     });
   });
-  it.skip('should return 404 - Fetch a specific parcel delivery order', (done) => {
-    chai.request(app).get(`/api/v1/parcels/${invalidUser}`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(404);
-      done();
-    });
-  });
-  it.skip('should return 200 - Fetch a specific parcel delivery order', (done) => {
-    chai.request(app).get(`/api/v1/parcels/${validParcel}`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(200);
-      done();
-    });
-  });
-  // test 400
-  it.skip('should return 200 - Fetch all parcel delivery orders', (done) => {
+});
+describe('GET /api/v1/parcels', () => {
+  it('should return 200 - Fetch all parcel delivery orders', (done) => {
     chai.request(app).get('/api/v1/parcels').end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(200);
       done();
     });
   });
-  it.skip('should return 404 - Cancel the specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidUser}/cancel`).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(404);
-      done();
-    });
-  });
+});
+describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
   it.skip('should return 200 - Cancel the specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcel}/cancel`).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(200);
       done();
     });
   });
-  after(async () => {
-    await deleteUser();
-    console.log('executed');
+  it.skip('should return 404 - Cancel the specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/cancel`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(404);
+      done();
+    });
+  });
+});
+describe('PUT /api/v1/parcels/:parcelId/presentLocation', () => {
+  it('should return 200 - Change the present location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/presentLocation`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(200);
+      done();
+    });
+  });
+  it.skip('should return 404 - Change the present location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/presentLocation`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(404);
+      done();
+    });
+  });
+});
+
+describe('PUT /api/v1/parcels/:parcelId/destination', () => {
+  it('should return 200 - Change the location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/destination`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(200);
+      done();
+    });
+  });
+  it.skip('should return 404 - Change the location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/destination`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(404);
+      done();
+    });
+  });
+});
+
+describe('PUT /api/v1/parcels/:parcelId/status', () => {
+  it('should return 200 - Change the status of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/status`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(200);
+      done();
+    });
+  });
+  it.skip('should return 404 - Change the status of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/status`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(404);
+      done();
+    });
   });
 });

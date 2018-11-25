@@ -18,10 +18,14 @@ const Parcels = {
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       returning *`;
     try {
-      const { rows } = await db.query(createQuery, Object.values(newParcel));
-      return res.status(201).send(rows[0]);
+      const { rows, rowCount } = await db.query(createQuery, Object.values(newParcel));
+      return res.status(201).send({
+        message: 'Success', status: 200, rowCount, data: rows,
+      });
     } catch (error) {
-      return res.status(400).send(error);
+      return res.status(400).send({
+        message: error, status: 400,
+      });
     }
   },
   // Fetch all parcel delivery orders
@@ -29,9 +33,13 @@ const Parcels = {
     const findAllQuery = 'SELECT * FROM parcels';
     try {
       const { rows, rowCount } = await db.query(findAllQuery);
-      return res.status(200).send({ rows, rowCount });
+      return res.status(200).send({
+        message: 'Success', status: 200, rowCount, data: rows,
+      });
     } catch (error) {
-      return res.status(400).send(error);
+      return res.status(400).send({
+        message: error, status: 400,
+      });
     }
   },
   // Fetch all parcel delivery orders by a specific user
@@ -39,22 +47,30 @@ const Parcels = {
     const parcelByUserQuery = 'SELECT * FROM parcels where owner_id = $1';
     try {
       const { rows, rowCount } = await db.query(parcelByUserQuery, [req.params.userId]);
-      return res.status(200).send({ rows, rowCount });
+      return res.status(200).send({
+        message: 'Success', status: 200, rowCount, data: rows,
+      });
     } catch (error) {
-      return res.status(400).send(error);
+      return res.status(400).send({
+        message: error, status: 400,
+      });
     }
   },
   // Fetch a specific parcel delivery order
   async getOne(req, res) {
     const text = 'SELECT * FROM parcels WHERE id = $1';
     try {
-      const { rows } = await db.query(text, [req.params.parcelId]);
+      const { rows, rowCount } = await db.query(text, [req.params.parcelId]);
       if (!rows[0]) {
-        return res.status(404).send({ message: 'parcels not found' });
+        return res.status(404).send({ message: 'parcels not found', status: 404 });
       }
-      return res.status(200).send(rows[0]);
+      return res.status(200).send({
+        message: 'Success', status: 200, rowCount, data: rows[0],
+      });
     } catch (error) {
-      return res.status(400).send(error);
+      return res.status(400).send({
+        message: error, status: 400,
+      });
     }
   },
   // Cancel the specific parcel delivery order
@@ -68,33 +84,50 @@ const Parcels = {
       if (!rows[0]) {
         return res.status(404).send({ message: 'parcel not found' });
       }
-      const newParcel = new Parcel(rows[0].id, rows[0].location, rows[0].destination,
-        rows[0].length, rows[0].width, rows[0].height, rows[0].ownerId, rows[0].status,
-        rows[0].created_date, moment(new Date()));
       const updateValues = [
         'Canceled',
         moment(new Date()),
         rows[0].id,
       ];
       const response = await db.query(updateOneQuery, updateValues);
-      return res.status(200).send(response.rows[0]);
+      return res.status(200).send({
+        message: 'Success', status: 200, data: response.rows[0],
+      });
     } catch (err) {
       return res.status(400).send(err);
     }
   },
   // Change the present location of a specific parcel delivery order
-  async presentLocation(req, res) {
-    return res.status(200).send({ message: 'presentLocation' });
+  async ChangePresentLocation(req, res) {
+    return res.status(200).send({
+      message: 'presentLocation', status: 200,
+    });
   },
   // Change the location ofa specific parcel delivery order -
   // only for the user who created it
-  async destination(req, res) {
-    return res.status(200).send({ message: 'destination' });
+  async changeDestination(req, res) {
+    return res.status(200).send({
+      message: 'destination', status: 200,
+    });
   },
   // Change the status of a specific parcel delivery order -
   // This endpoint should be accessible by the Admin only
-  async status(req, res) {
-    return res.status().send({ message: 'status' });
+  async changeStatus(req, res) {
+    return res.status(200).send({
+      message: 'status', status: 200,
+    });
+  },
+  async delete(req, res) {
+    const deleteQuery = 'DELETE FROM parcels WHERE id = $1 returning *';
+    try {
+      const { rows } = await db.query(deleteQuery, [req.params.parcelId]);
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'parcels not found', status: 404 });
+      }
+      return res.status(204).send({ message: 'deleted', status: 204 });
+    } catch (error) {
+      return res.status(400).send({ message: error, status: 400 });
+    }
   },
 };
 
