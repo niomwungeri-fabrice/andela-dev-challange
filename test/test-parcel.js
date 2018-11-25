@@ -96,13 +96,13 @@ describe('PUT /api/v1/parcels/:parcelId/presentLocation', () => {
 
 describe('PUT /api/v1/parcels/:parcelId/destination', () => {
   it('should return 200 - Change the location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/destination`).end((err, res) => {
+    chai.request(app).put(`/api/v1/parcels/${validParcelId}/destination`).send({ destination: 'Uganda' }).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(200);
       done();
     });
   });
-  it.skip('should return 404 - Change the location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/destination`).end((err, res) => {
+  it('should return 404 - Change the location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/destination`).send({ destination: 'Uganda' }).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(404);
       done();
     });
@@ -118,6 +118,21 @@ describe('PUT /api/v1/parcels/:parcelId/status', () => {
   });
   it('should return 200 - Change the status of a specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/status`).send({ status: 'In Transit' }).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(200);
+      done();
+    });
+  });
+});
+describe('GET /users/<userId>/parcels', () => {
+  const invalidUserId = 'jkdfjkdkfj';
+  it('should return 404 - Fetch all parcel delivery orders by a specific user', (done) => {
+    chai.request(app).get(`/api/v1/users/${invalidUserId}/parcels/`).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(400);
+      done();
+    });
+  });
+  it('should return 200 - Fetch all parcel delivery orders by a specific user', (done) => {
+    chai.request(app).get(`/api/v1/users/${userid}/parcels/`).end((err, res) => {
       chai.expect(res.statusCode).to.be.equal(200);
       done();
     });
