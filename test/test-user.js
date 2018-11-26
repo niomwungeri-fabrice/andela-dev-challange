@@ -50,26 +50,7 @@ describe('POST /api/v1/auth/signup', () => {
   });
 });
 
-describe('GET /api/v1/auth/login', () => {
-  it('should return 400 - The credentials you provided is incorrect', (done) => {
-    chai.request(app).post('/api/v1/auth/login').send({ email: '', password: '' }).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(400);
-      done();
-    });
-  });
-  it('should return 400 - User not found', (done) => {
-    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungderi', password: '123' }).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(400);
-      done();
-    });
-  });
-  it('should return 200 - Success', (done) => {
-    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri@gmail.com', password: '123' }).end((err, res) => {
-      chai.expect(res.statusCode).to.be.equal(200);
-      done();
-    });
-  });
-});
+
 describe('DELETE /api/v1/users/:userId/delete', () => {
   it('should return 404 - User not found', (done) => {
     const email = '';

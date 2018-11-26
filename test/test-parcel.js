@@ -12,6 +12,7 @@ const invalidParcel = '6509a627-3e44-4285-ae0d-3466d5a50103';
 let validParcelId = '';
 const validUser = 'niomwungeri@gmail.com';
 let userid = '';
+let token = '';
 
 
 describe('POST /api/v1/auth/signup', () => {
@@ -30,6 +31,28 @@ describe('POST /api/v1/auth/signup', () => {
     });
   });
 });
+describe('GET /api/v1/auth/login', () => {
+  it('should return 400 - The credentials you provided is incorrect', (done) => {
+    chai.request(app).post('/api/v1/auth/login').send({ email: '', password: '' }).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(400);
+      done();
+    });
+  });
+  it('should return 400 - User not found', (done) => {
+    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungderi', password: '123' }).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(400);
+      done();
+    });
+  });
+  it('should return 200 - Success', (done) => {
+    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri@gmail.com', password: '123' }).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(200);
+      // eslint-disable-next-line prefer-destructuring
+      token = res.body.token;
+      done();
+    });
+  });
+});
 describe('GET /api/v1/users/:userId', () => {
   it('should return 200', (done) => {
     chai.request(app).get(`/api/v1/users/${validUser}`).end((err, res) => {
@@ -42,10 +65,11 @@ describe('POST /api/v1/parcels', () => {
   it('should return 201 - Create a parcel delivery order', (done) => {
     const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4, 5, 5,
       userid, 'Pending', moment(new Date()), moment(new Date()));
-    chai.request(app).post('/api/v1/parcels').send(newParcel).end((error, response) => {
-      chai.expect(response.statusCode).to.be.equal(201);
-      done();
-    });
+    chai.request(app).post('/api/v1/parcels').send(newParcel).set('x-access-token', token)
+      .end((error, response) => {
+        chai.expect(response.statusCode).to.be.equal(201);
+        done();
+      });
   });
 
   it('should return 400 - Create a parcel delivery order', (done) => {
