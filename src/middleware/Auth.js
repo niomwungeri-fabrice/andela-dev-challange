@@ -11,12 +11,12 @@ const Auth = {
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
-      const text = 'SELECT * FROM users WHERE email = $1';
-      const { rows } = await db.query(text, [decoded.email]);
+      const text = 'SELECT * FROM users WHERE id = $1';
+      const { rows } = await db.query(text, [decoded.userId]);
       if (!rows[0]) {
         results = res.status(400).send({ message: 'The token you provided is invalid' });
       }
-      req.user = { id: decoded.email };
+      req.user = { id: decoded.userId };
       next();
     } catch (error) {
       results = res.status(400).send(error);

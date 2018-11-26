@@ -8,11 +8,11 @@ const Parcels = {
   // Create a parcel delivery order
   async create(req, res) {
     const {
-      location, destination, presentLocation, length, width, height, ownerId, status,
+      location, destination, presentLocation, length, width, height,
     } = req.body;
 
     const newParcel = new Parcel(uuidv4(), location, destination, presentLocation, length, width,
-      height, ownerId, status, moment(new Date()), moment(new Date()));
+      height, req.user.id, 'Pending', moment(new Date()), moment(new Date()));
     const createQuery = `INSERT INTO
       parcels(id, location, destination ,present_location, length, width, height, owner_id, status, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)

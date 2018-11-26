@@ -21,7 +21,10 @@ const Users = {
     const createQuery = 'INSERT INTO users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
     try {
       const { rows } = await db.query(createQuery, Object.values(newUser));
-      result = res.status(201).send({ message: 'Account Created Successfully', status: 201, data: rows[0] });
+      const token = Helper.generateToken(rows[0].id);
+      result = res.status(201).send({
+        message: 'Account Created Successfully', status: 201, data: rows[0], token,
+      });
     } catch (error) {
       result = res.status(400).send(error);
     }
