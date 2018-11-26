@@ -15,18 +15,18 @@ app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to home Send
 
 
 app.get('/api/v1/parcels', Auth.verifyToken, Parcel.getAll);
-app.get('/api/v1/parcels/:parcelId', Parcel.getOne);
-app.get('/api/v1/users/:userId/parcels', Parcel.parcelByUser);
-app.get('/api/v1/users/:userId', User.userByEmail);
-app.put('/api/v1/parcels/:parcelId/cancel', Parcel.cancel);
-app.put('/api/v1/parcels/:parcelId/presentLocation', Parcel.ChangePresentLocation);
-app.put('/api/v1/parcels/:parcelId/destination', Parcel.changeDestination);
-app.put('/api/v1/parcels/:parcelId/status', Parcel.changeStatus);
+app.get('/api/v1/parcels/:parcelId', Auth.verifyToken, Parcel.getOne);
+app.get('/api/v1/users/:userId/parcels', Auth.verifyToken, Parcel.parcelByUser);
+app.get('/api/v1/users/:userId', Auth.verifyToken, User.userByEmail);
+app.put('/api/v1/parcels/:parcelId/cancel', Auth.verifyToken, Parcel.cancel);
+app.put('/api/v1/parcels/:parcelId/presentLocation', Auth.verifyToken, Parcel.ChangePresentLocation);
+app.put('/api/v1/parcels/:parcelId/destination', Auth.verifyToken, Parcel.changeDestination);
+app.put('/api/v1/parcels/:parcelId/status', Auth.verifyToken, Parcel.changeStatus);
 app.post('/api/v1/parcels', Auth.verifyToken, Parcel.create);
 app.post('/api/v1/auth/signup', User.signup);
 app.post('/api/v1/auth/login', User.login);
-app.delete('/api/v1/users/:userId/delete', User.delete);
-app.delete('/api/v1/parcels/:parcelId/delete', Parcel.delete);
+app.delete('/api/v1/users/:userId/delete', Auth.verifyToken, User.delete);
+app.delete('/api/v1/parcels/:parcelId/delete', Auth.verifyToken, Parcel.delete);
 
 // eslint-disable-next-line no-console
 app.listen(port, () => console.log(`SendIT app listening on port ${port}!`));
