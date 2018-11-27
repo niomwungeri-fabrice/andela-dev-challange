@@ -1,7 +1,7 @@
 /* Code modified from a file obtained from https://github.com/olawalejarvis/reflection_app_server */
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
-import Helper from './Helper-controller';
+import Helper from './HelperController';
 import db from '../db';
 import User from '../model/user';
 
@@ -44,7 +44,7 @@ const Users = {
         return res.status(400).send({ message: 'The credentials you provided is incorrect', status: 400 });
       }
       const token = Helper.generateToken(rows[0].id);
-      return res.status(200).send({ message: 'Successfully logged in', token });
+      return res.status(200).send({ message: 'Successfully logged in', status: 200, token });
     } catch (error) {
       return res.status(400).send(error);
     }
@@ -69,7 +69,6 @@ const Users = {
       }
       return res.status(204).send({ message: 'deleted', status: 204 });
     } catch (error) {
-      console.log(error.stack);
       return res.status(400).send({ message: error, status: 400 });
     }
   },

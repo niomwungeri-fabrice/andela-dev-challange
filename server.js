@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import 'babel-polyfill';
-import Parcel from './src/controller/Parcel-controller';
-import User from './src/controller/User-controller';
+import Parcel from './src/controller/ParcelController';
+import User from './src/controller/UserController';
 import Auth from './src/middleware/Auth';
 
 dotenv.config();
