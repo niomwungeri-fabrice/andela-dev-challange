@@ -167,18 +167,6 @@ const Parcels = {
       return res.status(400).send(err);
     }
   },
-  async delete(req, res) {
-    const deleteQuery = 'DELETE FROM parcels WHERE id = $1 AND owner_id = $2 returning *';
-    try {
-      const { rows } = await db.query(deleteQuery, [req.params.parcelId, req.user.id]);
-      if (!rows[0]) {
-        return res.status(404).send({ message: 'parcels not found', status: 404 });
-      }
-      return res.status(204).send({ message: 'deleted', status: 204 });
-    } catch (error) {
-      return res.status(400).send({ message: error, status: 400 });
-    }
-  },
 };
 
 export default Parcels;

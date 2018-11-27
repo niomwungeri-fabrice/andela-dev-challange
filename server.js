@@ -4,6 +4,7 @@ import 'babel-polyfill';
 import Parcel from './src/controller/Parcel-controller';
 import User from './src/controller/User-controller';
 import Auth from './src/middleware/Auth';
+import authRoutes from './src/routes/authRoute';
 
 dotenv.config();
 const app = express();
@@ -12,7 +13,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to home SendIT API', status: 200 }));
-
 
 app.get('/api/v1/parcels', Auth.verifyToken, Parcel.getAll);
 app.get('/api/v1/parcels/:parcelId', Auth.verifyToken, Parcel.getOne);
@@ -25,8 +25,7 @@ app.put('/api/v1/parcels/:parcelId/status', Auth.verifyToken, Parcel.changeStatu
 app.post('/api/v1/parcels', Auth.verifyToken, Parcel.create);
 app.post('/api/v1/auth/signup', User.signup);
 app.post('/api/v1/auth/login', User.login);
-app.delete('/api/v1/users/:userId/delete', Auth.verifyToken, User.delete);
-app.delete('/api/v1/parcels/:parcelId/delete', Auth.verifyToken, Parcel.delete);
+app.delete('/api/v1/users/delete', Auth.verifyToken, User.delete);
 
 // eslint-disable-next-line no-console
 app.listen(port, () => console.log(`SendIT app listening on port ${port}!`));

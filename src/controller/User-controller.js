@@ -26,7 +26,6 @@ const Users = {
         message: 'Account Created Successfully', status: 201, data: rows[0], token,
       });
     } catch (error) {
-      console.log(error, 'error');
       return res.status(400).send(error);
     }
   },
@@ -62,14 +61,15 @@ const Users = {
     }
   },
   async delete(req, res) {
-    const deleteQuery = 'DELETE FROM users WHERE email = $1 returning *';
+    const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
     try {
-      const { rows } = await db.query(deleteQuery, [req.params.userId]);
+      const { rows } = await db.query(deleteQuery, [req.user.id]);
       if (!rows[0]) {
         return res.status(404).send({ message: 'user not found', status: 404 });
       }
       return res.status(204).send({ message: 'deleted', status: 204 });
     } catch (error) {
+      console.log(error.stack);
       return res.status(400).send({ message: error, status: 400 });
     }
   },

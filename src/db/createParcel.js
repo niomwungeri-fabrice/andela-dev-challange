@@ -16,7 +16,6 @@ parcels (
 setTimeout(() => {
   db.query(createParcelsTable)
     .then(() => {
-      console.log('create parcel table');
     })
     .catch((err) => {
       console.log(err);
