@@ -4,7 +4,6 @@ import 'babel-polyfill';
 import Parcel from './src/controller/Parcel-controller';
 import User from './src/controller/User-controller';
 import Auth from './src/middleware/Auth';
-import authRoutes from './src/routes/authRoute';
 
 dotenv.config();
 const app = express();

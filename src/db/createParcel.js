@@ -20,4 +20,4 @@ setTimeout(() => {
     .catch((err) => {
       console.log(err);
     });
-}, 500);
+}, 50);

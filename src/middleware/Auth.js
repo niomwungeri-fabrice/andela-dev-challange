@@ -1,4 +1,4 @@
-
+/* Code modified from a file obtained from https://github.com/olawalejarvis/reflection_app_server */
 import jwt from 'jsonwebtoken';
 import db from '../db';
 
