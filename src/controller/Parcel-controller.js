@@ -6,7 +6,7 @@ import Parcel from '../model/parcel';
 
 const Parcels = {
   // Create a parcel delivery order
-  async create(req, res) {
+  create(req, res) {
     const {
       location, destination, presentLocation, weight,
     } = req.body;
@@ -16,16 +16,12 @@ const Parcels = {
       parcels(id, location, destination ,present_location, weight, owner_id, status, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
       returning *`;
-    try {
-      const { rows, rowCount } = await db.query(createQuery, Object.values(newParcel));
-      return res.status(201).send({
-        message: 'Success', status: 201, rowCount, data: rows,
-      });
-    } catch (error) {
-      return res.status(400).send({
-        message: error, status: 400,
-      });
-    }
+    const promise = db.query(createQuery, Object.values(newParcel));
+    promise.then((response) => {
+      res.status(201).send({ message: 'Success', status: 201, data: response });
+    }).catch((error) => {
+      res.status(400).send({ message: error, status: 400 });
+    });
   },
   // Fetch all parcel delivery orders
   async getAll(req, res) {

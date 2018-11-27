@@ -10,11 +10,11 @@ const Users = {
     const {
       email, username, firstName, lastName, userRole, password,
     } = req.body;
-    let result = {};
+
     const newUser = new User(uuidv4(), email, username, firstName, lastName, userRole,
       Helper.hashPassword(password), moment(new Date()), moment(new Date()));
     if (Helper.isValidateEmpty(req.body.email, req.body.password)) {
-      result = res.status(400).send({ message: 'Email and Password are required', status: 400 });
+      return res.status(400).send({ message: 'Email and Password are required', status: 400 });
     }
     if (!Helper.isValidEmail(req.body.email)) { return res.status(400).send({ message: 'Please enter a valid email address', status: 400 }); }
     if (req.body.routine === '_bt_check_unique') { return res.status(400).send({ message: 'User already exist', status: 400 }); }
@@ -22,35 +22,32 @@ const Users = {
     try {
       const { rows } = await db.query(createQuery, Object.values(newUser));
       const token = Helper.generateToken(rows[0].id);
-      result = res.status(201).send({
+      return res.status(201).send({
         message: 'Account Created Successfully', status: 201, data: rows[0], token,
       });
     } catch (error) {
-      result = res.status(400).send(error);
+      return res.status(400).send(error);
     }
-    return result;
   },
   // Login a user
   async login(req, res) {
-    let result = {};
     if (Helper.isValidateEmpty(req.body.email, req.body.password)) {
-      result = res.status(400).send({ message: 'Email and Password are required', status: 400 });
+      return res.status(400).send({ message: 'Email and Password are required', status: 400 });
     }
     if (!Helper.isValidEmail(req.body.email)) {
-      result = res.status(400).send({ message: 'Please enter a valid email address', status: 400 });
+      return res.status(400).send({ message: 'Please enter a valid email address', status: 400 });
     }
     const text = 'SELECT * FROM users WHERE email = $1';
     try {
       const { rows } = await db.query(text, [req.body.email]);
       if (!rows[0]) {
-        result = res.status(400).send({ message: 'The credentials you provided is incorrect', status: 400 });
+        return res.status(400).send({ message: 'The credentials you provided is incorrect', status: 400 });
       }
       const token = Helper.generateToken(rows[0].id);
-      result = res.status(200).send({ message: 'Successfully logged in', token });
+      return res.status(200).send({ message: 'Successfully logged in', token });
     } catch (error) {
-      result = res.status(400).send(error);
+      return res.status(400).send(error);
     }
-    return result;
   },
   async userByEmail(req, res) {
     const text = 'SELECT * FROM users WHERE email = $1';
