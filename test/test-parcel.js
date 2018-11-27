@@ -16,7 +16,7 @@ let token = '';
 
 
 describe('POST /api/v1/auth/signup', () => {
-  it('should return 200 - Register a user', (done) => {
+  it('should return 201 - Register a user', (done) => {
     const newUser = {
       email: 'niomwungeri@gmail.com',
       firstName: 'admin',

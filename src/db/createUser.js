@@ -15,7 +15,6 @@ const queryText = `CREATE TABLE IF NOT EXISTS
 (() => {
   db.query(queryText)
     .then(() => {
-      console.log('create User table');
     })
     .catch((err) => {
       console.log(err);
