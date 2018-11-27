@@ -1,6 +1,19 @@
 language: node_js
 node_js:
-  - "node"
+  - "stable"
+addons:
+  postgresql: "9.6"
+services:
+  - postgresql
+cache:
+  directories:
+    - "node_modules"
+before_script:
+   - psql -c 'create database sendit_test;' -U postgres
+before_install:
+  - npm i -g npm@6.4.1
+script: 
+  - npm test
 after_success:
   - npm run coveralls
 notifications:
