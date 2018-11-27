@@ -26,6 +26,7 @@ const Users = {
         message: 'Account Created Successfully', status: 201, data: rows[0], token,
       });
     } catch (error) {
+      console.log(error, 'error');
       return res.status(400).send(error);
     }
   },
