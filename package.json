@@ -35,7 +35,7 @@
   },
   "scripts": {
     "createTable":"NODE_ENV=test node --require babel-core/register src/db/createTable.js --exit",
-    "test": "NODE_ENV=test nyc mocha --require babel-core/register ./test/ --exit",
+    "test": "npm run createTable && NODE_ENV=test nyc mocha --require babel-core/register ./test/ --exit",
     "start": "NODE_ENV=test nodemon server.js --exec babel-node --",
     "nyc": "nyc npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
