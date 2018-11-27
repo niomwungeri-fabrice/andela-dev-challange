@@ -10,7 +10,7 @@ cache:
     - "node_modules"
 before_install:
   - npm i -g npm@6.4.1
-  - psql -c 'create database sendit;' -U postgres
+  - psql -c 'create database sendit_test;' -U postgres
 script: npm test
 after_success:
   - npm run coveralls
