@@ -1,6 +1,6 @@
 # SendIT 
 
-[![Build Status](https://travis-ci.org/niomwungeri-fabrice/andela-dev-challange.svg?branch=develop)](https://travis-ci.org/niomwungeri-fabrice/andela-dev-challange) [![Maintainability](https://api.codeclimate.com/v1/badges/ca5d6803d2613e3f1ec8/maintainability)](https://codeclimate.com/github/niomwungeri-fabrice/andela-dev-challange/maintainability) [![Coverage Status](https://coveralls.io/repos/github/niomwungeri-fabrice/andela-dev-challange/badge.svg)](https://coveralls.io/github/niomwungeri-fabrice/andela-dev-challange)
+[![Build Status](https://travis-ci.org/niomwungeri-fabrice/andela-dev-challange.svg?branch=develop)](https://travis-ci.org/niomwungeri-fabrice/andela-dev-challange) [![Maintainability](https://api.codeclimate.com/v1/badges/ca5d6803d2613e3f1ec8/maintainability)](https://codeclimate.com/github/niomwungeri-fabrice/andela-dev-challange/maintainability) [![Coverage Status](https://coveralls.io/repos/github/niomwungeri-fabrice/andela-dev-challange/badge.svg?branch=develop)](https://coveralls.io/github/niomwungeri-fabrice/andela-dev-challange?branch=develop)
 
 ## Project Overview
 
@@ -19,7 +19,7 @@ provides courier quotes based on weight categories.
 | `PUT /api/v1/parcels/:parcelId/presentLocation` | Change the present location of a specific parcel |
 | `PUT /api/v1/parcels/:parcelId/destination` | Change the location of a specific parcel delivery order |
 | `PUT /api/v1/parcels/:parcelId/status` | Change the status of a specific parcel delivery order |
-| `DELETE /api/v1/users/:userId/delete` | Delete a user |
+| `DELETE /api/v1/users/delete` | Delete a user |
 
 ## Project links
 UI : https://niomwungeri-fabrice.github.io/andela-dev-challange/<br>
