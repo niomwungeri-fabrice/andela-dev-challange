@@ -6,7 +6,6 @@ const Helper = {
   hashPassword(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
   },
-
   comparePassword(hashPassword, password) {
     return bcrypt.compareSync(password, hashPassword);
   },
@@ -14,7 +13,7 @@ const Helper = {
   isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   },
-  isValidatEmpty(email, password) {
+  isValidateEmpty(email, password) {
     if (!email || !password) {
       return true;
     }

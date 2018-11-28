@@ -15,13 +15,6 @@ describe('POST /api/v1/auth/signup', () => {
       done();
     });
   });
-  it('should return 400 - The credentials you provided is incorrect', (done) => {
-    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri@gmail.com', password: '123revc' }).end((err, res) => {
-      res.body.should.have.status(400);
-      res.body.should.have.property('message').equal('The credentials you provided is incorrect');
-      done();
-    });
-  });
   it('should return 400 - Email and Password are required', (done) => {
     const newUser = {
       email: '',
@@ -31,7 +24,7 @@ describe('POST /api/v1/auth/signup', () => {
       password: '123',
       username: '',
     };
-    chai.request(app).post('/api/v1/auth/signup')
+    chai.request(app).post('/api/v1/auth/signup').set('x-access-token', token)
       .send(newUser)
       .end((err, res) => {
         res.body.should.have.status(400);
@@ -59,11 +52,10 @@ describe('POST /api/v1/auth/signup', () => {
 
 // delete not working as expected
 describe('DELETE /api/v1/users/delete', () => {
-  it('should return 204 - User found', (done) => {
-    chai.request(app).delete('/api/v1/users/delete').set('x-access-token', token)
-      .end((err, res) => {
-        chai.expect(res.statusCode).to.be.equal(204);
-        done();
-      });
+  it('should return 204 - User not found', (done) => {
+    chai.request(app).delete('/api/v1/users/delete').set('x-access-token', token).end((err, res) => {
+      chai.expect(res.statusCode).to.be.equal(204);
+      done();
+    });
   });
 });

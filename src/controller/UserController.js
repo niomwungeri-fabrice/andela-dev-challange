@@ -10,8 +10,13 @@ const Users = {
     const {
       email, username, firstName, lastName, userRole, password,
     } = req.body;
+
     const newUser = new User(uuidv4(), email, username, firstName, lastName, userRole,
       Helper.hashPassword(password), moment(new Date()), moment(new Date()));
+    if (Helper.isValidateEmpty(req.body.email, req.body.password)) {
+      return res.status(400).send({ message: 'Email and Password are required', status: 400 });
+    }
+    if (!Helper.isValidEmail(req.body.email)) { return res.status(400).send({ message: 'Please enter a valid email address', status: 400 }); }
     const createQuery = 'INSERT INTO users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
     try {
       const { rows } = await db.query(createQuery, Object.values(newUser));
@@ -25,10 +30,16 @@ const Users = {
   },
   // Login a user
   async login(req, res) {
+    if (Helper.isValidateEmpty(req.body.email, req.body.password)) {
+      return res.status(400).send({ message: 'Email and Password are required', status: 400 });
+    }
+    if (!Helper.isValidEmail(req.body.email)) {
+      return res.status(400).send({ message: 'Please enter a valid email address', status: 400 });
+    }
     const text = 'SELECT * FROM users WHERE email = $1';
     try {
       const { rows } = await db.query(text, [req.body.email]);
-      if (!Helper.comparePassword(rows[0].password, req.body.password)) {
+      if (!rows[0]) {
         return res.status(400).send({ message: 'The credentials you provided is incorrect', status: 400 });
       }
       const token = Helper.generateToken(rows[0].id);
