@@ -17,7 +17,6 @@ const Users = {
       return res.status(400).send({ message: 'Email and Password are required', status: 400 });
     }
     if (!Helper.isValidEmail(req.body.email)) { return res.status(400).send({ message: 'Please enter a valid email address', status: 400 }); }
-    if (req.body.routine === '_bt_check_unique') { return res.status(400).send({ message: 'User already exist', status: 400 }); }
     const createQuery = 'INSERT INTO users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
     try {
       const { rows } = await db.query(createQuery, Object.values(newUser));
@@ -46,7 +45,7 @@ const Users = {
       const token = Helper.generateToken(rows[0].id);
       return res.status(200).send({ message: 'Successfully logged in', status: 200, token });
     } catch (error) {
-      return res.status(400).send(error);
+      return res.status(400).send({ message: error, status: 400 });
     }
   },
   async userByEmail(req, res) {

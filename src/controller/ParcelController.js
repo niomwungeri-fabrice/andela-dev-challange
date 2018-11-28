@@ -49,7 +49,6 @@ const Parcels = {
         message: 'Success', status: 200, rowCount, data: rows[0],
       });
     } catch (error) {
-      console.log(error.stack);
       return res.status(400).send({
         message: error, status: 400,
       });
