@@ -4,6 +4,13 @@ import uuidv4 from 'uuid/v4';
 import db from '../db';
 import Parcel from '../model/parcel';
 
+const parcelStatus = {
+  PENDING: 'PENDING',
+  IN_TRANSIT: 'IN_TRANSIT',
+  ARRIVED: 'ARRIVED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+};
 const Parcels = {
   // Create a parcel delivery order
   async create(req, res) {
@@ -11,7 +18,7 @@ const Parcels = {
       location, destination, presentLocation, weight, receiverPhone,
     } = req.body;
     const newParcel = new Parcel(uuidv4(), location, destination, presentLocation, weight,
-      req.user.id, receiverPhone, 'Pending', moment(new Date()), moment(new Date()));
+      req.user.id, receiverPhone, parcelStatus.PENDING, moment(new Date()), moment(new Date()));
     const createQuery = `INSERT INTO
       parcels(id, location, destination ,present_location, weight, owner_id, receiver_phone, status, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
@@ -84,15 +91,16 @@ const Parcels = {
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (rows[0]) {
-        if (rows[0].status.toUpperCase() === 'delivered'.toUpperCase() || rows[0].status.toUpperCase() === 'Cancelled'.toUpperCase()) {
-          return res.status(400).send({ message: 'Ooops, The parcel has been delived or concelled already, Cancel denied!', status: 400 });
+        if (rows[0].status === parcelStatus.ARRIVED || rows[0].status === parcelStatus.DELIVERED
+          || rows[0].status === parcelStatus.CANCELLED) {
+          return res.status(400).send({ message: 'Ooops, The parcel has been delived or cancelled already, Cancel denied!', status: 400 });
         }
       }
       if (!rows[0]) {
         return res.status(404).send({ message: 'parcel not found', status: 404 });
       }
       const updateValues = [
-        'Cancelled',
+        parcelStatus.CANCELLED,
         moment(new Date()),
         rows[0].id,
         req.user.id,
