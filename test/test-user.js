@@ -51,7 +51,8 @@ describe('POST /api/v1/auth/signup', () => {
     chai.request(app).post('/api/v1/auth/signup').set('x-access-token', token).send(newUser)
       .set('x-access-token', token)
       .end((err, res) => {
-        res.body.should.have.property('routine').equal('_bt_check_unique');
+        res.body.should.have.property('message');
+        res.body.should.have.status(409);
         done();
       });
   });

@@ -8,6 +8,7 @@ parcels (
   present_location VARCHAR(128),
   weight INTEGER NOT NULL,
   owner_id UUID NOT NULL,
+  receiver_phone VARCHAR(128) NOT NULL,
   status VARCHAR(128) NOT NULL,
   created_date TIMESTAMP,
   modified_date TIMESTAMP,

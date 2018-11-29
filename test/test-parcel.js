@@ -10,11 +10,14 @@ import Parcel from '../src/model/parcel';
 chai.use(chaiHttp);
 // eslint-disable-next-line no-unused-vars
 const should = chai.should();
-const invalidParcel = '6509a627-3e44-4285-ae0d-3466d5a50103';
+const invalidParcel = '6509a627-3e44-4285';
+const correctParcelIdFormat = 'ae682c8a-16d4-4a49-9bed-f2114810efab';
 let validParcelId = '';
 const validUser = 'niomwungeri@gmail.com';
 let userid = '';
 let token = '';
+const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4,
+  userid, '0487389934', 'Pending', moment(new Date()), moment(new Date()));
 
 
 describe('POST /api/v1/auth/signup', () => {
@@ -75,8 +78,6 @@ describe('GET /api/v1/users/:userId', () => {
 });
 describe('POST /api/v1/parcels', () => {
   it('should return 201 - Create a parcel delivery order', (done) => {
-    const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4,
-      userid, 'Pending', moment(new Date()), moment(new Date()));
     chai.request(app).post('/api/v1/parcels').set('x-access-token', token).send(newParcel)
       .end((error, res) => {
         res.should.have.status(201);
@@ -91,16 +92,14 @@ describe('POST /api/v1/parcels', () => {
   });
 
   it('should return 400 - Create a parcel delivery order', (done) => {
-    const parcels = {};
-    chai.request(app).post('/api/v1/parcels/').send(parcels).end((err, res) => {
+    chai.request(app).post('/api/v1/parcels/').send(newParcel).end((err, res) => {
       res.should.have.status(400);
       res.body.should.have.property('message').eql('Token is not provided');
       done();
     });
   });
   it('should return 400 - Create a parcel delivery order with wrong token', (done) => {
-    const parcels = {};
-    chai.request(app).post('/api/v1/parcels/').set('x-access-token', `${token}kdfe3`).send(parcels)
+    chai.request(app).post('/api/v1/parcels/').set('x-access-token', `${token}kdfe3`).send(newParcel)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('name').eql('JsonWebTokenError');
@@ -108,14 +107,32 @@ describe('POST /api/v1/parcels', () => {
         done();
       });
   });
-  it('should return 400 - Create a parcel delivery order with token', (done) => {
-    const parcels = {};
+  it('should return 400 - Weight must be a number and greater than zero', (done) => {
+    const parcels = { weight: -4 };
     chai.request(app).post('/api/v1/parcels/').set('x-access-token', token).send(parcels)
       .end((err, res) => {
-        res.body.message.should.have.property('code').equal('23502');
+        res.body.should.have.property('status').equal(400);
+        done();
+      });
+  });
+  it('should return 400 - location, destination, presentation location must be greater than 3 digits and phone number greater than 9', (done) => {
+    const parcels = {
+      weight: 8, location: 'Ke', presentLocation: 'Kigali', destination: 'Mombasa', receiverPhone: '0487389934',
+    };
+    chai.request(app).post('/api/v1/parcels/').set('x-access-token', token).send(parcels)
+      .end((err, res) => {
+        res.body.should.have.property('message').eql('location, destination, presentation location must be greater than 3 digits and phone number greater than 9');
         res.should.have.status(400);
         done();
       });
+  });
+});
+describe('GET /api/v1/parcels/:parcelId', () => {
+  it('should return 400 - Fetch all parcel delivery orders', (done) => {
+    chai.request(app).get(`/api/v1/parcels/${invalidParcel}`).set('x-access-token', token).end((err, res) => {
+      res.body.should.have.property('message').eql('Invalid Id');
+      done();
+    });
   });
 });
 describe('GET /api/v1/parcels', () => {
@@ -137,12 +154,21 @@ describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
         done();
       });
   });
-  it('should return 404 - Cancel the specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/cancel`)
+  it('should return 400 - Cancel the specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/cancel`)
       .set('x-access-token', token).end((err, res) => {
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.should.have.status(404);
+        res.body.should.have.status(400);
+        done();
+      });
+  });
+  it('should return 400 - The parcel has been delived or concelled already, Cancel denied!', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${validParcelId}/cancel`)
+      .set('x-access-token', token).end((err, res) => {
+        res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.status(400);
         done();
       });
   });
@@ -157,11 +183,11 @@ describe('PUT /api/v1/parcels/:parcelId/presentLocation', () => {
         done();
       });
   });
-  it('should return 404 - Change the present location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/presentLocation`)
+  it('should return 400 - Change the present location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/presentLocation`)
       .set('x-access-token', token).end((err, res) => {
         res.body.should.be.a('object');
-        res.body.should.have.status(404);
+        res.body.should.have.status(400);
         done();
       });
   });
@@ -176,12 +202,12 @@ describe('PUT /api/v1/parcels/:parcelId/destination', () => {
         done();
       });
   });
-  it('should return 404 - Change the location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/destination`).set('x-access-token', token)
+  it('should return 400 - Change the location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/destination`).set('x-access-token', token)
       .send({ destination: 'Uganda' })
       .end((err, res) => {
         res.body.should.have.property('message');
-        res.body.should.have.status(404);
+        res.body.should.have.status(400);
         done();
       });
   });
@@ -197,11 +223,11 @@ describe('PUT /api/v1/parcels/:parcelId/status', () => {
         done();
       });
   });
-  it('should return 404 - Change the status of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/status`).set('x-access-token', token)
+  it('should return 400 - Change the status of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/status`).set('x-access-token', token)
       .end((err, res) => {
         res.body.should.have.property('message');
-        res.body.should.have.status(404);
+        res.body.should.have.status(400);
         done();
       });
   });
