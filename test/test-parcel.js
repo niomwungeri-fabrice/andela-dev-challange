@@ -175,12 +175,13 @@ describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
         done();
       });
   });
-  it('should return 400 - Cancel the specific parcel delivery order', (done) => {
+  it('should return 404 - Parcel not found', (done) => {
     chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/cancel`)
       .set('x-access-token', token).end((err, res) => {
+        console.log(res.body);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
-        res.body.should.have.status(400);
+        res.body.should.have.status(404);
         done();
       });
   });
@@ -208,7 +209,7 @@ describe('PUT /api/v1/parcels/:parcelId/presentLocation', () => {
     chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/presentLocation`)
       .set('x-access-token', token).end((err, res) => {
         res.body.should.be.a('object');
-        res.body.should.have.status(400);
+        res.body.should.have.status(404);
         done();
       });
   });
@@ -228,7 +229,7 @@ describe('PUT /api/v1/parcels/:parcelId/destination', () => {
       .send({ destination: 'Uganda' })
       .end((err, res) => {
         res.body.should.have.property('message');
-        res.body.should.have.status(400);
+        res.body.should.have.status(404);
         done();
       });
   });
@@ -248,7 +249,7 @@ describe('PUT /api/v1/parcels/:parcelId/status', () => {
     chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/status`).set('x-access-token', token)
       .end((err, res) => {
         res.body.should.have.property('message');
-        res.body.should.have.status(400);
+        res.body.should.have.status(404);
         done();
       });
   });

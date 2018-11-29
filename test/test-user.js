@@ -39,7 +39,7 @@ describe('POST /api/v1/auth/signup', () => {
         done();
       });
   });
-  it('should return 200 - Check Unique', (done) => {
+  it('should return 409 - Check Unique', (done) => {
     const newUser = {
       email: 'niomwungeri@gmail.com',
       firstName: 'admin',
@@ -58,7 +58,7 @@ describe('POST /api/v1/auth/signup', () => {
   });
 });
 
-// delete not working as expected
+// to be verified
 describe('DELETE /api/v1/users/delete', () => {
   it('should return 204 - User found', (done) => {
     chai.request(app).delete('/api/v1/users/delete').set('x-access-token', token)

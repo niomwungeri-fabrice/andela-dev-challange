@@ -89,7 +89,7 @@ const Parcels = {
         }
       }
       if (!rows[0]) {
-        return res.status(400).send({ message: 'parcel not found', status: 400 });
+        return res.status(404).send({ message: 'parcel not found', status: 404 });
       }
       const updateValues = [
         'Cancelled',
@@ -114,7 +114,7 @@ const Parcels = {
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
-        return res.status(400).send({ message: 'Parcel not found', status: 400 });
+        return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
       const updateValues = [
         req.body.presentLocation,
@@ -138,7 +138,7 @@ const Parcels = {
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
-        return res.status(400).send({ message: 'Parcel not found', status: 400 });
+        return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
       const updateValues = [
         req.body.destination,
@@ -162,7 +162,7 @@ const Parcels = {
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
-        return res.status(400).send({ message: 'Parcel not found', status: 400 });
+        return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
       const updateValues = [
         req.body.status,
