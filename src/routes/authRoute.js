@@ -1,15 +1,15 @@
 import express from 'express';
 import UserControllers from '../controller/UserController';
-import Auth from '../middleware/Auth';
+import Helper from '../controller/HelperController';
 
 
 const authRoute = express.Router();
 
 authRoute.route('/signup')
-  .post(Auth.UserValidation, UserControllers.signup);
+  .post(Helper.userValidator, UserControllers.signup);
 
 authRoute.route('/login')
-  .post(Auth.UserValidation, UserControllers.login);
+  .post(Helper.userValidator, UserControllers.login);
 
 
 export default authRoute;

@@ -1,13 +1,14 @@
 import express from 'express';
 import Auth from '../middleware/Auth';
 import ParcelController from '../controller/ParcelController';
+import Helper from '../controller/HelperController';
 
 const parcelRoute = express.Router();
 
 parcelRoute.route('/')
   .get(Auth.verifyToken, ParcelController.getAll)
-  .post(Auth.verifyToken, ParcelController.create);
-
+  .post(Helper.parcelValidor, Auth.verifyToken, ParcelController.create);
+// create Helper method for these routes
 parcelRoute.route('/:parcelId')
   .get(Auth.verifyToken, ParcelController.getOne);
 

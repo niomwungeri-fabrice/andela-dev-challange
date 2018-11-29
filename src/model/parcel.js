@@ -1,5 +1,5 @@
 class Parcel {
-  constructor(id, location, destination, presentLocation, weight, ownerId, status,
+  constructor(id, location, destination, presentLocation, weight, ownerId, receiverPhone, status,
     createdDate, modifiedDate) {
     this.id = id;
     this.location = location;
@@ -7,6 +7,7 @@ class Parcel {
     this.presentLocation = presentLocation;
     this.weight = weight;
     this.ownerId = ownerId;
+    this.receiverPhone = receiverPhone;
     this.status = status;
     this.createdDate = createdDate;
     this.modifiedDate = modifiedDate;

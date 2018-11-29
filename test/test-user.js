@@ -39,7 +39,7 @@ describe('POST /api/v1/auth/signup', () => {
         done();
       });
   });
-  it('should return 200 - Check Unique', (done) => {
+  it('should return 409 - Check Unique', (done) => {
     const newUser = {
       email: 'niomwungeri@gmail.com',
       firstName: 'admin',
@@ -51,13 +51,14 @@ describe('POST /api/v1/auth/signup', () => {
     chai.request(app).post('/api/v1/auth/signup').set('x-access-token', token).send(newUser)
       .set('x-access-token', token)
       .end((err, res) => {
-        res.body.should.have.property('routine').equal('_bt_check_unique');
+        res.body.should.have.property('message');
+        res.body.should.have.status(409);
         done();
       });
   });
 });
 
-// delete not working as expected
+// to be verified
 describe('DELETE /api/v1/users/delete', () => {
   it('should return 204 - User found', (done) => {
     chai.request(app).delete('/api/v1/users/delete').set('x-access-token', token)

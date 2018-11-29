@@ -20,6 +20,9 @@ const Users = {
         message: 'Account Created Successfully', status: 201, data: rows[0], token,
       });
     } catch (error) {
+      if (error.routine === '_bt_check_unique') {
+        return res.status(409).send({ message: `User with this email '${req.body.email}' already exist`, status: 409 });
+      }
       return res.status(400).send(error);
     }
   },
@@ -28,6 +31,9 @@ const Users = {
     const text = 'SELECT * FROM users WHERE email = $1';
     try {
       const { rows } = await db.query(text, [req.body.email]);
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'User does not exist' });
+      }
       if (!Helper.comparePassword(rows[0].password, req.body.password)) {
         return res.status(400).send({ message: 'The credentials you provided is incorrect', status: 400 });
       }
