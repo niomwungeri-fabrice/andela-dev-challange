@@ -16,6 +16,7 @@ let validParcelId = '';
 const validUser = 'niomwungeri@gmail.com';
 let userid = '';
 let token = '';
+const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNTdlOGFkYi0wNjFjLTQ5OTgtYjlmOS05ZDlhZWMyMWU0MWMiLCJpYXQiOjE1NDM0MTEzMTksImV4cCI6MTU0NDAxNjExOX0.GJdPwQ0TCTu1PQrm5fagypveK1LEOqh25Kr3iDhMvZA';
 const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4,
   userid, '0487389934', 'Pending', moment(new Date()), moment(new Date()));
 
@@ -98,12 +99,21 @@ describe('POST /api/v1/parcels', () => {
       done();
     });
   });
-  it('should return 400 - Create a parcel delivery order with wrong token', (done) => {
+  it('should return 400 - Create a parcel delivery order - invalid signature', (done) => {
     chai.request(app).post('/api/v1/parcels/').set('x-access-token', `${token}kdfe3`).send(newParcel)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('name').eql('JsonWebTokenError');
-        res.body.should.have.property('message');
+        res.body.should.have.property('message').eql('invalid signature');
+        done();
+      });
+  });
+
+  it('should return 400 - Create a parcel delivery order - The token you provided is invalid', (done) => {
+    chai.request(app).post('/api/v1/parcels/').set('x-access-token', `${invalidToken}`).send(newParcel)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('message').eql('The token you provided is invalid');
         done();
       });
   });

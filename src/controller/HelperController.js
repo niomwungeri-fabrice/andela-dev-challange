@@ -32,12 +32,6 @@ const Helper = {
     const {
       location, destination, presentLocation, weight, receiverPhone,
     } = req.body;
-    if (location === '' || destination === '' || presentLocation === ''
-    || weight === '' || receiverPhone === '') {
-      return res.status(400).send({
-        message: 'Fields are required', status: 400,
-      });
-    }
     if (typeof weight !== 'number' || weight <= 0) {
       return res.status(400).send({
         message: 'Weight must be a number and greater than zero', status: 400,
