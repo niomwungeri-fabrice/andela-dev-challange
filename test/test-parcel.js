@@ -49,7 +49,7 @@ describe('GET /api/v1/auth/login', () => {
     });
   });
   it('should return 400 - User not found', (done) => {
-    chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungderi', password: '123' }).end((err, res) => {
+    chai.request(app).post('/api/v1/auth/login').send({ email: '12345', password: '123' }).end((err, res) => {
       res.body.should.have.property('message').eql('Please enter a valid email address');
       res.should.have.status(400);
       done();
@@ -132,6 +132,17 @@ describe('POST /api/v1/parcels', () => {
     chai.request(app).post('/api/v1/parcels/').set('x-access-token', token).send(parcels)
       .end((err, res) => {
         res.body.should.have.property('message').eql('location, destination, presentation location must be greater than 3 digits and phone number greater than 9');
+        res.should.have.status(400);
+        done();
+      });
+  });
+  it('should return 400 - location, destination, presentation location, phone must be strings', (done) => {
+    const parcels = {
+      weight: 8, location: 5, presentLocation: 'Kigali', destination: 'Mombasa', receiverPhone: '0487389934',
+    };
+    chai.request(app).post('/api/v1/parcels/').set('x-access-token', token).send(parcels)
+      .end((err, res) => {
+        res.body.should.have.property('message').eql('location, destination, presentation location, phone must be strings');
         res.should.have.status(400);
         done();
       });
