@@ -77,6 +77,37 @@ describe('GET /api/v1/users/:userId', () => {
       });
   });
 });
+
+describe('GET /api/v1/users/:userId/parcels', () => {
+  it('should return 400 - update', (done) => {
+    chai.request(app).put('/api/v1/users/update')
+      .set('x-access-token', token)
+      .send({ userRole: '' })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
+  it('should return 400 - status ', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${validUser}/status`)
+      .set('x-access-token', token)
+      .send({ status: '' })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
+  it('should return 400 - presentLocation ', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${validUser}/presentLocation`)
+      .set('x-access-token', token)
+      .send({ presentLocation: '' })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
+});
+
 describe('POST /api/v1/parcels', () => {
   it('should return 201 - Create a parcel delivery order', (done) => {
     chai.request(app).post('/api/v1/parcels').set('x-access-token', token).send(newParcel)
@@ -148,15 +179,46 @@ describe('POST /api/v1/parcels', () => {
       });
   });
 });
-describe('GET /api/v1/parcels/:parcelId', () => {
+describe('Forbidden', () => {
+  it('should return 403 - Forbidden', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/presentLocation`)
+      .set('x-access-token', token)
+      .send({ presentLocation: 'Mombasa' })
+      .end((err, res) => {
+        res.body.should.have.status(403);
+        done();
+      });
+  });
+  // from status
+  it('should return 403 - Forbidden', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/status`)
+      .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
+      .end((err, res) => {
+        res.body.should.have.status(403);
+        done();
+      });
+  });
+});
+// admin
+describe('GET /api/v1/parcels', () => {
+  it('should return 200 - Change User Role', (done) => {
+    chai.request(app).put('/api/v1/users/update')
+      .set('x-access-token', token)
+      .send({ userRole: 'ADMIN' })
+      .end((err, res) => {
+        res.body.should.have.status(200);
+        done();
+      });
+  });
+});
+describe('GET /api/v1/parcels/:parcel', () => {
   it('should return 400 - Fetch all parcel delivery orders', (done) => {
     chai.request(app).get(`/api/v1/parcels/${invalidParcel}`).set('x-access-token', token).end((err, res) => {
       res.body.should.have.property('message').eql('Invalid Id');
       done();
     });
   });
-});
-describe('GET /api/v1/parcels', () => {
+  // require admin
   it('should return 200 - Fetch all parcel delivery orders', (done) => {
     chai.request(app).get('/api/v1/parcels').set('x-access-token', token).end((err, res) => {
       res.body.should.have.property('message');
@@ -166,6 +228,7 @@ describe('GET /api/v1/parcels', () => {
     });
   });
 });
+
 describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
   it('should return 200 - Cancel the specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/cancel`)
@@ -187,29 +250,9 @@ describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
   it('should return 400 - The parcel has been delived or concelled already, Cancel denied!', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/cancel`)
       .set('x-access-token', token).end((err, res) => {
-        console.log(res.body);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
         res.body.should.have.status(400);
-        done();
-      });
-  });
-});
-describe('PUT /api/v1/parcels/:parcelId/presentLocation', () => {
-  it('should return 200 - Change the present location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${validParcelId}/presentLocation`)
-      .set('x-access-token', token).send({ presentLocation: 'Mombasa' })
-      .end((err, res) => {
-        res.body.data.should.have.property('present_location').eql('Mombasa');
-        res.body.should.have.status(200);
-        done();
-      });
-  });
-  it('should return 400 - Change the present location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/presentLocation`)
-      .set('x-access-token', token).end((err, res) => {
-        res.body.should.be.a('object');
-        res.body.should.have.status(404);
         done();
       });
   });
@@ -234,26 +277,6 @@ describe('PUT /api/v1/parcels/:parcelId/destination', () => {
       });
   });
 });
-
-describe('PUT /api/v1/parcels/:parcelId/status', () => {
-  it('should return 200 - Change the status of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${validParcelId}/status`)
-      .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
-      .end((err, res) => {
-        res.body.data.should.have.property('status').eql('IN_TRANSIT');
-        res.body.should.have.status(200);
-        done();
-      });
-  });
-  it('should return 400 - Change the status of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/status`).set('x-access-token', token)
-      .end((err, res) => {
-        res.body.should.have.property('message');
-        res.body.should.have.status(404);
-        done();
-      });
-  });
-});
 describe('GET /users/<userId>/parcels', () => {
   it('should return 200 - Fetch all parcel delivery orders by a specific user', (done) => {
     chai.request(app).get(`/api/v1/users/${userid}/parcels`).set('x-access-token', token).end((err, res) => {
@@ -261,5 +284,56 @@ describe('GET /users/<userId>/parcels', () => {
       res.body.should.have.property('message').eql('Success');
       done();
     });
+  });
+});
+describe('PUT /api/v1/parcels/:parcelId/presentLocation', () => {
+  it('should return 200 - Authorized', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${validParcelId}/presentLocation`)
+      .set('x-access-token', token)
+      .send({ presentLocation: 'Mombasa' })
+      .end((err, res) => {
+        res.body.should.have.status(200);
+        done();
+      });
+  });
+  // from status
+  it('should return 200 - Authorized', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${validParcelId}/status`)
+      .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
+      .end((err, res) => {
+        res.body.should.have.status(200);
+        done();
+      });
+  });
+  it('should return 400 - Change the present location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/presentLocation`)
+      .set('x-access-token', token)
+      .send({ presentLocation: 'Kacyiru' })
+      .end((err, res) => {
+        res.body.should.be.a('object');
+        res.body.should.have.status(404);
+        done();
+      });
+  });
+  // pass
+  it('should return 200 - Status changed Successfully ', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${validParcelId}/status`)
+      .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
+      .end((err, res) => {
+        res.body.should.have.status(200);
+        done();
+      });
+  });
+});
+
+describe('PUT /api/v1/parcels/:parcelId/status', () => {
+  it('should return 400 - Change the status of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/status`)
+      .set('x-access-token', token).send({ status: 'ARRIVED' })
+      .end((err, res) => {
+        res.body.should.have.property('message');
+        res.body.should.have.status(404);
+        done();
+      });
   });
 });

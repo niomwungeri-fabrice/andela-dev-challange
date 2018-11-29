@@ -23,6 +23,18 @@ const Auth = {
       return res.status(400).send(error);
     }
   },
+  async sucureRoute(req, res, next) {
+    try {
+      const text = 'SELECT * FROM users WHERE id = $1';
+      const { rows } = await db.query(text, [req.user.id]);
+      if (rows[0].user_role !== 'ADMIN') {
+        return res.status(403).send({ message: 'Forbidden', status: 403 });
+      }
+      next();
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
 };
 
 export default Auth;

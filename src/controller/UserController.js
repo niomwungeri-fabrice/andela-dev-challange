@@ -70,6 +70,27 @@ const Users = {
       return res.status(400).send({ message: error, status: 400 });
     }
   },
+  async updateUser(req, res) {
+    const selectOneQuery = 'SELECT * FROM users WHERE id=$1';
+    const updateOneQuery = 'UPDATE users SET user_role=$1, modified_date=$2 WHERE id=$3';
+    try {
+      const { rows } = await db.query(selectOneQuery, [req.user.id]);
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'user not found', status: 404 });
+      }
+      const updateValues = [
+        req.body.userRole,
+        moment(new Date()),
+        rows[0].id,
+      ];
+      const response = await db.query(updateOneQuery, updateValues);
+      return res.status(200).send({
+        message: 'Success', status: 200, data: response.rows[0],
+      });
+    } catch (error) {
+      return res.status(400).send({ message: error, status: 400 });
+    }
+  },
 };
 
 export default Users;
