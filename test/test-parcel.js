@@ -18,7 +18,7 @@ let userid = '';
 let token = '';
 const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNTdlOGFkYi0wNjFjLTQ5OTgtYjlmOS05ZDlhZWMyMWU0MWMiLCJpYXQiOjE1NDM0MTEzMTksImV4cCI6MTU0NDAxNjExOX0.GJdPwQ0TCTu1PQrm5fagypveK1LEOqh25Kr3iDhMvZA';
 const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4,
-  userid, '0487389934', 'Pending', moment(new Date()), moment(new Date()));
+  userid, '0487389934', 'PENDING', moment(new Date()), moment(new Date()));
 
 
 describe('POST /api/v1/auth/signup', () => {
@@ -170,7 +170,7 @@ describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
   it('should return 200 - Cancel the specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/cancel`)
       .set('x-access-token', token).end((err, res) => {
-        res.body.data.should.have.property('status').eql('Cancelled');
+        res.body.data.should.have.property('status').eql('CANCELLED');
         res.body.should.have.status(200);
         done();
       });
@@ -178,7 +178,6 @@ describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
   it('should return 404 - Parcel not found', (done) => {
     chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/cancel`)
       .set('x-access-token', token).end((err, res) => {
-        console.log(res.body);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
         res.body.should.have.status(404);
@@ -188,6 +187,7 @@ describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
   it('should return 400 - The parcel has been delived or concelled already, Cancel denied!', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/cancel`)
       .set('x-access-token', token).end((err, res) => {
+        console.log(res.body);
         res.body.should.be.a('object');
         res.body.should.have.property('message');
         res.body.should.have.status(400);
@@ -238,9 +238,9 @@ describe('PUT /api/v1/parcels/:parcelId/destination', () => {
 describe('PUT /api/v1/parcels/:parcelId/status', () => {
   it('should return 200 - Change the status of a specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/status`)
-      .set('x-access-token', token).send({ status: 'In Transit' })
+      .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
       .end((err, res) => {
-        res.body.data.should.have.property('status').eql('In Transit');
+        res.body.data.should.have.property('status').eql('IN_TRANSIT');
         res.body.should.have.status(200);
         done();
       });

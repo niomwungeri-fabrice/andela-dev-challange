@@ -27,7 +27,6 @@ describe('POST /api/v1/auth/signup', () => {
       email: '',
       firstName: 'admin',
       lastName: 'admin',
-      userRole: 'admin',
       password: '123',
       username: '',
     };
@@ -44,7 +43,6 @@ describe('POST /api/v1/auth/signup', () => {
       email: 'niomwungeri@gmail.com',
       firstName: 'admin',
       lastName: 'admin',
-      userRole: 'admin',
       password: '123',
       username: 'admin',
     };

@@ -5,12 +5,16 @@ import Helper from './HelperController';
 import db from '../db';
 import User from '../model/user';
 
+const userRoles = {
+  ADMIN: 'ADMIN',
+  NORMAL: 'NORMAL',
+};
 const Users = {
   async signup(req, res) {
     const {
-      email, username, firstName, lastName, userRole, password,
+      email, username, firstName, lastName, password,
     } = req.body;
-    const newUser = new User(uuidv4(), email, username, firstName, lastName, userRole,
+    const newUser = new User(uuidv4(), email, username, firstName, lastName, userRoles.NORMAL,
       Helper.hashPassword(password), moment(new Date()), moment(new Date()));
     const createQuery = 'INSERT INTO users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
     try {
