@@ -11,6 +11,23 @@ const parcelStatus = {
   DELIVERED: 'DELIVERED',
   CANCELLED: 'CANCELLED',
 };
+const createParcelQuery = `INSERT INTO
+      parcels(id, location, destination ,present_location, weight, owner_id, receiver_phone, status, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      returning *`;
+const findOneQuery = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
+const updateStatuQuery = `UPDATE parcels
+SET status=$1,modified_date=$2
+WHERE id=$3 AND owner_id = $4 returning *`;
+const cancelQuery = `UPDATE parcels
+SET status=$1,modified_date=$2
+WHERE id=$3 AND owner_id = $4 returning *`;
+const updatePresentLocationQuery = `UPDATE parcels
+SET present_location=$1,modified_date=$2
+WHERE id=$3 AND owner_id = $4 returning *`;
+const updateDestinationQuery = `UPDATE parcels
+SET destination=$1,modified_date=$2
+WHERE id=$3 AND owner_id = $4 returning *`;
 const Parcels = {
   // Create a parcel delivery order
   async create(req, res) {
@@ -19,12 +36,8 @@ const Parcels = {
     } = req.body;
     const newParcel = new Parcel(uuidv4(), location, destination, presentLocation, weight,
       req.user.id, receiverPhone, parcelStatus.PENDING, moment(new Date()), moment(new Date()));
-    const createQuery = `INSERT INTO
-      parcels(id, location, destination ,present_location, weight, owner_id, receiver_phone, status, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      returning *`;
     try {
-      const { rowCount, rows } = await db.query(createQuery, Object.values(newParcel));
+      const { rowCount, rows } = await db.query(createParcelQuery, Object.values(newParcel));
       return res.status(201).send({
         message: 'Parcel Created Successfully', status: 201, rowCount, data: rows[0],
       });
@@ -52,7 +65,7 @@ const Parcels = {
     try {
       const { rows, rowCount } = await db.query(parcelByUserQuery, [req.user.id]);
       return res.status(200).send({
-        message: 'Success', status: 200, rowCount, data: rows[0],
+        message: 'Success', status: 200, rowCount, data: rows,
       });
     } catch (error) {
       return res.status(400).send({
@@ -62,9 +75,8 @@ const Parcels = {
   },
   // Fetch a specific parcel delivery order
   async getOne(req, res) {
-    const text = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
     try {
-      const { rows, rowCount } = await db.query(text, [req.params.parcelId, req.user.id]);
+      const { rows, rowCount } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
         return res.status(400).send({ message: 'parcels not found', status: 400 });
       }
@@ -84,10 +96,6 @@ const Parcels = {
   },
   // Cancel the specific parcel delivery order
   async cancel(req, res) {
-    const findOneQuery = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
-    const updateOneQuery = `UPDATE parcels
-      SET status=$1,modified_date=$2
-      WHERE id=$3 AND owner_id = $4 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (rows[0]) {
@@ -105,20 +113,21 @@ const Parcels = {
         rows[0].id,
         req.user.id,
       ];
-      const response = await db.query(updateOneQuery, updateValues);
+      const response = await db.query(cancelQuery, updateValues);
       return res.status(200).send({
         message: 'Success', status: 200, data: response.rows[0],
       });
     } catch (err) {
+      if (err.routine === 'string_to_uuid') {
+        return res.status(400).send({
+          message: 'Invalid Id', status: 400,
+        });
+      }
       return res.status(400).send(err);
     }
   },
   // Change the present location of a specific parcel delivery order
   async ChangePresentLocation(req, res) {
-    const findOneQuery = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
-    const updateOneQuery = `UPDATE parcels
-      SET present_location=$1,modified_date=$2
-      WHERE id=$3 AND owner_id = $4 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
@@ -130,19 +139,20 @@ const Parcels = {
         rows[0].id,
         req.user.id,
       ];
-      const response = await db.query(updateOneQuery, updateValues);
+      const response = await db.query(updatePresentLocationQuery, updateValues);
       return res.status(200).send({
         message: 'Present location Updated', status: 200, data: response.rows[0],
       });
     } catch (err) {
+      if (err.routine === 'string_to_uuid') {
+        return res.status(400).send({
+          message: 'Invalid Id', status: 400,
+        });
+      }
       return res.status(400).send(err);
     }
   },
   async changeDestination(req, res) {
-    const findOneQuery = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
-    const updateOneQuery = `UPDATE parcels
-      SET destination=$1,modified_date=$2
-      WHERE id=$3 AND owner_id = $4 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
@@ -154,7 +164,7 @@ const Parcels = {
         rows[0].id,
         req.user.id,
       ];
-      const response = await db.query(updateOneQuery, updateValues);
+      const response = await db.query(updateDestinationQuery, updateValues);
       return res.status(200).send({
         message: 'Success', status: 200, data: response.rows[0],
       });
@@ -163,10 +173,6 @@ const Parcels = {
     }
   },
   async changeStatus(req, res) {
-    const findOneQuery = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
-    const updateOneQuery = `UPDATE parcels
-      SET status=$1,modified_date=$2
-      WHERE id=$3 AND owner_id = $4 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
@@ -178,7 +184,7 @@ const Parcels = {
         rows[0].id,
         req.user.id,
       ];
-      const response = await db.query(updateOneQuery, updateValues);
+      const response = await db.query(updateStatuQuery, updateValues);
       return res.status(200).send({
         message: 'Success', status: 200, data: response.rows[0],
       });

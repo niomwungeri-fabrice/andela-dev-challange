@@ -19,6 +19,24 @@ const Helper = {
   comparePassword(hashPassword, password) {
     return bcrypt.compareSync(password, hashPassword);
   },
+  validateUserRole(req, res, next) {
+    if (Helper.isValidatEmpty(req.body.userRole)) {
+      return res.status(400).send({ message: 'User role is required', status: 400 });
+    }
+    next();
+  },
+  validateStatus(req, res, next) {
+    if (Helper.isValidatEmpty(req.body.status)) {
+      return res.status(400).send({ message: 'Status is required', status: 400 });
+    }
+    next();
+  },
+  validatePresentLocation(req, res, next) {
+    if (Helper.isValidatEmpty(req.body.presentLocation)) {
+      return res.status(400).send({ message: 'Present Location is required', status: 400 });
+    }
+    next();
+  },
   userValidator(req, res, next) {
     if (Helper.isValidatEmpty(req.body.email, req.body.password)) {
       return res.status(400).send({ message: 'Email and Password are required', status: 400 });
@@ -61,7 +79,7 @@ const Helper = {
     const token = jwt.sign({
       userId: id,
     },
-    process.env.SECRET, { expiresIn: '7d' });
+    process.env.SECRET, { expiresIn: '2d' });
     return token;
   },
 };
