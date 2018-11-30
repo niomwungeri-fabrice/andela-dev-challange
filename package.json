@@ -36,8 +36,7 @@
   "scripts": {
     "createTable": "node --require babel-core/register src/db/createTable.js --exit",
     "test": "npm run createTable && nyc mocha --require babel-core/register ./test/ --exit",
-    "start": "node --exec babel-node server.js",
-    "dev": "nodemon --exec babel-node server.js",
+    "start": "nodemon --exec babel-node server.js",
     "nyc": "nyc npm test",
     "heroku-server": "babel-node server.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
