@@ -43,7 +43,7 @@ ul{
     margin-top: 15px;
     margin-bottom: 15px;
     height: 38px;
-    background: #2600fd;
+    background: #b30047;
     border: 0;
     padding-left: 20px;
     padding-right: 20px;
@@ -53,7 +53,7 @@ ul{
 }
 .create_Quote{
     height: 38px;
-    background: #2600fd;
+    background: #b30047;
     color: white;
     font-weight: bold;
     border: 0;
@@ -138,8 +138,15 @@ header a:hover{
 
 /* Showcase */
 #showcase{
+   
     min-height: 600px;
     background: url('../img/graphicDesign.jpg') no-repeat 0 -400px;
+    text-align: center;
+    color: #ffffff;
+}
+#showcase2{
+    margin-top: 8%;
+    min-height: 600px;
     text-align: center;
     color: #ffffff;
 }
