@@ -8,14 +8,14 @@ import Helper from '../controller/HelperController';
 const userRoute = express.Router();
 
 userRoute.route('/delete')
-  .delete(Auth.verifyToken, UserControllers.delete);
+  .delete(UserControllers.delete);
 
 userRoute.route('/:userId')
-  .get(Auth.verifyToken, UserControllers.userByEmail);
+  .get(UserControllers.userByEmail);
 
 userRoute.route('/:userId/parcels')
-  .get(Auth.verifyToken, ParcelController.parcelByUser);
+  .get(ParcelController.parcelByUser);
 userRoute.route('/update')
-  .put(Helper.validateUserRole, Auth.verifyToken, UserControllers.updateUser);
+  .put(Helper.validateUserRole, UserControllers.updateUser);
 
 export default userRoute;
