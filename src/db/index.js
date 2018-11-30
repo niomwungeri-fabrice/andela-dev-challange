@@ -14,6 +14,7 @@ const pool = new Pool({
   port: process.env.PGPORT,
   password: process.env.PGPASSWORD,
 });
+
 function query(text, params) {
   return new Promise((resolve, reject) => {
     pool.query(text, params)
