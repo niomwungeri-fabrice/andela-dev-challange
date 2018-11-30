@@ -14,6 +14,7 @@ parcels (
   modified_date TIMESTAMP,
   FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE
 )`;
+
 setTimeout(() => {
   db.query(createParcelsTable)
     .then(() => {

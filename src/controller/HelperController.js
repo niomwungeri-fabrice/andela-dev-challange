@@ -50,17 +50,20 @@ const Helper = {
     const {
       location, destination, presentLocation, weight, receiverPhone,
     } = req.body;
+
     if (typeof weight !== 'number' || weight <= 0) {
       return res.status(400).send({
         message: 'Weight must be a number and greater than zero', status: 400,
       });
     }
+
     if (typeof location !== 'string' || typeof destination !== 'string'
     || typeof presentLocation !== 'string' || typeof receiverPhone !== 'string') {
       return res.status(400).send({
         message: 'location, destination, presentation location, phone must be strings', status: 400,
       });
     }
+
     if (location.length <= 3 || destination.length <= 3
     || presentLocation.length <= 3 || receiverPhone.length < 9) {
       return res.status(400).send({

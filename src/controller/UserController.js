@@ -14,9 +14,12 @@ const Users = {
     const {
       email, username, firstName, lastName, password,
     } = req.body;
+
     const newUser = new User(uuidv4(), email, username, firstName, lastName, userRoles.NORMAL,
       Helper.hashPassword(password), moment(new Date()), moment(new Date()));
+
     const createQuery = 'INSERT INTO users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
+
     try {
       const { rows } = await db.query(createQuery, Object.values(newUser));
       const token = Helper.generateToken(rows[0].id);
@@ -42,6 +45,7 @@ const Users = {
         return res.status(400).send({ message: 'The credentials you provided is incorrect', status: 400 });
       }
       const token = Helper.generateToken(rows[0].id);
+
       return res.status(200).send({ message: 'Successfully logged in', status: 200, token });
     } catch (error) {
       return res.status(400).send({ message: error, status: 400 });
@@ -51,6 +55,7 @@ const Users = {
     const text = 'SELECT * FROM users WHERE email = $1';
     try {
       const { rows, rowCount } = await db.query(text, [req.params.userId]);
+
       return res.status(200).send({
         message: 'Success', status: 200, rowCount, data: rows[0],
       });
@@ -60,6 +65,7 @@ const Users = {
   },
   async delete(req, res) {
     const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
+
     try {
       const { rows } = await db.query(deleteQuery, [req.user.id]);
       if (!rows[0]) {
@@ -73,6 +79,7 @@ const Users = {
   async updateUser(req, res) {
     const selectOneQuery = 'SELECT * FROM users WHERE id=$1';
     const updateOneQuery = 'UPDATE users SET user_role=$1, modified_date=$2 WHERE id=$3';
+
     try {
       const { rows } = await db.query(selectOneQuery, [req.user.id]);
       if (!rows[0]) {

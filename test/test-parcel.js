@@ -40,6 +40,7 @@ describe('POST /api/v1/auth/signup', () => {
     });
   });
 });
+
 describe('GET /api/v1/auth/login', () => {
   it('should return 400 - The credentials you provided is incorrect', (done) => {
     chai.request(app).post('/api/v1/auth/login').send({ email: '', password: '' }).end((err, res) => {
@@ -65,6 +66,7 @@ describe('GET /api/v1/auth/login', () => {
     });
   });
 });
+
 describe('GET /api/v1/users/:userId', () => {
   it('should return 200', (done) => {
     chai.request(app).get(`/api/v1/users/${validUser}`).set('x-access-token', token)
@@ -179,6 +181,7 @@ describe('POST /api/v1/parcels', () => {
       });
   });
 });
+
 describe('Forbidden', () => {
   it('should return 403 - Forbidden', (done) => {
     chai.request(app).put(`/api/v1/parcels/${invalidParcel}/presentLocation`)
@@ -277,6 +280,7 @@ describe('PUT /api/v1/parcels/:parcelId/destination', () => {
       });
   });
 });
+
 describe('GET /users/<userId>/parcels', () => {
   it('should return 200 - Fetch all parcel delivery orders by a specific user', (done) => {
     chai.request(app).get(`/api/v1/users/${userid}/parcels`).set('x-access-token', token).end((err, res) => {
