@@ -58,7 +58,6 @@ describe('GET /api/v1/auth/login', () => {
   it('should return 200 - Success', (done) => {
     chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri@gmail.com', password: '123' }).end((err, res) => {
       res.should.have.status(200);
-      res.body.should.have.property('message').eql('Successfully logged in');
       // eslint-disable-next-line prefer-destructuring
       token = res.body.token;
       done();
