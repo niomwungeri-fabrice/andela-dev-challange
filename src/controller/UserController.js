@@ -24,11 +24,11 @@ const Users = {
       const { rows } = await db.query(createQuery, Object.values(newUser));
       const token = Helper.generateToken(rows[0].id);
       return res.status(201).send({
-        message: 'Account Created Successfully', status: 201, data: rows[0], token,
+        message: 'Account Created Successfully', status: 201, token,
       });
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
-        return res.status(409).send({ message: `User with this email '${req.body.email}' already exist`, status: 409 });
+        return res.status(409).send({ message: `User '${req.body.email}' already exist`, status: 409 });
       }
       return res.status(400).send(error);
     }
