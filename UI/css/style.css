@@ -246,3 +246,7 @@ tr:nth-child(even) {
 .message{
     margin-left:14%; 
 }
+.output{
+    margin-left:14%;
+    margin-top: 20%; 
+}
