@@ -8,12 +8,6 @@ window.onload = function () {
   const username = document.getElementById('username');
   const password = document.getElementById('password');
 
-
-  if (signUpBtn) {
-    // eslint-disable-next-line no-use-before-define
-    signUpBtn.addEventListener('click', sinup);
-  }
-
   async function sinup() {
     const rawResponse = await fetch('https://andela-dev-challenge.herokuapp.com/api/v1/auth/signup', {
       method: 'POST',
@@ -31,5 +25,8 @@ window.onload = function () {
     });
     const content = await rawResponse.json();
     document.getElementById('output').innerHTML = content.message;
+  }
+  if (signUpBtn) {
+    signUpBtn.addEventListener('click', sinup);
   }
 };
