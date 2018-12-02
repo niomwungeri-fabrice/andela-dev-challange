@@ -9,7 +9,7 @@
     <meta name="kewords" content="Parcel, Delivery">
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
-    <script src="./js/script.js"></script>
+    <script src="./js/login.js"></script>
 </head>
 <body>
     <header>
@@ -28,15 +28,13 @@
     </header>
         <div class="container">
             <div class="login-page">     
-                <form method="POST" >
-                    <input id="username" class="input_g" type="text" placeholder="username"/><br>
-                    <input id="password" class="input_g" type="password" placeholder="password" /><br>
-                    <input class="button_1" type="button" value="Login" id="submit" onclick="validate()"/>
-                    <br>
-                    <p class="message">Not registered? <a href="signUp.html">Create an account</a></p>
-                </form>
+                <div class="output" id="output"></div>    
+                <input id="email-login" class="input_g" type="text" placeholder="email"/><br>
+                <input id="password-login" class="input_g" type="password" placeholder="password" /><br>
+                <input class="button_1" type="button" value="Login" id="submit-login"/>
+                <br>
+                <p class="message">Not registered? <a href="signUp.html">Create an account</a></p>
             </div>
-            
         </div>
     <footer>SendIT &copy; 2018</footer>
 </body>

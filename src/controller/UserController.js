@@ -46,7 +46,7 @@ const Users = {
       }
       const token = Helper.generateToken(rows[0].id);
 
-      return res.status(200).send({ message: 'Successfully logged in', status: 200, token });
+      return res.status(200).send({ status: 200, token, data: rows[0] });
     } catch (error) {
       return res.status(400).send({ message: error, status: 400 });
     }

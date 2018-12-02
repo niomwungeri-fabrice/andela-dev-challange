@@ -10,7 +10,6 @@ describe('POST /api/v1/auth/signup', () => {
   it('should return 200 - Success', (done) => {
     chai.request(app).post('/api/v1/auth/login').send({ email: 'niomwungeri@gmail.com', password: '123' }).end((err, res) => {
       res.body.should.have.status(200);
-      res.body.should.have.property('message').equal('Successfully logged in');
       token = res.body.token;
       done();
     });
