@@ -35,7 +35,6 @@ describe('POST /api/v1/auth/signup', () => {
       res.should.have.status(201);
       res.body.should.be.a('object');
       res.body.should.have.property('message').eql('Account Created Successfully');
-      res.body.data.should.have.property('first_name').eql('admin');
       done();
     });
   });
