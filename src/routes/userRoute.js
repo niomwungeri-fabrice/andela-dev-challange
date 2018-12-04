@@ -1,5 +1,4 @@
 import express from 'express';
-import Auth from '../middleware/Authentication';
 import ParcelController from '../controller/ParcelController';
 import UserControllers from '../controller/UserController';
 import Helper from '../controller/HelperController';

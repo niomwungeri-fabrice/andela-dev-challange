@@ -7,12 +7,12 @@ import Auth from './src/middleware/Authentication';
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3100;
 
 app.use(express.json());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token');
+  res.header('Access-Control-Allow-Headers', '*');
 
   next();
 });
