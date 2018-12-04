@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-undef
 window.onload = async () => {
   const token = await localStorage.getItem('token');
-  fetch('/api/v1/parcels', {
+  fetch('http://localhost:3000/api/v1/parcels', {
     method: 'GET',
     headers: {
       'Content-Type': 'Application/JSON',
