@@ -7,7 +7,7 @@ const Auth = {
 
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
-
+    console.log(`nooooooooooo: ${token}`);
     if (!token) {
       return res.status(400).send({ message: 'Token is not provided' });
     }
@@ -22,6 +22,7 @@ const Auth = {
       req.user = { id: decoded.userId };
       next();
     } catch (error) {
+      console.log
       return res.status(400).send(error);
     }
   },
@@ -29,7 +30,7 @@ const Auth = {
     try {
       const text = 'SELECT * FROM users WHERE id = $1';
       const { rows } = await db.query(text, [req.user.id]);
-
+      console.log(`id : ${req.user.id}`);
       if (rows[0].user_role !== 'ADMIN') {
         return res.status(403).send({ message: 'Forbidden', status: 403 });
       }
