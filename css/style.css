@@ -183,7 +183,7 @@ footer{
     text-align: center;
 }
 
-/* table */
+/* table parcel table */
 #parcels {
     border-collapse: collapse;
     width: 100%;
@@ -203,6 +203,32 @@ footer{
 #parcels tr:hover {background-color: #ddd;}
 
 #parcels th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #2600fd;
+    color: white;
+}
+/* users parcel table */
+#users {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+#users td, #users th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+#users td{
+   text-align: center;
+}
+
+#users tr:nth-child(even){background-color: #f2f2f2;}
+
+#users tr:hover {background-color: #ddd;}
+
+#users th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
