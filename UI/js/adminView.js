@@ -22,7 +22,7 @@ window.onload = async () => {
         tr.append(`<td>${parcels.data[index].receiver_phone}</td>`);
         tr.append(`<td>${parcels.data[index].status}</td>`);
 
-        $('table').append(tr);
+        $('#parcels').append(tr);
       }
     }))
     .catch(error => error.stack);
