@@ -12,8 +12,8 @@ window.onload = function () {
     const rawResponse = await fetch('https://andela-dev-challenge.herokuapp.com/api/v1/auth/signup', {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: 'application/JSON',
+        'Content-Type': 'application/JSON',
       },
       body: JSON.stringify({
         email: email.value,
