@@ -9,6 +9,7 @@
     <meta name="kewords" content="Parcel, Delivery">
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/tabs.css" />
     <script src="./js/adminView.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -32,17 +33,39 @@
     </header>
     <section id="viewParcel">
         <div class="container">
-          <input id="search" type="text" placeholder="Search">
-            <table id="parcels">
-                <tr>
-                  <th>From</th>
-                  <th>Destination</th>
-                  <th>Present Location</th>
-                  <th>Weight(kg)</th>
-                  <th>Receiver Phone</th>
-                  <th>Status</th>
-                </tr>
-              </table>
+            <div class="tabs">
+                <input type="radio" name="tabs" id="tabone" checked="checked">
+                <label for="tabone">Parcels</label>
+                <div class="tab">
+                  <input id="search" type="text" placeholder="Search">
+                    <table id="parcels">
+                        <tr>
+                        <th>From</th>
+                        <th>Destination</th>
+                        <th>Present Location</th>
+                        <th>Weight(kg)</th>
+                        <th>Receiver Phone</th>
+                        <th>Status</th>
+                        </tr>
+                    </table>
+                </div>
+                
+                <input type="radio" name="tabs" id="tabtwo">
+                <label for="tabtwo">Users</label>
+                <div class="tab">
+                  <input id="search" type="text" placeholder="Search">
+                    <table id="users">
+                        <tr>
+                        <th>From</th>
+                        <th>Destination</th>
+                        <th>Present Location</th>
+                        <th>Weight(kg)</th>
+                        <th>Receiver Phone</th>
+                        <th>Status</th>
+                        </tr>
+                    </table>
+                </div>
+              </div>
         </div>
     </section>
 
