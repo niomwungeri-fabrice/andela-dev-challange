@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import parcelRouter from './src/routes/parcelRoute';
 import authRouter from './src/routes/authRoute';
 import userRouter from './src/routes/userRoute';
@@ -7,15 +8,10 @@ import Auth from './src/middleware/Authentication';
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 3100;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', '*');
-
-  next();
-});
+app.use(cors());
 app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to home SendIT API', status: 200 }));
 
 
