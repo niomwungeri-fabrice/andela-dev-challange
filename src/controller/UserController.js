@@ -63,6 +63,18 @@ const Users = {
       return res.status(400).send(error);
     }
   },
+  async allUsers(req, res) {
+    const text = 'SELECT * FROM users';
+    try {
+      const { rows, rowCount } = await db.query(text);
+
+      return res.status(200).send({
+        message: 'Success', status: 200, rowCount, data: rows[0],
+      });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
   async delete(req, res) {
     const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
 

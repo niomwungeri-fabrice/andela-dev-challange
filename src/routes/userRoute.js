@@ -6,6 +6,9 @@ import Helper from '../controller/HelperController';
 
 const userRoute = express.Router();
 
+userRoute.route('/')
+  .get(UserControllers.allUsers);
+
 userRoute.route('/delete')
   .delete(UserControllers.delete);
 

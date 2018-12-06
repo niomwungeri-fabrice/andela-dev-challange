@@ -339,3 +339,13 @@ describe('PUT /api/v1/parcels/:parcelId/status', () => {
       });
   });
 });
+describe('GET /api/v1/users', () => {
+  it('should return 200 - Fetch all users', (done) => {
+    chai.request(app).get('/api/v1/users')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.body.should.have.status(200);
+        done();
+      });
+  });
+});
