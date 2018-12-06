@@ -69,7 +69,7 @@ const Users = {
       const { rows, rowCount } = await db.query(text);
 
       return res.status(200).send({
-        message: 'Success', status: 200, rowCount, data: rows[0],
+        message: 'Success', status: 200, rowCount, data: rows,
       });
     } catch (error) {
       return res.status(400).send(error);
