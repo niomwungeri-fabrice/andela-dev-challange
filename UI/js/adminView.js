@@ -27,7 +27,7 @@ window.onload = async () => {
     }))
     .catch(error => error.stack);
   // users
-  fetch('http://localhost:3000/api/v1/users', {
+  fetch('https://andela-dev-challenge.herokuapp.com/api/v1/users', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
