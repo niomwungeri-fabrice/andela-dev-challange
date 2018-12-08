@@ -3,7 +3,12 @@
 // eslint-disable-next-line no-undef
 window.onload = async () => {
   const token = await localStorage.getItem('token');
-  fetch('http://localhost:3000/api/v1/parcels', {
+  let pending = 0;
+  let arrived = 0;
+  let transit = 0;
+  let delivered = 0;
+  let cancelled = 0;
+  fetch('http://localhost:3000/api/v1/users/:userId/parcels', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -14,6 +19,17 @@ window.onload = async () => {
     .then(parcels => $(document).ready(() => {
       let tr;
       for (let index = 0; index < parcels.data.length; index++) {
+        if (parcels.data[index].status === 'PENDING') {
+          pending++;
+        } else if (parcels.data[index].status === 'IN_TRANSIT') {
+          transit++;
+        } else if (parcels.data[index].status === 'ARRIVED') {
+          arrived++;
+        } else if (parcels.data[index].status === 'DELIVERED') {
+          delivered++;
+        } else {
+          cancelled++;
+        }
         tr = $('<tr/>');
         tr.append(`<td>${parcels.data[index].location}</td>`);
         tr.append(`<td>${parcels.data[index].destination}</td>`);
@@ -24,29 +40,11 @@ window.onload = async () => {
 
         $('#parcels').append(tr);
       }
-    }))
-    .catch(error => error.stack);
-  // users
-  fetch('http://localhost:3000/api/v1/users', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-access-token': token,
-    },
-  })
-    .then(res => res.json())
-    .then(users => $(document).ready(() => {
-      let tr;
-      for (let index = 0; index < users.data.length; index++) {
-        tr = $('<tr/>');
-        tr.append(`<td>${users.data[index].email}</td>`);
-        tr.append(`<td>${users.data[index].username}</td>`);
-        tr.append(`<td>${users.data[index].first_name}</td>`);
-        tr.append(`<td>${users.data[index].last_name}</td>`);
-        tr.append(`<td>${users.data[index].user_role}</td>`);
-
-        $('#users').append(tr);
-      }
+      document.getElementById('pending').innerHTML = pending;
+      document.getElementById('arrived').innerHTML = arrived;
+      document.getElementById('transit').innerHTML = transit;
+      document.getElementById('delivered').innerHTML = delivered;
+      document.getElementById('cancelled').innerHTML = cancelled;
     }))
     .catch(error => error.stack);
 };
