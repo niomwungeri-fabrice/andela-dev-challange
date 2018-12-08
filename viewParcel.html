@@ -9,7 +9,8 @@
     <meta name="kewords" content="Parcel, Delivery">
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
-    <script type="text/javascript" src="./js/script.js"></script>
+    <script type="text/javascript" src="./js/clientView.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -40,190 +41,45 @@
                     </tr>
                     <tr>
                         <td>Pending</td>
-                        <td>3</td>
+                        <td id="pending"></td>
                         <td>Item has been order by not yet processed</td>
                     </tr>
                     <tr>
                         <td>In Transit</td>
-                        <td>2</td>
+                        <td id="transit"></td>
                         <td>Item has shipped from originating country and is en route to its destination</td>
                     </tr>
                     <tr>
                         <td>Arrived</td>
-                        <td>1</td>
+                        <td id="arrived"></td>
                         <td>The item has arrived on the destination</td>
                     </tr>
                     <tr>
                         <td>Delivered</td>
-                        <td>3</td>
+                        <td id="delivered"></td>
                         <td>Item was delivered successfully to the addressee</td>
+                    </tr>
+                    <tr>
+                        <td>Cancelled</td>
+                        <td id="cancelled"></td>
+                        <td>Item was cencelled </td>
                     </tr>
                 </table>
              
             <form action="createParcel.html" >
-              <button type="submit" class="btn_send">Create a Parcel</button>
-              <input id="search" type="text" placeholder="Search">
-            </form>
-            
+                <button type="submit" class="btn_send">Create a Parcel</button>
+                <input id="search" type="text" placeholder="Search">
+              </form>
             <table id="parcels">
                 <tr>
-                  <th>#</th>
-                  <th>From</th>
-                  <th>Destination</th>
-                  <th>Length</th>
-                  <th>Width</th>
-                  <th>Height</th>
-                  <th>Weight</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                <th>From</th>
+                <th>Destination</th>
+                <th>Present Location</th>
+                <th>Weight(kg)</th>
+                <th>Receiver Phone</th>
+                <th>Status</th>
                 </tr>
-                <tr>
-                  <td>KDJ6305</td>
-                  <td>Rwanda</td>
-                  <td>Uganda</td>
-                  <td>24</td>
-                  <td>54</td>
-                  <td>61</td>
-                  <td>13</td>
-                  <td>12000</td>
-                  <td>Delivered</td>
-                  <td>
-                      <a href="viewDetail.html">View |</a>
-                      <a href="#">change |</a>
-                      <a href="#">Cancel</a>
-                     
-                  </td>
-                </tr>
-                <tr>
-                  <td>KDJ4315</td>
-                  <td>Rwanda</td>
-                  <td>Uganda</td>
-                  <td>30</td>
-                  <td>20</td>
-                  <td>20</td>
-                  <td>13</td>
-                  <td>9000</td>
-                  <td>Arrived</td>
-                  <td>
-                      <a href="viewDetail.html">View |</a>
-                      <a href="#">change |</a>
-                      <a href="#">Cancel </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>KDJ6305</td>
-                  <td>Kenya</td>
-                  <td>RDC</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                  <td>3</td>
-                  <td>600</td>
-                  <td>Arrived</td>
-                  <td>
-                    <a href="viewDetail.html">View |</a>
-                    <a href="#">change |</a>
-                    <a href="#">Cancel </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>KDJ6606</td>
-                  <td>Rwanda</td>
-                  <td>Burundi</td>
-                  <td>7</td>
-                  <td>12</td>
-                  <td>9</td>
-                  <td>5</td>
-                  <td>1000</td>
-                  <td>Delivered</td>
-                  <td>
-                    <a href="viewDetail.html">View |</a>
-                    <a href="#">change |</a>
-                    <a href="#">Cancel </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>KDJ6401</td>
-                  <td>Somalia</td>
-                  <td>South Africa</td>
-                  <td>9</td>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>13</td>
-                  <td>900</td>
-                  <td>Pending</td>
-                  <td>
-                    <a href="viewDetail.html">View |</a>
-                    <a href="#">change |</a>
-                    <a href="#">Cancel </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>KDJ6335</td>
-                  <td>Rwanda</td>
-                  <td>Ethiopia</td>
-                  <td>41</td>
-                  <td>15</td>
-                  <td>16</td>
-                  <td>13</td>
-                  <td>60000</td>
-                  <td>Pending</td>
-                  <td>
-                    <a href="viewDetail.html">View |</a>
-                    <a href="#">change |</a>
-                    <a href="#">Cancel </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>KDJ6307</td>
-                  <td>Rwanda</td>
-                  <td>Kenya</td>
-                  <td>14</td>
-                  <td>39</td>
-                  <td>2</td>
-                  <td>12</td>
-                  <td>8000</td>
-                  <td>Delivered</td>
-                  <td>
-                    <a href="viewDetail.html">View |</a>
-                    <a href="#">change |</a>
-                    <a href="#">Cancel </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>KDJ6305</td>
-                  <td>Rwanda</td>
-                  <td>Kenya</td>
-                  <td>7</td>
-                  <td>12</td>
-                  <td>8</td>
-                  <td>20</td>
-                  <td>2000</td>
-                  <td>In Transit</td>
-                  <td>
-                        <a href="viewDetail.html">View |</a>
-                        <a href="#">change |</a>
-                        <a href="#">Cancel </a>
-                  </td>
-                </tr>
-                <tr>
-                    <td>KDJ6345</td>
-                    <td>Rwanda</td>
-                    <td>Ethiopia</td>
-                    <td>41</td>
-                    <td>15</td>
-                    <td>16</td>
-                    <td>13</td>
-                    <td>60000</td>
-                    <td>In Transit</td>
-                    <td>
-                        <a href="viewDetail.html">View |</a>
-                        <a href="#">change |</a>
-                        <a href="#">Cancel </a>
-                    </td>
-                  </tr>
-              </table>
+            </table>
         </div>
 </body>
 </html>
