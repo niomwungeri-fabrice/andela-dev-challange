@@ -10,30 +10,31 @@ window.onload = async () => {
   let delivered = 0;
   let cancelled = 0;
   const pricePerKg = 100;
-  const parcelTable = document.getElementById('parcels');
-  fetch('http://localhost:3000/api/v1/users/:userId/parcels', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-access-token': token,
-    },
-  })
-    .then(res => res.json())
-    .then((parcels) => {
-      for (let index = 0; index < parcels.data.length; index++) {
-        const tr = document.createElement('tr');
-        if (parcels.data[index].status === 'PENDING') {
-          pending++;
-        } else if (parcels.data[index].status === 'IN_TRANSIT') {
-          transit++;
-        } else if (parcels.data[index].status === 'ARRIVED') {
-          arrived++;
-        } else if (parcels.data[index].status === 'DELIVERED') {
-          delivered++;
-        } else {
-          cancelled++;
-        }
-        tr.innerHTML = `
+  const myparcelTable = document.getElementById('myparcels');
+  (this.parcels = () => {
+    fetch('http://localhost:3000/api/v1/users/:userId/parcels', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    })
+      .then(res => res.json())
+      .then((parcels) => {
+        for (let index = 0; index < parcels.data.length; index++) {
+          const tr = document.createElement('tr');
+          if (parcels.data[index].status === 'PENDING') {
+            pending++;
+          } else if (parcels.data[index].status === 'IN_TRANSIT') {
+            transit++;
+          } else if (parcels.data[index].status === 'ARRIVED') {
+            arrived++;
+          } else if (parcels.data[index].status === 'DELIVERED') {
+            delivered++;
+          } else {
+            cancelled++;
+          }
+          tr.innerHTML = `
           <tr>
             <td>${parcels.data[index].location}</td>
             <td>${parcels.data[index].destination}</td>
@@ -43,23 +44,41 @@ window.onload = async () => {
             <td>${parcels.data[index].receiver_phone}</td>
             <td>${parcels.data[index].status}</td>
             <td>
-                <a href="editPersonal.html" onclick="editParcel(hdkjfd);return false;"> <i class="fas fa-edit"></i></a>
-                <i class="fas fa-info-circle"></i>
-                <i class="fas fa-times-circle"></i>
+                <button>
+                    <i class="fas fa-edit"></i>
+                </button>
+               <button>
+                    <i class="fas fa-info-circle"></i>
+               </button>
+                <button title="Cancel a Parcel" onclick="cancel('${parcels.data[index].id}'); window.location.reload();">
+                    <i class="fas fa-times-circle"></i>
+                </button>
             </td>
           </tr>
         `;
-        parcelTable.appendChild(tr);
-      }
-      document.getElementById('pending').innerHTML = pending;
-      document.getElementById('arrived').innerHTML = arrived;
-      document.getElementById('transit').innerHTML = transit;
-      document.getElementById('delivered').innerHTML = delivered;
-      document.getElementById('cancelled').innerHTML = cancelled;
-      const cancelBtn = document.getElementById('cancel');
-      function editParcel(params) {
-        console.log(params);
-      }
-    })
-    .catch(error => error.stack);
+          console.log(myparcelTable);
+          myparcelTable.appendChild(tr);
+        }
+        document.getElementById('pending').innerHTML = pending;
+        document.getElementById('arrived').innerHTML = arrived;
+        document.getElementById('transit').innerHTML = transit;
+        document.getElementById('delivered').innerHTML = delivered;
+        document.getElementById('cancelled').innerHTML = cancelled;
+      })
+      .catch(error => error.stack);
+  })();
+  this.cancel = (item) => {
+    fetch(`http://localhost:3000/api/v1/parcels/${item}/cancel`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'Application/JSON',
+        'x-access-token': token,
+      },
+    }).then((res) => {
+      res.json().then(async (results) => {
+        const { message } = results;
+        document.getElementById('output').innerHTML = message;
+      }).catch(err => err);
+    });
+  };
 };
