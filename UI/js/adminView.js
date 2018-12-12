@@ -3,50 +3,71 @@
 // eslint-disable-next-line no-undef
 window.onload = async () => {
   const token = await localStorage.getItem('token');
-  fetch('http://localhost:3000/api/v1/parcels', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-access-token': token,
-    },
-  })
-    .then(res => res.json())
-    .then(parcels => $(document).ready(() => {
-      let tr;
-      for (let index = 0; index < parcels.data.length; index++) {
-        tr = $('<tr/>');
-        tr.append(`<td>${parcels.data[index].location}</td>`);
-        tr.append(`<td>${parcels.data[index].destination}</td>`);
-        tr.append(`<td>${parcels.data[index].present_location}</td>`);
-        tr.append(`<td>${parcels.data[index].weight}</td>`);
-        tr.append(`<td>${parcels.data[index].receiver_phone}</td>`);
-        tr.append(`<td>${parcels.data[index].status}</td>`);
-
-        $('#parcels').append(tr);
-      }
-    }))
-    .catch(error => error.stack);
+  const userTable = document.getElementById('users');
+  const pricePerKg = 100;
+  const myparcelTable = document.getElementById('parcels');
+  (this.parcels = () => {
+    fetch('http://localhost:3000/api/v1/parcels', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    })
+      .then(res => res.json())
+      .then((parcels) => {
+        for (let index = 0; index < parcels.data.length; index++) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+          <tr>
+            <td>${parcels.data[index].location}</td>
+            <td>${parcels.data[index].destination}</td>
+            <td>${parcels.data[index].present_location}</td>
+            <td>${parcels.data[index].weight}</td>
+            <td>${parcels.data[index].weight * pricePerKg}</td>
+            <td>${parcels.data[index].receiver_phone}</td>
+            <td>${parcels.data[index].status}</td>
+            <td>
+                <button>
+                    <i class="fas fa-edit"></i>
+                </button>
+               <button>
+                    <i class="fas fa-info-circle"></i>
+               </button>
+            </td>
+          </tr>
+        `;
+          myparcelTable.appendChild(tr);
+        }
+      })
+      .catch(error => error.stack);
+  })();
   // users
-  fetch('http://localhost:3000/api/v1/users', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-access-token': token,
-    },
-  })
-    .then(res => res.json())
-    .then(users => $(document).ready(() => {
-      let tr;
-      for (let index = 0; index < users.data.length; index++) {
-        tr = $('<tr/>');
-        tr.append(`<td>${users.data[index].email}</td>`);
-        tr.append(`<td>${users.data[index].username}</td>`);
-        tr.append(`<td>${users.data[index].first_name}</td>`);
-        tr.append(`<td>${users.data[index].last_name}</td>`);
-        tr.append(`<td>${users.data[index].user_role}</td>`);
-
-        $('#users').append(tr);
-      }
-    }))
-    .catch(error => error.stack);
+  (this.users = () => {
+    fetch('http://localhost:3000/api/v1/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    })
+      .then(res => res.json())
+      .then((users) => {
+        for (let index = 0; index < users.data.length; index++) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+        <tr>
+          <td>${users.data[index].email}</td>
+          <td>${users.data[index].username}</td>
+          <td>${users.data[index].first_name}</td>
+          <td>${users.data[index].last_name}</td>
+          <td>${users.data[index].user_role}</td>
+        </tr>
+      `;
+          console.log(tr);
+          userTable.appendChild(tr);
+        }
+      })
+      .catch(error => console.log(error.stack));
+  })();
 };
