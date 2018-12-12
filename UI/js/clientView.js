@@ -10,7 +10,7 @@ window.onload = async () => {
   let delivered = 0;
   let cancelled = 0;
   const pricePerKg = 100;
-  const myparcelTable = document.getElementById('myparcels');
+  const myparcelTable = document.getElementById('parcels');
   (this.parcels = () => {
     fetch('http://localhost:3000/api/v1/users/:userId/parcels', {
       method: 'GET',
@@ -50,13 +50,12 @@ window.onload = async () => {
                <button>
                     <i class="fas fa-info-circle"></i>
                </button>
-                <button title="Cancel a Parcel" onclick="cancel('${parcels.data[index].id}'); window.location.reload();">
+                <button title="Cancel a Parcel" onclick="cancel('${parcels.data[index].id}')">
                     <i class="fas fa-times-circle"></i>
                 </button>
             </td>
           </tr>
         `;
-          console.log(myparcelTable);
           myparcelTable.appendChild(tr);
         }
         document.getElementById('pending').innerHTML = pending;
