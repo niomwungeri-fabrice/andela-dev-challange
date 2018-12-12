@@ -4,9 +4,9 @@
 window.onload = async () => {
   const token = await localStorage.getItem('token');
   const userTable = document.getElementById('users');
+  const pricePerKg = 100;
   const myparcelTable = document.getElementById('parcels');
-  // all parcels
-  (this.allParcels = () => {
+  (this.parcels = () => {
     fetch('http://localhost:3000/api/v1/parcels', {
       method: 'GET',
       headers: {
@@ -18,7 +18,6 @@ window.onload = async () => {
       .then((parcels) => {
         for (let index = 0; index < parcels.data.length; index++) {
           const tr = document.createElement('tr');
-          console.log(`Nothing to display ${parcels.data[index].id}`);
           tr.innerHTML = `
           <tr>
             <td>${parcels.data[index].location}</td>
@@ -28,6 +27,14 @@ window.onload = async () => {
             <td>${parcels.data[index].weight * pricePerKg}</td>
             <td>${parcels.data[index].receiver_phone}</td>
             <td>${parcels.data[index].status}</td>
+            <td>
+                <button>
+                    <i class="fas fa-edit"></i>
+                </button>
+               <button>
+                    <i class="fas fa-info-circle"></i>
+               </button>
+            </td>
           </tr>
         `;
           myparcelTable.appendChild(tr);
@@ -37,7 +44,6 @@ window.onload = async () => {
   })();
   // users
   (this.users = () => {
-    console.log(userTable);
     fetch('http://localhost:3000/api/v1/users', {
       method: 'GET',
       headers: {
