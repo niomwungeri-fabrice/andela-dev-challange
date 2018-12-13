@@ -169,6 +169,9 @@ const Parcels = {
       if (!rows[0]) {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
+      if (rows[0].status === parcelStatus.CANCELLED) {
+        return res.status(202).send({ message: 'Parcel has been cancelled, Change destination failed', status: 202 });
+      }
       const updateValues = [
         req.body.destination,
         moment(new Date()),
