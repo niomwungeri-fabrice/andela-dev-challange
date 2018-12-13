@@ -24,7 +24,14 @@ window.onload = function () {
       }),
     });
     const content = await rawResponse.json();
-    document.getElementById('output').innerHTML = content.message;
+    if (content.status === 201) {
+      document.getElementById('output').innerHTML = content.message;
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+    } else {
+      document.getElementById('output').innerHTML = content.message;
+    }
   }
   if (signUpBtn) {
     signUpBtn.addEventListener('click', sinup);

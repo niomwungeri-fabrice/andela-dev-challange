@@ -281,3 +281,13 @@ tr:nth-child(even) {
     margin-left:14%;
     margin-top: 20%; 
 }
+/* css grid  */
+.row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
+  }
+  .col-4 {
+    width: 33.33%;
+  }

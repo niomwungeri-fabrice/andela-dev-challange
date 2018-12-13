@@ -17,7 +17,7 @@ const createParcelQuery = `INSERT INTO
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       returning *`;
 
-const findOneQuery = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
+const findOneQuery = 'SELECT * FROM parcels WHERE id = $1';
 
 const updateStatuQuery = `UPDATE parcels
 SET status=$1,modified_date=$2
@@ -86,7 +86,7 @@ const Parcels = {
   // Fetch a specific parcel delivery order
   async getOne(req, res) {
     try {
-      const { rows, rowCount } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
+      const { rows, rowCount } = await db.query(findOneQuery, [req.params.parcelId]);
       if (!rows[0]) {
         return res.status(400).send({ message: 'parcels not found', status: 400 });
       }

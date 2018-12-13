@@ -28,13 +28,10 @@ window.onload = async () => {
             <td>${parcels.data[index].receiver_phone}</td>
             <td>${parcels.data[index].status}</td>
             <td>
-                <button>
-                    <i class="fas fa-edit"></i>
-                </button>
-               <button>
-                    <i class="fas fa-info-circle"></i>
-               </button>
-            </td>
+            <a href="editParcelAdmin.html?id=${parcels.data[index].id}">
+                <i class="fas fa-edit"></i>
+            </a>
+        </td>
           </tr>
         `;
           myparcelTable.appendChild(tr);
@@ -64,10 +61,9 @@ window.onload = async () => {
           <td>${users.data[index].user_role}</td>
         </tr>
       `;
-          console.log(tr);
           userTable.appendChild(tr);
         }
       })
-      .catch(error => console.log(error.stack));
+      .catch(error => error.stack);
   })();
 };

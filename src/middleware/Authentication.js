@@ -24,7 +24,7 @@ const Auth = {
       return res.status(400).send(error);
     }
   },
-  async sucureRoute(req, res, next) {
+  async secureRoute(req, res, next) {
     try {
       const text = 'SELECT * FROM users WHERE id = $1';
       const { rows } = await db.query(text, [req.user.id]);
