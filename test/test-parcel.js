@@ -239,6 +239,26 @@ describe('GET /api/v1/parcels/:parcel', () => {
   });
 });
 
+
+describe('PUT /api/v1/parcels/:parcelId/destination', () => {
+  it('should return 200 - Change the location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${validParcelId}/destination`).set('x-access-token', token).send({ destination: 'South Sudan' })
+      .end((err, res) => {
+        res.body.data.should.have.property('destination').eql('South Sudan');
+        res.body.should.have.status(200);
+        done();
+      });
+  });
+  it('should return 400 - Change the location of a specific parcel delivery order', (done) => {
+    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/destination`).set('x-access-token', token)
+      .send({ destination: 'Uganda' })
+      .end((err, res) => {
+        res.body.should.have.property('message');
+        res.body.should.have.status(404);
+        done();
+      });
+  });
+});
 describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
   it('should return 200 - Cancel the specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/cancel`)
@@ -263,26 +283,6 @@ describe('PUT /api/v1/parcels/:parcelId/cancel', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('message');
         res.body.should.have.status(400);
-        done();
-      });
-  });
-});
-
-describe('PUT /api/v1/parcels/:parcelId/destination', () => {
-  it('should return 200 - Change the location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${validParcelId}/destination`).set('x-access-token', token).send({ destination: 'South Sudan' })
-      .end((err, res) => {
-        res.body.data.should.have.property('destination').eql('South Sudan');
-        res.body.should.have.status(200);
-        done();
-      });
-  });
-  it('should return 400 - Change the location of a specific parcel delivery order', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/destination`).set('x-access-token', token)
-      .send({ destination: 'Uganda' })
-      .end((err, res) => {
-        res.body.should.have.property('message');
-        res.body.should.have.status(404);
         done();
       });
   });

@@ -44,15 +44,12 @@ window.onload = async () => {
             <td>${parcels.data[index].receiver_phone}</td>
             <td>${parcels.data[index].status}</td>
             <td>
-                <button>
-                    <i class="fas fa-edit"></i>
-                </button>
-               <button>
-                    <i class="fas fa-info-circle"></i>
-               </button>
-                <button title="Cancel a Parcel" onclick="cancel('${parcels.data[index].id}')">
+                <a title="Cancel a Parcel" onclick="cancel('${parcels.data[index].id}')">
                     <i class="fas fa-times-circle"></i>
-                </button>
+                </a>
+                <a href="editParcel.html?id=${parcels.data[index].id}">
+                    <i class="fas fa-edit"></i>
+                </a>
             </td>
           </tr>
         `;

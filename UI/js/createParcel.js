@@ -27,6 +27,9 @@ window.onload = () => {
         await localStorage.setItem('token', token);
         if (token) {
           document.getElementById('output').innerHTML = message;
+          setTimeout(() => {
+            window.location.href = 'viewParcel.html';
+          }, 2000);
         } else {
           document.getElementById('output').innerHTML = message;
         }
