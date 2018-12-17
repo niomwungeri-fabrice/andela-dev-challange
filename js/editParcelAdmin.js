@@ -1,3 +1,4 @@
+
 /* eslint-disable no-undef */
 window.onload = () => {
   const urlString = window.location.href;
@@ -65,13 +66,14 @@ window.onload = () => {
           const { message, status } = results;
           if (status === 200) {
             document.getElementById('output').innerHTML = message;
+            // send email
             setTimeout(() => {
               window.location.href = 'admin.html';
             }, 2000);
           } else {
             window.location.href = 'admin.html';
           }
-        }).catch(err => err);
+        }).catch(err => (err.stack));
     });
   };
 
