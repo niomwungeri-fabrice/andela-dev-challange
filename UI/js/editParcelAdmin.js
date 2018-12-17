@@ -37,6 +37,19 @@ window.onload = () => {
   this.updateParcel = async () => {
     const token = await localStorage.getItem('token');
     const parcelStatus = document.getElementById('status-parcel').value;
+    const parcelpresentLocation = document.getElementById('present-location-parcel').value;
+    // change present location
+    fetch(`http://localhost:3000/api/v1/parcels/${id}/presentLocation`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        presentLocation: parcelpresentLocation,
+      }),
+      headers: {
+        'Content-Type': 'Application/JSON',
+        'x-access-token': token,
+      },
+    });
+    // change status
     fetch(`http://localhost:3000/api/v1/parcels/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({
