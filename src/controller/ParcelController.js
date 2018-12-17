@@ -3,6 +3,7 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import db from '../db';
 import Parcel from '../model/parcel';
+import mailSender from '../middleware/MailSender';
 
 const parcelStatus = {
   PENDING: 'PENDING',
@@ -199,6 +200,13 @@ const Parcels = {
         rows[0].id,
       ];
       const response = await db.query(updateStatuQuery, updateValues);
+      mailSender.newUserEmail(
+        'fabrice.niyomwungeri@inyenyeri.com',
+        'Fabrice',
+        'NIYOMWUNGERI',
+        'Status',
+        'Present Location',
+      );
       return res.status(200).send({
         message: 'Parcel Status Updated', status: 200, data: response.rows[0],
       });
