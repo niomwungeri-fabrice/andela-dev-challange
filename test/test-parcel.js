@@ -244,7 +244,6 @@ describe('PUT /api/v1/parcels/:parcelId/destination', () => {
   it('should return 200 - Change the destination of a specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/destination`).set('x-access-token', token).send({ destination: 'South Sudan' })
       .end((err, res) => {
-        console.log(res.body);
         res.body.data.should.have.property('destination').eql('South Sudan');
         res.body.should.have.status(200);
         done();
