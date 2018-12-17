@@ -16,7 +16,7 @@ let validParcelId = '';
 const validUser = 'niomwungeri@gmail.com';
 let userid = '';
 let token = '';
-const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiMTFhZDQzNy0xZDQ5LTRiNzYtYjU2NS02NzFhZGMwMGZmMjMiLCJpYXQiOjE1NDQ2MDAyNTksImV4cCI6MTU0NDc3MzA1OX0.EtNiakoo1KZB8iat8AdMYuW__k6b43I9GKmr-cvlxN0';
+const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMjAzM2UzMS1kM2U5LTQ0Y2ItODVjYi01NDVjNGIyZWU3OTAiLCJpYXQiOjE1NDUwMTc5OTcsImV4cCI6MTU0NTE5MDc5N30.R-CIIw0dUiua426w_QhjcHZRa_0U7SciGC7TIKZ15OQ';
 const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZWFlODEyZC00MDZhLTQyZmYtODk2Mi04ZDdlNTFjNjUyNzQiLCJpYXQiOjE1NDQwMzIzNTgsImV4cCI6MTU0NDIwNTE1OH0.5P9_JkyklSITuVSQg4Os-vCp6kt3BeVhMkMNNvIJSdE';
 const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4,
   userid, '0487389934', 'PENDING', moment(new Date()), moment(new Date()));
@@ -241,7 +241,7 @@ describe('GET /api/v1/parcels/:parcel', () => {
 
 
 describe('PUT /api/v1/parcels/:parcelId/destination', () => {
-  it('should return 200 - Change the location of a specific parcel delivery order', (done) => {
+  it('should return 200 - Change the destination of a specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/destination`).set('x-access-token', token).send({ destination: 'South Sudan' })
       .end((err, res) => {
         res.body.data.should.have.property('destination').eql('South Sudan');
@@ -249,7 +249,7 @@ describe('PUT /api/v1/parcels/:parcelId/destination', () => {
         done();
       });
   });
-  it('should return 400 - Change the location of a specific parcel delivery order', (done) => {
+  it('should return 400 - Change the distination of a specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${correctParcelIdFormat}/destination`).set('x-access-token', token)
       .send({ destination: 'Uganda' })
       .end((err, res) => {
@@ -308,7 +308,7 @@ describe('PUT /api/v1/parcels/:parcelId/presentLocation', () => {
       });
   });
   // from status
-  it('should return 200 - Authorized', (done) => {
+  it('should return 200 - Authorized from status', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/status`)
       .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
       .end((err, res) => {
