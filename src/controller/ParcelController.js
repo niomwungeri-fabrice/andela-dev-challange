@@ -18,10 +18,10 @@ const createParcelQuery = `INSERT INTO
       returning *`;
 
 const findOneQuery = 'SELECT * FROM parcels WHERE id = $1';
-
+const findOneQueryUser = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
 const updateStatuQuery = `UPDATE parcels
 SET status=$1,modified_date=$2
-WHERE id=$3 AND owner_id = $4 returning *`;
+WHERE id=$3 returning *`;
 
 const cancelQuery = `UPDATE parcels
 SET status=$1,modified_date=$2
@@ -29,7 +29,7 @@ WHERE id=$3 AND owner_id = $4 returning *`;
 
 const updatePresentLocationQuery = `UPDATE parcels
 SET present_location=$1,modified_date=$2
-WHERE id=$3 AND owner_id = $4 returning *`;
+WHERE id=$3 returning *`;
 
 const updateDestinationQuery = `UPDATE parcels
 SET destination=$1,modified_date=$2
@@ -107,7 +107,7 @@ const Parcels = {
   // Cancel the specific parcel delivery order
   async cancel(req, res) {
     try {
-      const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
+      const { rows } = await db.query(findOneQueryUser, [req.params.parcelId, req.user.id]);
       if (rows[0]) {
         if (rows[0].status === parcelStatus.ARRIVED || rows[0].status === parcelStatus.DELIVERED
           || rows[0].status === parcelStatus.CANCELLED) {
@@ -139,7 +139,7 @@ const Parcels = {
   // Change the present location of a specific parcel delivery order
   async ChangePresentLocation(req, res) {
     try {
-      const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
+      const { rows } = await db.query(findOneQuery, [req.params.parcelId]);
       if (!rows[0]) {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
@@ -147,7 +147,6 @@ const Parcels = {
         req.body.presentLocation,
         moment(new Date()),
         rows[0].id,
-        req.user.id,
       ];
       const response = await db.query(updatePresentLocationQuery, updateValues);
       return res.status(200).send({
@@ -164,7 +163,7 @@ const Parcels = {
   },
   async changeDestination(req, res) {
     try {
-      const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
+      const { rows } = await db.query(findOneQueryUser, [req.params.parcelId, req.user.id]);
 
       if (!rows[0]) {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
@@ -190,7 +189,7 @@ const Parcels = {
   },
   async changeStatus(req, res) {
     try {
-      const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
+      const { rows } = await db.query(findOneQuery, [req.params.parcelId]);
       if (!rows[0]) {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
@@ -198,11 +197,10 @@ const Parcels = {
         req.body.status,
         moment(new Date()),
         rows[0].id,
-        req.user.id,
       ];
       const response = await db.query(updateStatuQuery, updateValues);
       return res.status(200).send({
-        message: 'Success', status: 200, data: response.rows[0],
+        message: 'Parcel Status Updated', status: 200, data: response.rows[0],
       });
     } catch (err) {
       return res.status(400).send(err);

@@ -23,6 +23,7 @@ parcelRoute.route('/:parcelId/presentLocation')
     ParcelController.ChangePresentLocation);
 
 parcelRoute.route('/:parcelId/status')
-  .put(Helper.validateStatus, Auth.secureRoute, ParcelController.changeStatus);
+  .put(Helper.validateStatus, Auth.secureRoute,
+    ParcelController.changeStatus);
 
 export default parcelRoute;
