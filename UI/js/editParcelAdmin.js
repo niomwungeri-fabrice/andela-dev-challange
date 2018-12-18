@@ -1,3 +1,4 @@
+
 /* eslint-disable no-undef */
 window.onload = () => {
   const urlString = window.location.href;
@@ -69,9 +70,9 @@ window.onload = () => {
               window.location.href = 'admin.html';
             }, 2000);
           } else {
-            window.location.href = 'admin.html';
+            // window.location.href = 'admin.html';
           }
-        }).catch(err => err);
+        }).catch(err => (err.stack));
     });
   };
 

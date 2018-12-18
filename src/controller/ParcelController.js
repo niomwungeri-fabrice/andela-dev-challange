@@ -3,6 +3,7 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import db from '../db';
 import Parcel from '../model/parcel';
+import mailSender from '../middleware/MailSender';
 
 const parcelStatus = {
   PENDING: 'PENDING',
@@ -34,6 +35,8 @@ WHERE id=$3 returning *`;
 const updateDestinationQuery = `UPDATE parcels
 SET destination=$1,modified_date=$2
 WHERE id=$3 AND owner_id = $4 returning *`;
+
+const getUserQuery = 'SELECT * FROM users WHERE id = $1';
 
 const Parcels = {
   // Create a parcel delivery order
@@ -199,6 +202,16 @@ const Parcels = {
         rows[0].id,
       ];
       const response = await db.query(updateStatuQuery, updateValues);
+      // fetch user
+      const userResponse = await db.query(getUserQuery, [response.rows[0].owner_id]);
+
+      mailSender.newUserEmail(
+        userResponse.rows[0].email,
+        userResponse.rows[0].first_name,
+        userResponse.rows[0].last_name,
+        response.rows[0].status,
+        response.rows[0].present_location,
+      );
       return res.status(200).send({
         message: 'Parcel Status Updated', status: 200, data: response.rows[0],
       });
