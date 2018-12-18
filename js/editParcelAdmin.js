@@ -74,7 +74,7 @@ window.onload = () => {
             }, 3000);
           } else {
             document.getElementById('output-error').style.display = 'block';
-            document.getElementById('output-error').innerHTML = message;
+            document.getElementById('output-error').innerHTML += message;
             setTimeout(() => {
               window.location.href = 'admin.html';
             }, 3000);
