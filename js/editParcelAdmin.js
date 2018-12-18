@@ -1,6 +1,8 @@
 
 /* eslint-disable no-undef */
 window.onload = () => {
+  document.getElementById('output-success').style.display = 'none';
+  document.getElementById('output-error').style.display = 'none';
   const urlString = window.location.href;
   const url = new URL(urlString);
   const id = url.searchParams.get('id');
@@ -65,12 +67,17 @@ window.onload = () => {
         .then(async (results) => {
           const { message, status } = results;
           if (status === 200) {
-            document.getElementById('output').innerHTML = message;
+            document.getElementById('output-success').style.display = 'block';
+            document.getElementById('output-success').innerHTML = message;
             setTimeout(() => {
               window.location.href = 'admin.html';
-            }, 2000);
+            }, 3000);
           } else {
-            // window.location.href = 'admin.html';
+            document.getElementById('output-error').style.display = 'block';
+            document.getElementById('output-error').innerHTML = message;
+            setTimeout(() => {
+              window.location.href = 'admin.html';
+            }, 3000);
           }
         }).catch(err => (err.stack));
     });
