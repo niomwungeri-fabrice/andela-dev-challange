@@ -66,12 +66,11 @@ window.onload = () => {
           const { message, status } = results;
           if (status === 200) {
             document.getElementById('output').innerHTML = message;
-            // send email
             setTimeout(() => {
               window.location.href = 'admin.html';
             }, 2000);
           } else {
-            window.location.href = 'admin.html';
+            // window.location.href = 'admin.html';
           }
         }).catch(err => (err.stack));
     });

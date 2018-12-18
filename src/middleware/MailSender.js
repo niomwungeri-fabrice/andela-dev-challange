@@ -18,8 +18,8 @@ const newUserEmail = (email, firstName, lastName, status, presentationLocation) 
     `,
   };
   sgMail.send(msg)
-    .then(sent => sent)
-    .catch(error => error);
+    .then(sent => (sent))
+    .catch(error => (error));
 };
 
 
