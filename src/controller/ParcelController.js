@@ -216,7 +216,6 @@ const Parcels = {
         message: 'Parcel Status Updated', status: 200, data: response.rows[0],
       });
     } catch (err) {
-      console.log(err.stack);
       return res.status(400).send(err);
     }
   },
