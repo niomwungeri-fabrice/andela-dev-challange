@@ -25,12 +25,14 @@ window.onload = function () {
     });
     const content = await rawResponse.json();
     if (content.status === 201) {
-      document.getElementById('output').innerHTML = content.message;
+      document.getElementById('output-success').style.display = 'block';
+      document.getElementById('output-success').innerHTML = content.message;
       setTimeout(() => {
         window.location.href = 'login.html';
-      }, 2000);
+      }, 3000);
     } else {
-      document.getElementById('output').innerHTML = content.message;
+      document.getElementById('output-error').style.display = 'block';
+      document.getElementById('output-error').innerHTML = content.message;
     }
   }
   if (signUpBtn) {

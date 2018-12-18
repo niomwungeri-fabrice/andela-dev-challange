@@ -18,7 +18,8 @@ const createParcelQuery = `INSERT INTO
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       returning *`;
 
-const findOneQuery = 'SELECT * FROM parcels WHERE id = $1';
+const findOneQuery = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
+const findOneQueryAdmin = 'SELECT * FROM parcels WHERE id = $1';
 const findOneQueryUser = 'SELECT * FROM parcels WHERE id = $1 AND owner_id = $2';
 const updateStatuQuery = `UPDATE parcels
 SET status=$1,modified_date=$2
@@ -89,7 +90,28 @@ const Parcels = {
   // Fetch a specific parcel delivery order
   async getOne(req, res) {
     try {
-      const { rows, rowCount } = await db.query(findOneQuery, [req.params.parcelId]);
+      const { rows, rowCount } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
+      if (!rows[0]) {
+        return res.status(400).send({ message: 'parcels not found', status: 400 });
+      }
+      return res.status(200).send({
+        message: 'Success', status: 200, rowCount, data: rows[0],
+      });
+    } catch (error) {
+      if (error.routine === 'string_to_uuid') {
+        return res.status(200).send({
+          message: 'Invalid Id', status: 400,
+        });
+      }
+      return res.status(400).send({
+        message: error, status: 400,
+      });
+    }
+  },
+  // Fetch a specific parcel delivery order
+  async getOneAdmin(req, res) {
+    try {
+      const { rows, rowCount } = await db.query(findOneQueryAdmin, [req.params.parcelId]);
       if (!rows[0]) {
         return res.status(400).send({ message: 'parcels not found', status: 400 });
       }
@@ -112,7 +134,8 @@ const Parcels = {
     try {
       const { rows } = await db.query(findOneQueryUser, [req.params.parcelId, req.user.id]);
       if (rows[0]) {
-        if (rows[0].status === parcelStatus.ARRIVED || rows[0].status === parcelStatus.DELIVERED
+        if (rows[0].status === parcelStatus.ARRIVED
+          || rows[0].status === parcelStatus.DELIVERED
           || rows[0].status === parcelStatus.CANCELLED) {
           return res.status(400).send({ message: 'Ooops, The parcel has been delived or cancelled already, Cancel denied!', status: 400 });
         }
@@ -128,7 +151,7 @@ const Parcels = {
       ];
       const response = await db.query(cancelQuery, updateValues);
       return res.status(200).send({
-        message: 'Success', status: 200, data: response.rows[0],
+        message: 'Parcel has been cancelled', status: 200, data: response.rows[0],
       });
     } catch (err) {
       if (err.routine === 'string_to_uuid') {
@@ -172,9 +195,9 @@ const Parcels = {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
       if (rows[0].status === parcelStatus.ARRIVED
-        || rows[0].status === parcelStatus.IN_TRANSIT
-        || rows[0].status === parcelStatus.DELIVERED) {
-        return res.status(202).send({ message: 'Parcel has been cancelled, Change destination failed', status: 202 });
+        || rows[0].status === parcelStatus.DELIVERED
+        || rows[0].status === parcelStatus.CANCELLED) {
+        return res.status(202).send({ message: 'Change destination failed, Parcel has been arrived, delivered or cancelled', status: 202 });
       }
       const updateValues = [
         req.body.destination,
@@ -184,7 +207,7 @@ const Parcels = {
       ];
       const response = await db.query(updateDestinationQuery, updateValues);
       return res.status(200).send({
-        message: 'Success', status: 200, data: response.rows[0],
+        message: 'Destination of Parcel has been changed', status: 200, data: response.rows[0],
       });
     } catch (err) {
       return res.status(400).send(err);
@@ -192,7 +215,7 @@ const Parcels = {
   },
   async changeStatus(req, res) {
     try {
-      const { rows } = await db.query(findOneQuery, [req.params.parcelId]);
+      const { rows } = await db.query(findOneQueryAdmin, [req.params.parcelId]);
       if (!rows[0]) {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
@@ -205,6 +228,11 @@ const Parcels = {
       // fetch user
       const userResponse = await db.query(getUserQuery, [response.rows[0].owner_id]);
 
+      if (response.rows[0].status === parcelStatus.ARRIVED
+        || response.rows[0].status === parcelStatus.DELIVERED
+        || response.rows[0].status === parcelStatus.CANCELLED) {
+        return res.status(202).send({ message: 'Change status failed, Parcel has been arrived, delivered or cancelled ', status: 202 });
+      }
       mailSender.newUserEmail(
         userResponse.rows[0].email,
         userResponse.rows[0].first_name,
