@@ -9,6 +9,8 @@
     <meta name="kewords" content="Parcel, Delivery">
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/message.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <script src="./js/login.js"></script>
 </head>
 <body>
@@ -28,7 +30,10 @@
     </header>
         <div class="container">
             <div class="login-page">     
-                <div class="output" id="output"></div>    
+                <div class="output" id="output"></div>
+                <div id="output-error" class="error-msg">
+                    <i class="fa fa-times-circle"></i>
+                </div>    
                 <input id="email-login" class="input_g" type="text" placeholder="email"/><br>
                 <input id="password-login" class="input_g" type="password" placeholder="password" /><br>
                 <input class="button_1" type="button" value="Login" id="submit-login"/>

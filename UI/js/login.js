@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 window.onload = () => {
+  document.getElementById('output-error').style.display = 'none';
   const email = document.getElementById('email-login');
   const password = document.getElementById('password-login');
   const loginBtn = document.getElementById('submit-login');
@@ -21,7 +22,8 @@ window.onload = () => {
             window.location.href = 'viewParcel.html';
           }
         } else {
-          document.getElementById('output').innerHTML = message;
+          document.getElementById('output-error').style.display = 'block';
+          document.getElementById('output-error').innerHTML += message;
         }
       }).catch(err => err);
     });
