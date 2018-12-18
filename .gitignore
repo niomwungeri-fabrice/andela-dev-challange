@@ -3,4 +3,5 @@ node_modules/
 lib/
 npm-debug.log
 .DS_Store
-/*.env
+sendgrid.env
+.env
