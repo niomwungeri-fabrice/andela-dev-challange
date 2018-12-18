@@ -23,16 +23,23 @@ window.onload = () => {
       },
     }).then((res) => {
       res.json().then(async (results) => {
-        const { message } = results;
+        const { message, status } = results;
         await localStorage.setItem('token', token);
-        if (token) {
-          document.getElementById('output').innerHTML = message;
+        if (status === 201) {
+          document.getElementById('output-success').style.display = 'block';
+          document.getElementById('output-success').innerHTML = message;
           setTimeout(() => {
             window.location.href = 'viewParcel.html';
-          }, 2000);
+          }, 4000);
         } else {
-          document.getElementById('output').innerHTML = message;
+          document.getElementById('output-error').style.display = 'block';
+          document.getElementById('output-error').innerHTML = message;
         }
+        // clear
+        setTimeout(() => {
+          document.getElementById('output-error').style.display = 'none';
+          document.getElementById('output-success').style.display = 'none';
+        }, 4000);
       }).catch(err => err);
     });
   };

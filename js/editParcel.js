@@ -26,7 +26,7 @@ window.onload = () => {
         document.getElementById('phone-parcel').value = data.receiver_phone;
         document.getElementById('phone-parcel').disabled = true;
       // update a parcel
-      }).catch(err => err);
+      }).catch(err => (err.stack));
     });
   })();
 
@@ -46,13 +46,15 @@ window.onload = () => {
       res.json()
         .then(async (results) => {
           const { message, status } = results;
-          if (status === 202) {
-            document.getElementById('output').innerHTML = message;
+          if (status === 200) {
+            document.getElementById('output-success').style.display = 'block';
+            document.getElementById('output-success').innerHTML = message;
             setTimeout(() => {
               window.location.href = 'viewParcel.html';
-            }, 2000);
+            }, 4000);
           } else {
-            window.location.href = 'viewParcel.html';
+            document.getElementById('output-error').style.display = 'block';
+            document.getElementById('output-error').innerHTML = message;
           }
         }).catch(err => err);
     });

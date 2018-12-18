@@ -1,15 +1,13 @@
 
 /* eslint-disable no-undef */
 window.onload = () => {
-  document.getElementById('output-success').style.display = 'none';
-  document.getElementById('output-error').style.display = 'none';
   const urlString = window.location.href;
   const url = new URL(urlString);
   const id = url.searchParams.get('id');
   const uptateBtn = document.getElementById('update-parcel');
   (this.viewDetail = async () => {
     const token = await localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/v1/parcels/${id}`, {
+    fetch(`http://localhost:3000/api/v1/parcels/${id}/admin`, {
       method: 'GET',
       headers: {
         'Content-Type': 'Application/JSON',
@@ -71,15 +69,15 @@ window.onload = () => {
             document.getElementById('output-success').innerHTML = message;
             setTimeout(() => {
               window.location.href = 'admin.html';
-            }, 3000);
+            }, 4000);
+          } else if (status === 202) {
+            document.getElementById('output-info').style.display = 'block';
+            document.getElementById('output-info').innerHTML = message;
           } else {
             document.getElementById('output-error').style.display = 'block';
-            document.getElementById('output-error').innerHTML += message;
-            setTimeout(() => {
-              window.location.href = 'admin.html';
-            }, 3000);
+            document.getElementById('output-error').innerHTML = message;
           }
-        }).catch(err => (err.stack));
+        }).catch(err => err);
     });
   };
 

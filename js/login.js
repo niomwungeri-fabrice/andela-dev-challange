@@ -23,7 +23,7 @@ window.onload = () => {
           }
         } else {
           document.getElementById('output-error').style.display = 'block';
-          document.getElementById('output-error').innerHTML += message;
+          document.getElementById('output-error').innerHTML = message;
         }
       }).catch(err => err);
     });
