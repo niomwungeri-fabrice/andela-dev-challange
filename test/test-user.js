@@ -57,7 +57,7 @@ describe('POST /api/v1/auth/signup', () => {
 
 // to be verified
 describe('DELETE /api/v1/users/delete', () => {
-  it('should return 204 - User found', (done) => {
+  it.skip('should return 204 - User found', (done) => {
     chai.request(app).delete('/api/v1/users/delete').set('x-access-token', token)
       .end((err, res) => {
         chai.expect(res.statusCode).to.be.equal(204);

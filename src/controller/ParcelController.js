@@ -165,7 +165,7 @@ const Parcels = {
   // Change the present location of a specific parcel delivery order
   async ChangePresentLocation(req, res) {
     try {
-      const { rows } = await db.query(findOneQuery, [req.params.parcelId]);
+      const { rows } = await db.query(findOneQueryAdmin, [req.params.parcelId]);
       if (!rows[0]) {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }
