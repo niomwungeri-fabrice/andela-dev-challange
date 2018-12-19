@@ -7,7 +7,7 @@ window.onload = () => {
   const uptateBtn = document.getElementById('update-parcel');
   (this.viewDetail = async () => {
     const token = await localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/v1/parcels/${id}`, {
+    fetch(`http://localhost:3000/api/v1/parcels/${id}/admin`, {
       method: 'GET',
       headers: {
         'Content-Type': 'Application/JSON',
@@ -65,14 +65,19 @@ window.onload = () => {
         .then(async (results) => {
           const { message, status } = results;
           if (status === 200) {
-            document.getElementById('output').innerHTML = message;
+            document.getElementById('output-success').style.display = 'block';
+            document.getElementById('output-success').innerHTML = message;
             setTimeout(() => {
               window.location.href = 'admin.html';
-            }, 2000);
+            }, 4000);
+          } else if (status === 202) {
+            document.getElementById('output-info').style.display = 'block';
+            document.getElementById('output-info').innerHTML = message;
           } else {
-            // window.location.href = 'admin.html';
+            document.getElementById('output-error').style.display = 'block';
+            document.getElementById('output-error').innerHTML = message;
           }
-        }).catch(err => (err.stack));
+        }).catch(err => err);
     });
   };
 

@@ -9,6 +9,7 @@
     <meta name="kewords" content="Parcel, Delivery">
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/message.css" />
     <script src="js/signup.js"></script>
 </head>
 <body>
@@ -30,6 +31,15 @@
         <div class="container">
                <div class="register-form">
                         <div class="output" id="output"></div>
+                        
+                        <div style="display: none;" id="output-error" class="error-msg">
+                                <i class="fa fa-times-circle"></i>
+                        </div> 
+                        
+                        <div style="display: none;" id="output-success" class="success-msg">
+                                <i class="fa fa-check"></i>
+                        </div>
+                        
                         <input id="firstName" class="input_g" type="text" placeholder="first name"/><br>
                         <input id="lastName" class="input_g" type="text" placeholder="last name"/><br>
                         <input id="password" class="input_g" type="password" placeholder="password"/><br>

@@ -63,6 +63,7 @@ window.onload = async () => {
       })
       .catch(error => error.stack);
   })();
+  // cancel a parcel
   this.cancel = (item) => {
     fetch(`http://localhost:3000/api/v1/parcels/${item}/cancel`, {
       method: 'PUT',
@@ -72,8 +73,19 @@ window.onload = async () => {
       },
     }).then((res) => {
       res.json().then(async (results) => {
-        const { message } = results;
-        document.getElementById('output').innerHTML = message;
+        const { message, status } = results;
+        if (status === 200) {
+          document.getElementById('output-success').style.display = 'block';
+          document.getElementById('output-success').innerHTML = message;
+        } else {
+          document.getElementById('output-error').style.display = 'block';
+          document.getElementById('output-error').innerHTML = message;
+        }
+        // clear
+        setTimeout(() => {
+          document.getElementById('output-error').style.display = 'none';
+          document.getElementById('output-success').style.display = 'none';
+        }, 4000);
       }).catch(err => err);
     });
   };

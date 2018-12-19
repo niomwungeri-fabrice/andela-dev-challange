@@ -8,9 +8,12 @@ const parcelRoute = express.Router();
 parcelRoute.route('/')
   .get(Auth.secureRoute, ParcelController.getAll)
   .post(Helper.parcelValidor, ParcelController.create);
-// create Helper method for these routes
+
 parcelRoute.route('/:parcelId')
-  .get(Auth.secureRoute, ParcelController.getOne);
+  .get(ParcelController.getOne);
+
+parcelRoute.route('/:parcelId/admin')
+  .get(Auth.secureRoute, ParcelController.getOneAdmin);
 
 parcelRoute.route('/:parcelId/cancel')
   .put(ParcelController.cancel);

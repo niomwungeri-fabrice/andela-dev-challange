@@ -10,8 +10,10 @@
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="./css/send.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/message.css" />
     <script type="text/javascript" src="./js/adminView.js"></script>
     <script type="text/javascript" src="./js/editParcelAdmin.js"></script>
+
     <!--[if gt IE 8]><!-->
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
     <!--<![endif]-->
@@ -36,9 +38,17 @@
         </div>
     </header>
     <div class="container">
+        <div style="display: none;" id="output-error" class="error-msg">
+            <i class="fa fa-times-circle"></i>
+        </div>
+        <div style="display: none;" id="output-success" class="success-msg">
+            <i class="fa fa-check"></i>
+          </div>
+          <div style="display: none;" id="output-info" class="info-msg">
+            <i class="fa fa-info-circle"></i>
+          </div>
         <div class="row">
             <div class="col-4">
-                <div id="output"></div>
                 <div id="createParcel">
                     <label for="location"><b>Location</b></label>
                     <input id="location-parcel" type="text"  name="location" required>

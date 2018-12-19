@@ -16,7 +16,7 @@ let validParcelId = '';
 const validUser = 'niomwungeri@gmail.com';
 let userid = '';
 let token = '';
-const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMjAzM2UzMS1kM2U5LTQ0Y2ItODVjYi01NDVjNGIyZWU3OTAiLCJpYXQiOjE1NDUwMTc5OTcsImV4cCI6MTU0NTE5MDc5N30.R-CIIw0dUiua426w_QhjcHZRa_0U7SciGC7TIKZ15OQ';
+const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMzhiNWNjNC0zM2ViLTQyMTgtOGViOC04NmJmNjFiYmVmYTUiLCJpYXQiOjE1NDUyMzMyMTcsImV4cCI6MTU0NTQwNjAxN30.mhq72q27EYhb_Az1_810n1K6y6vWdZI3r7F5H3Dhr_0';
 const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZWFlODEyZC00MDZhLTQyZmYtODk2Mi04ZDdlNTFjNjUyNzQiLCJpYXQiOjE1NDQwMzIzNTgsImV4cCI6MTU0NDIwNTE1OH0.5P9_JkyklSITuVSQg4Os-vCp6kt3BeVhMkMNNvIJSdE';
 const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4,
   userid, '0487389934', 'PENDING', moment(new Date()), moment(new Date()));
@@ -241,7 +241,7 @@ describe('GET /api/v1/parcels/:parcel', () => {
 
 
 describe('PUT /api/v1/parcels/:parcelId/destination', () => {
-  it('should return 200 - Change the destination of a specific parcel delivery order', (done) => {
+  it('should return 202 - Change the destination of a specific parcel delivery order', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validParcelId}/destination`).set('x-access-token', token).send({ destination: 'South Sudan' })
       .end((err, res) => {
         res.body.data.should.have.property('destination').eql('South Sudan');

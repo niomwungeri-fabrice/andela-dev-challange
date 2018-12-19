@@ -10,6 +10,7 @@
     <meta name="author" content="Fabrice Niyomwungeri">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="./css/send.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/message.css" />
     <script type="text/javascript" src="./js/clientView.js"></script>
     <script type="text/javascript" src="./js/editParcel.js"></script>
 </head>
@@ -33,9 +34,12 @@
         </div>
     </header>
     <div class="container">
-
-        <div id="output"></div>
-
+        <div  style="display: none;" id="output-error" class="error-msg">
+            <i class="fa fa-times-circle"></i>
+        </div>
+        <div  style="display: none;" id="output-success" class="success-msg">
+            <i class="fa fa-check"></i>
+        </div>
         <div id="createParcel">
             <label for="location"><b>Location</b></label>
             <input id="location-parcel" type="text" placeholder="Enter Location" name="location" required>
