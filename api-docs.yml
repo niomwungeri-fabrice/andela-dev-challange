@@ -1,0 +1,534 @@
+# file modified from https://github.com/oesukam/andela-sendit/blob/develop/server/src/docs/api_swagger.yml
+swagger: "2.0"
+info:
+  description: "SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories."
+  version: "1.0.0"
+  title: "Send-IT"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "niomwungeri.fabrice@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "https://andela-dev-challenge.herokuapp.com"
+basePath: "/api/v1"
+tags:
+- name: "auth"
+  description: "Access to protected ressources"
+- name: "parcels"
+  description: "Access to parcels ressources"
+- name: "users"
+  description: "Access to users ressources"
+- name: "admin"
+  description: "Groups admin ressources"
+schemes:
+- "https"
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  JWT_Token:
+    type: apiKey
+    in: header
+    name: x-access-token
+paths:
+  /auth/signup:
+    post:
+      summary: "Create an account"
+      tags:
+        - "auth"
+      operationId: signup
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/Signup"
+      responses:
+        '201':
+          description: Return user object
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                $ref: "#/definitions/User"
+        '403':
+          description: User already exist
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                $ref: "#/definitions/User"
+  /auth/login:
+    post:
+      summary: "Sign in"
+      tags:
+        - "auth"
+      operationId: login
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Created user object"
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        '200':
+          description: return user object
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                $ref: "#/definitions/User"
+        '404':
+          description: User does not exist
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+        '400':
+          description: The credentials you provided is incorrect
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+  /users:
+    get:
+      summary: "Get all users"
+      security:
+        - JWT_Token: []
+      tags:
+        - "users"
+        - "admin"
+      operationId: allUsers
+      parameters: 
+        - name: x-access-token
+          in: header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: return list of users
+  
+  /users/{userId}/update:
+    put:
+      summary: "Update the user role of a user from admin to normal or the other way around"
+      security:
+        - JWT_Token: []
+      tags:
+        - "users"
+      operationId: updateUser
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: return the basic user information
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                $ref: "#/definitions/User"
+  /users/{userId}:
+    get:
+      summary: "Fetch basic user's information"
+      security:
+        - JWT_Token: []
+      tags:
+        - "users"
+      operationId: userById
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: return the basic user information
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                $ref: "#/definitions/User"
+  /users/{userId}/parcels:
+    get:
+      summary: "Fetch a particular user's parcels"
+      security:
+        - JWT_Token: []
+      tags:
+        - "users"
+      operationId: parcelByUser
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: return a list of user's parcels
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Parcel"
+  /parcels:
+    post:
+      summary: "Create a new parcel"
+      security:
+        - JWT_Token: []
+      tags:
+        - "parcels"
+      description: add a new parcel
+      operationId: postParcel
+      parameters:
+        - name: x-access-token
+          in: header
+          description: JWT Token
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: "#/definitions/ParcelCreate"
+
+      responses:
+        '201':
+          description: return the created parcel
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+              data:
+                $ref: "#/definitions/User"
+    get:
+      summary: "Fetch all parcels by Admins"
+      security:
+        - JWT_Token_Admin: []
+      tags:
+        - "parcels"
+      description: return list of parcels
+      operationId: getParcels
+      parameters:
+        - name: search 
+          required: false
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: number
+      responses:
+        '200':
+          description: success response
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Parcel"
+  /parcels/{id}:
+    get:
+      summary: "Fetch single parcel by ID"
+      security:
+        - JWT_Token: []
+      tags:
+      - "parcels"
+      description: return a single parcel
+      operationId: getOne
+      parameters:
+        - name: id
+          in: path
+          description: uuid of a parcel
+          required: true
+          type: string
+      responses:
+        '200':
+          description: return a parcel object
+          
+  /parcels/{id}/cancel:
+    put:
+      security:
+        - JWT_Token: []
+      tags:
+        - "parcels"
+      summary: Cancel the specific parcel delivery order
+      operationId: cancel
+      parameters:
+        - name: id
+          in: path
+          description: uuid of a parcel
+          required: true
+          type: string
+      responses:
+        '200':
+          description: return a parcel object
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+
+  /parcels/{id}/presentLocation:
+    put:
+      security:
+        - JWT_Token: []
+      tags:
+        - "parcels"
+      summary: Change the present location of a specific parcel delivery order
+      operationId: presentLocation
+      parameters:
+        - name: id
+          in: path
+          description: uuid of a parcel
+          required: true
+          type: string
+      responses:
+        '200':
+          description: return a parcel object
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+
+  /parcels/{id}/status:
+    put:
+      security:
+        - JWT_Token: []
+      tags:
+        - "parcels"
+      summary: Change the status of a specific parcel delivery order
+      operationId: changeStatus
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Created user object"
+          required: true
+          schema:
+            $ref: "#/definitions/ParcelStatus"
+        - name: id
+          in: path
+          description: uuid of a parcel
+          required: true
+          type: string
+              
+      responses:
+        '200':
+          description: return a parcel object
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+  /parcels/{id}/destination:
+    put:
+      security:
+        - JWT_Token: []
+      tags:
+        - "parcels"
+      summary: Change the destination of a specific parcel delivery order
+      operationId: changeDestination
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Update parcel's destination"
+          required: true
+          schema:
+            $ref: "#/definitions/ParcelDestination"
+        - name: id
+          in: path
+          description: uuid of a parcel
+          required: true
+          type: string
+              
+      responses:
+        '200':
+          description: Parcel destination updated successfully
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      email:
+        type: string
+        format: email
+      first_name:
+        type: string
+      last_name:
+        type: string
+      username:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+    required: 
+      - id
+      - email
+      - first_name
+      - last_name
+      - username
+      - created_at
+      - updated_at
+  Signup:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+        example: "niomwungeri.fabrice@gmail.com"
+      password:
+        type: string
+        example: '123'
+      first_name:
+        type: string
+        example: Fabrice
+      last_name:
+        type: string
+        example: NIYOMWUNGERI
+      username:
+        type: string
+        example: niomwungeri
+    required: 
+      - email
+      - password
+      - first_name
+      - last_name
+      - username
+  Login:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+        example: "niomwungeri@email.com"
+      password:
+        type: string
+        example: "123"
+    required: 
+      - email
+      - password
+  
+  Parcel:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      owner_id:
+        type: string
+        format: uuid
+      location:
+        type: string
+      destination:
+        type: string
+      present_location:
+        type: string
+      receiver_phone:
+        type: string
+      status:
+        type: string
+      weight:
+        type: number
+    required:
+    - id 
+    - location 
+    - destination 
+    - present_location
+    - weight
+    - owner_id
+    - receiver_phone
+    - status
+  ParcelCreate:
+    type: object
+    properties:
+      owner_id:
+        type: uuid
+        example: 563eefec-7a64-492b-9adb-28c9318c6206
+      location:
+        type: string
+        example: Rwanda
+      destination:
+        type: string
+        example: Kenya
+      present_location:
+        type: string
+        example: Rwanda
+      receiver_phone:
+        type: string
+        example: '05987748574'
+      weight:
+        type: number
+        example: 55
+    required: 
+      - location 
+      - destination 
+      - present_location
+      - weight
+      - owner_id
+      - receiver_phone
+  
+  ParcelStatus:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+         - "PENDING"
+         - "IN_TRANSIT"
+         - "ARRIVED"
+         - "DELIVERED"
+         - "CANCELLED"
+  
+  ParcelDestination:
+    type: object
+    properties:
+      destination:
+        type: string

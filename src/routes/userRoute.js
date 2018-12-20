@@ -19,6 +19,7 @@ userRoute.route('/:userId')
 userRoute.route('/:userId/parcels')
   .get(ParcelController.parcelByUser);
 userRoute.route('/:userId/update')
-  .put(Auth.secureRoute, Helper.validateUserRole, UserControllers.updateUser);
+  .put(Auth.secureRoute, Helper.validateUserRole,
+    UserControllers.updateUser);
 
 export default userRoute;
