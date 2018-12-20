@@ -28,7 +28,6 @@ describe('POST /api/v1/auth/signup', () => {
       email: 'niomwungeri@gmail.com',
       firstName: 'admin',
       lastName: 'admin',
-      userRole: 'admin',
       password: '123',
       username: 'admin',
     };
@@ -61,6 +60,7 @@ describe('GET /api/v1/auth/login', () => {
       res.should.have.status(200);
       // eslint-disable-next-line prefer-destructuring
       token = res.body.token;
+      userid = res.body.data.id;
       done();
     });
   });
@@ -68,27 +68,17 @@ describe('GET /api/v1/auth/login', () => {
 
 describe('GET /api/v1/users/:userId', () => {
   it('should return 200', (done) => {
-    chai.request(app).get(`/api/v1/users/${validUser}`).set('x-access-token', token)
+    chai.request(app).get(`/api/v1/users/${userid}`).set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.username.length.should.be.eql(5);
         res.body.should.have.property('message').eql('Success');
-        userid = res.body.data.id;
         done();
       });
   });
 });
 
-describe('GET /api/v1/users/:userId/parcels', () => {
-  it('should return 400 - update', (done) => {
-    chai.request(app).put('/api/v1/users/update')
-      .set('x-access-token', token)
-      .send({ userRole: '' })
-      .end((err, res) => {
-        res.should.have.status(400);
-        done();
-      });
-  });
+describe('GET /api/v1/users/:userId', () => {
   it('should return 400 - status ', (done) => {
     chai.request(app).put(`/api/v1/parcels/${validUser}/status`)
       .set('x-access-token', token)
@@ -189,34 +179,44 @@ describe('POST /api/v1/parcels', () => {
   });
 });
 
-describe('Forbidden', () => {
-  it('should return 403 - Forbidden', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/presentLocation`)
-      .set('x-access-token', token)
-      .send({ presentLocation: 'Mombasa' })
-      .end((err, res) => {
-        res.body.should.have.status(403);
-        done();
-      });
-  });
-  // from status
-  it('should return 403 - Forbidden', (done) => {
-    chai.request(app).put(`/api/v1/parcels/${invalidParcel}/status`)
-      .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
-      .end((err, res) => {
-        res.body.should.have.status(403);
-        done();
-      });
-  });
-});
+// describe('Forbidden', () => {
+//   it('should return 403 - Forbidden', (done) => {
+//     chai.request(app).put(`/api/v1/parcels/${invalidParcel}/presentLocation`)
+//       .set('x-access-token', token)
+//       .send({ presentLocation: 'Mombasa' })
+//       .end((err, res) => {
+//         res.body.should.have.status(403);
+//         done();
+//       });
+//   });
+//   // from status
+//   it('should return 403 - Forbidden', (done) => {
+//     chai.request(app).put(`/api/v1/parcels/${invalidParcel}/status`)
+//       .set('x-access-token', token).send({ status: 'IN_TRANSIT' })
+//       .end((err, res) => {
+//         res.body.should.have.status(403);
+//         done();
+//       });
+//   });
+// });
 // admin
-describe('GET /api/v1/parcels', () => {
+describe('GET /api/v1/users', () => {
   it('should return 200 - Change User Role', (done) => {
-    chai.request(app).put('/api/v1/users/update')
+    chai.request(app).put(`/api/v1/users/${userid}/update`)
       .set('x-access-token', token)
       .send({ userRole: 'ADMIN' })
       .end((err, res) => {
         res.body.should.have.status(200);
+        done();
+      });
+  });
+  // update user require admin
+  it('should return 400 - update', (done) => {
+    chai.request(app).put(`/api/v1/users/${userid}/update`)
+      .set('x-access-token', token)
+      .send({ userRole: '' })
+      .end((err, res) => {
+        res.should.have.status(400);
         done();
       });
   });

@@ -15,7 +15,7 @@ const Users = {
       email, username, firstName, lastName, password,
     } = req.body;
 
-    const newUser = new User(uuidv4(), email, username, firstName, lastName, userRoles.NORMAL,
+    const newUser = new User(uuidv4(), email, username, firstName, lastName, userRoles.ADMIN,
       Helper.hashPassword(password), moment(new Date()), moment(new Date()));
 
     const createQuery = 'INSERT INTO users(id, email, username, first_name, last_name, user_role, password, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *';
@@ -51,8 +51,8 @@ const Users = {
       return res.status(400).send({ message: error, status: 400 });
     }
   },
-  async userByEmail(req, res) {
-    const text = 'SELECT * FROM users WHERE email = $1';
+  async userById(req, res) {
+    const text = 'SELECT * FROM users WHERE id = $1';
     try {
       const { rows, rowCount } = await db.query(text, [req.params.userId]);
 
@@ -93,9 +93,9 @@ const Users = {
     const updateOneQuery = 'UPDATE users SET user_role=$1, modified_date=$2 WHERE id=$3';
 
     try {
-      const { rows } = await db.query(selectOneQuery, [req.user.id]);
+      const { rows } = await db.query(selectOneQuery, [req.params.userId]);
       if (!rows[0]) {
-        return res.status(404).send({ message: 'user not found', status: 404 });
+        return res.status(404).send({ message: 'User not found', status: 404 });
       }
       const updateValues = [
         req.body.userRole,
@@ -104,7 +104,7 @@ const Users = {
       ];
       const response = await db.query(updateOneQuery, updateValues);
       return res.status(200).send({
-        message: 'Success', status: 200, data: response.rows[0],
+        message: 'User profile has been change successfully', status: 200, data: response.rows[0],
       });
     } catch (error) {
       return res.status(400).send({ message: error, status: 400 });
