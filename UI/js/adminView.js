@@ -28,10 +28,10 @@ window.onload = async () => {
             <td>${parcels.data[index].receiver_phone}</td>
             <td>${parcels.data[index].status}</td>
             <td>
-            <a href="editParcelAdmin.html?id=${parcels.data[index].id}">
-                <i class="fas fa-edit"></i>
-            </a>
-        </td>
+              <a href="editParcelAdmin.html?id=${parcels.data[index].id}">
+                  <i class="fas fa-edit"></i>
+              </a>
+            </td>
           </tr>
         `;
           myparcelTable.appendChild(tr);
@@ -59,6 +59,11 @@ window.onload = async () => {
           <td>${users.data[index].first_name}</td>
           <td>${users.data[index].last_name}</td>
           <td>${users.data[index].user_role}</td>
+          <td>
+              <a href="editUserAdmin.html?id=${users.data[index].id}">
+                  <i class="fas fa-edit"></i>
+              </a>
+            </td>
         </tr>
       `;
           userTable.appendChild(tr);

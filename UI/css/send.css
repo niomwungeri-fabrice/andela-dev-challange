@@ -21,7 +21,7 @@ input[type=text], input[type=password] {
   }
   
   /* Set a style for the submit/register button */
-  .createbtn {
+  .createbtn, .editbtn {
     background-color: #2600fd;
     color: white;
     padding: 16px 20px;
@@ -48,6 +48,6 @@ input[type=text], input[type=password] {
     text-align: center;
   }
 
-  #createParcel{
+  #createParcel,#editUser {
     margin-top: 2%;
   }
