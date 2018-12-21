@@ -315,37 +315,52 @@ paths:
           schema:
             type: object
             properties:
-              success:
-                type: boolean
               message:
                 type: string
+                example: Parcel Created Successfully
+              status:
+                type: number
+                example: 201
+              rowCount:
+                type: number
+                example: 1
               data:
                 $ref: "#/definitions/User"
-    get:
-      summary: "Fetch all parcels by Admins"
-      security:
-        - JWT_Token_Admin: []
-      tags:
-        - "parcels"
-        - "admin"
-      description: return list of parcels
-      operationId: getParcels
-      parameters:
-        - name: search 
-          required: false
-          type: string
-        - name: page
-          in: query
-          required: false
-          type: number
-      responses:
-        '200':
-          description: success response
+        '400':
+          description: Present Location is required
           schema:
             type: object
             properties:
               message:
                 type: string
+                example: Present Location is required
+              status:
+                type: number
+                example: 400
+    get:
+      summary: "Fetch all parcels by Admins"
+      security:
+        - JWT_Token: []
+      tags:
+        - "parcels"
+        - "admin"
+      description: return list of parcels
+      operationId: getAll
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success
+              status:
+                type: string
+                example: 200
+              rowCount:
+                type: string
+                example: 1
               data:
                 type: array
                 items:
@@ -367,10 +382,35 @@ paths:
           type: string
       responses:
         '200':
-          description: return a parcel object
+          description: Return one parcel
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success
+              status:
+                type: number
+                example: 200
+              rowCount:
+                type: number
+                example: 1
+              data:
+                $ref: "#/definitions/Parcel"
+        '400':
+          description: Parcel not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Parcel not found
+              status:
+                type: number
+                example: 400
   /parcels/{parcelId}/admin:
     get:
-      summary: "Fetch single parcel by parcelId (only admin)"
+      summary: "Fetch single parcel by parcelId"
       security:
         - JWT_Token: []
       tags:
@@ -385,7 +425,32 @@ paths:
           type: string
       responses:
         '200':
-          description: return a parcel object    
+          description: Return one parcel
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success
+              status:
+                type: number
+                example: 200
+              rowCount:
+                type: number
+                example: 1
+              data:
+                $ref: "#/definitions/Parcel"
+        '400':
+          description: Parcel not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Parcel not found
+              status:
+                type: number
+                example: 400
   /parcels/{parcelId}/cancel:
     put:
       security:
