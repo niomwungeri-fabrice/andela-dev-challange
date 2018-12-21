@@ -39,7 +39,7 @@ const Users = {
     try {
       const { rows } = await db.query(text, [req.body.email]);
       if (!rows[0]) {
-        return res.status(404).send({ message: 'User does not exist' });
+        return res.status(404).send({ message: 'User does not exist', status: 404 });
       }
       if (!Helper.comparePassword(rows[0].password, req.body.password)) {
         return res.status(400).send({ message: 'The credentials you provided is incorrect', status: 400 });

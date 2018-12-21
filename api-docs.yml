@@ -51,19 +51,26 @@ paths:
           schema:
             type: object
             properties:
-              success:
-                type: boolean
-              data:
-                $ref: "#/definitions/User"
-        '403':
+              status:
+                type: number
+                example: 201
+              message:
+                type: string
+                example: Account Created Successfully
+              token:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMzhiNWNjNC0zM2ViLTQyMTgtOGViOC04NmJmNjFiYmVmYTUiLCJpYXQiOjE1NDUyMzMyMTcsImV4cCI6MTU0NTQwNjAxN30.mhq72q27EYhb_Az1_810n1K6y6vWdZI3r7F5H3Dhr_0
+        '409':
           description: User already exist
           schema:
             type: object
             properties:
-              success:
-                type: boolean
-              data:
-                $ref: "#/definitions/User"
+              message:
+                type: string
+                example: User 'niomwungeri@email.com' already exist
+              status:
+                type: number
+                example: 409
   /auth/login:
     post:
       summary: "Sign in"
@@ -79,32 +86,41 @@ paths:
             $ref: "#/definitions/Login"
       responses:
         '200':
-          description: return user object
+          description: Return user object
           schema:
             type: object
             properties:
-              success:
-                type: boolean
+              status:
+                type: number
+                example: 200
+              token:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMzhiNWNjNC0zM2ViLTQyMTgtOGViOC04NmJmNjFiYmVmYTUiLCJpYXQiOjE1NDUyMzMyMTcsImV4cCI6MTU0NTQwNjAxN30.mhq72q27EYhb_Az1_810n1K6y6vWdZI3r7F5H3Dhr_0
               data:
                 $ref: "#/definitions/User"
-        '404':
-          description: User does not exist
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              message:
-                type: string
         '400':
           description: The credentials you provided is incorrect
           schema:
             type: object
             properties:
-              success:
-                type: boolean
+              message:
+                  type: string
+                  example: The credentials you provided is incorrect
+              status:
+                  type: number
+                  example: 400
+              
+        '404':
+          description: User does not exist
+          schema:
+            type: object
+            properties:
               message:
                 type: string
+                example: User does not exist
+              status:
+                type: number
+                example: 404
   /users:
     get:
       summary: "Get all users"
@@ -122,31 +138,16 @@ paths:
       responses:
         '200':
           description: return list of users
-  
-  /users/{userId}/update:
-    put:
-      summary: "Update the user role of a user from admin to normal or the other way around"
-      security:
-        - JWT_Token: []
-      tags:
-        - "users"
-      operationId: updateUser
-      parameters: 
-        - name: userId
-          in: path
-          required: true
-          type: string
-          format: uuid
-      responses:
-        '200':
-          description: return the basic user information
           schema:
             type: object
             properties:
-              success:
-                type: boolean
-              data:
-                $ref: "#/definitions/User"
+              message:
+                type: string
+                example: Success
+              status:
+                type: number
+                example: 200
+  
   /users/{userId}:
     get:
       summary: "Fetch basic user's information"
@@ -197,6 +198,54 @@ paths:
                 type: array
                 items:
                   $ref: "#/definitions/Parcel"
+  /users/{userId}/update:
+    put:
+      summary: "Update the user role of a user from admin to normal or the other way around"
+      security:
+        - JWT_Token: []
+      tags:
+        - "users"
+      operationId: updateUser
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: return the basic user information
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                $ref: "#/definitions/User"
+  /users/{userId}/delete:
+    delete:
+      summary: "Update the user role of a user from admin to normal or the other way around"
+      security:
+        - JWT_Token: []
+      tags:
+        - "users"
+      operationId: updateUser
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: return the basic user information
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                $ref: "#/definitions/User"
   /parcels:
     post:
       summary: "Create a new parcel"
@@ -257,9 +306,9 @@ paths:
                 type: array
                 items:
                   $ref: "#/definitions/Parcel"
-  /parcels/{id}:
+  /parcels/{parcelId}:
     get:
-      summary: "Fetch single parcel by ID"
+      summary: "Fetch single parcel by parcelId"
       security:
         - JWT_Token: []
       tags:
@@ -267,7 +316,7 @@ paths:
       description: return a single parcel
       operationId: getOne
       parameters:
-        - name: id
+        - name: parcelId
           in: path
           description: uuid of a parcel
           required: true
@@ -275,8 +324,25 @@ paths:
       responses:
         '200':
           description: return a parcel object
-          
-  /parcels/{id}/cancel:
+  /parcels/{parcelId}/admin:
+    get:
+      summary: "Fetch single parcel by parcelId (only admin)"
+      security:
+        - JWT_Token: []
+      tags:
+      - "parcels"
+      description: return a single parcel
+      operationId: getOne
+      parameters:
+        - name: parcelId
+          in: path
+          description: uuid of a parcel
+          required: true
+          type: string
+      responses:
+        '200':
+          description: return a parcel object    
+  /parcels/{parcelId}/cancel:
     put:
       security:
         - JWT_Token: []
@@ -285,7 +351,7 @@ paths:
       summary: Cancel the specific parcel delivery order
       operationId: cancel
       parameters:
-        - name: id
+        - name: parcelId
           in: path
           description: uuid of a parcel
           required: true
@@ -301,7 +367,7 @@ paths:
               message:
                 type: string
 
-  /parcels/{id}/presentLocation:
+  /parcels/{parcelId}/presentLocation:
     put:
       security:
         - JWT_Token: []
@@ -310,7 +376,7 @@ paths:
       summary: Change the present location of a specific parcel delivery order
       operationId: presentLocation
       parameters:
-        - name: id
+        - name: parcelId
           in: path
           description: uuid of a parcel
           required: true
@@ -326,7 +392,7 @@ paths:
               message:
                 type: string
 
-  /parcels/{id}/status:
+  /parcels/{parcelId}/status:
     put:
       security:
         - JWT_Token: []
@@ -341,7 +407,7 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/ParcelStatus"
-        - name: id
+        - name: parcelId
           in: path
           description: uuid of a parcel
           required: true
@@ -357,7 +423,7 @@ paths:
                 type: boolean
               message:
                 type: string
-  /parcels/{id}/destination:
+  /parcels/{parcelId}/destination:
     put:
       security:
         - JWT_Token: []
@@ -372,7 +438,7 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/ParcelDestination"
-        - name: id
+        - name: parcelId
           in: path
           description: uuid of a parcel
           required: true
@@ -399,6 +465,7 @@ definitions:
       email:
         type: string
         format: email
+        example: niomwungeri@email.com
       first_name:
         type: string
       last_name:
