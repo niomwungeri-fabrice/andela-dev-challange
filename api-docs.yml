@@ -14,13 +14,13 @@ host: "https://andela-dev-challenge.herokuapp.com"
 basePath: "/api/v1"
 tags:
 - name: "auth"
-  description: "Access to protected ressources"
+  description: "Access to protected resources"
 - name: "parcels"
-  description: "Access to parcels ressources"
+  description: "Access to parcels resources"
 - name: "users"
-  description: "Access to users ressources"
+  description: "Access to users resources"
 - name: "admin"
-  description: "Groups admin ressources"
+  description: "Access to admin resources"
 schemes:
 - "https"
 consumes:
@@ -168,8 +168,15 @@ paths:
           schema:
             type: object
             properties:
-              success:
-                type: boolean
+              message:
+                type: string
+                example: Success
+              status:
+                type: number
+                example: 200
+              rowCount:
+                type: number
+                example: 1
               data:
                 $ref: "#/definitions/User"
   /users/{userId}/parcels:
@@ -192,8 +199,16 @@ paths:
           schema:
             type: object
             properties:
-              success:
-                type: boolean
+              properties:
+              message:
+                type: string
+                example: Success
+              status:
+                type: number
+                example: 200
+              rowCount:
+                type: number
+                example: 1
               data:
                 type: array
                 items:
@@ -218,18 +233,33 @@ paths:
           schema:
             type: object
             properties:
-              success:
-                type: boolean
+              message:
+                type: string
+                example: User profile has been change successfully
+              status:
+                type: number
+                example: 200
               data:
                 $ref: "#/definitions/User"
+        '404':
+          description: User not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: User not found
+              status:
+                type: number
+                example: 404
   /users/{userId}/delete:
     delete:
-      summary: "Update the user role of a user from admin to normal or the other way around"
+      summary: "Delete a user"
       security:
         - JWT_Token: []
       tags:
         - "users"
-      operationId: updateUser
+      operationId: delete
       parameters: 
         - name: userId
           in: path
@@ -237,15 +267,28 @@ paths:
           type: string
           format: uuid
       responses:
-        '200':
-          description: return the basic user information
+        '204':
+          description: message 'deleted'
           schema:
             type: object
             properties:
-              success:
-                type: boolean
-              data:
-                $ref: "#/definitions/User"
+              message:
+                type: string
+                example: deleted
+              status:
+                type: number
+                example: 204
+        '404':
+          description: message 'user not found'
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: user not found
+              status:
+                type: number
+                example: 404
   /parcels:
     post:
       summary: "Create a new parcel"
@@ -284,6 +327,7 @@ paths:
         - JWT_Token_Admin: []
       tags:
         - "parcels"
+        - "admin"
       description: return list of parcels
       operationId: getParcels
       parameters:
