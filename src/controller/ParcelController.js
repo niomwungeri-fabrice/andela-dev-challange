@@ -189,8 +189,7 @@ const Parcels = {
   },
   async changeDestination(req, res) {
     try {
-      const { rows } = await db.query(findOneQueryUser, [req.params.parcelId, req.user.id]);
-
+      const { rows } = await db.query(findOneQuery, [req.params.parcelId, req.user.id]);
       if (!rows[0]) {
         return res.status(404).send({ message: 'Parcel not found', status: 404 });
       }

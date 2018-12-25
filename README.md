@@ -23,5 +23,8 @@ provides courier quotes based on weight categories.
 | `DELETE /api/v1/users/delete` | Delete a user |
 
 ## Project links
-UI : https://niomwungeri-fabrice.github.io/andela-dev-challange/<br>
-Server : https://andela-dev-challenge.herokuapp.com/
+| Name | Link |
+| --- | --- |
+|UI | https://niomwungeri-fabrice.github.io/andela-dev-challange/ |
+|Server | https://andela-dev-challenge.herokuapp.com/ |
+|API docs | https://andela-dev-challenge.herokuapp.com/docs/ |

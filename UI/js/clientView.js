@@ -12,7 +12,7 @@ window.onload = async () => {
   const pricePerKg = 100;
   const myparcelTable = document.getElementById('parcels');
   (this.parcels = () => {
-    fetch('http://localhost:3000/api/v1/users/:userId/parcels', {
+    fetch('https://andela-dev-challenge.herokuapp.com/api/v1/users/:userId/parcels', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
