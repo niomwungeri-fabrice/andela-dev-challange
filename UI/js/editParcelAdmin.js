@@ -7,7 +7,7 @@ window.onload = () => {
   const uptateBtn = document.getElementById('update-parcel');
   (this.viewDetail = async () => {
     const token = await localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/v1/parcels/${id}/admin`, {
+    fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}/admin`, {
       method: 'GET',
       headers: {
         'Content-Type': 'Application/JSON',

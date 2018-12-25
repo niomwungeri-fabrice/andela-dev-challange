@@ -16,7 +16,7 @@ let validParcelId = '';
 const validUser = 'niomwungeri@gmail.com';
 let userid = '';
 let token = '';
-const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMzhiNWNjNC0zM2ViLTQyMTgtOGViOC04NmJmNjFiYmVmYTUiLCJpYXQiOjE1NDUyMzMyMTcsImV4cCI6MTU0NTQwNjAxN30.mhq72q27EYhb_Az1_810n1K6y6vWdZI3r7F5H3Dhr_0';
+const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDk5MTkyNy0xNzdkLTQ0OGMtYTQwNS0wOWM2ZDNlYzA0MmIiLCJpYXQiOjE1NDU3MTMwODgsImV4cCI6MTU0NTg4NTg4OH0.IMeBBMm_k0piFdJsUwodDVVTL7QelZpzTF-bOWHIYKA';
 const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZWFlODEyZC00MDZhLTQyZmYtODk2Mi04ZDdlNTFjNjUyNzQiLCJpYXQiOjE1NDQwMzIzNTgsImV4cCI6MTU0NDIwNTE1OH0.5P9_JkyklSITuVSQg4Os-vCp6kt3BeVhMkMNNvIJSdE';
 const newParcel = new Parcel(uuidv4(), 'Rwanda', 'Kenya', 'Rwanda', 4,
   userid, '0487389934', 'PENDING', moment(new Date()), moment(new Date()));

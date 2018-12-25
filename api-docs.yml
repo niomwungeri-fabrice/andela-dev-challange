@@ -466,15 +466,30 @@ paths:
           required: true
           type: string
       responses:
-        '200':
-          description: return a parcel object
+        '400':
+          description: Ooops, The parcel has been delived or cancelled already, Cancel denied!
           schema:
             type: object
             properties:
-              success:
-                type: boolean
               message:
                 type: string
+                example: Ooops, The parcel has been delived or cancelled already, Cancel denied!
+              status:
+                type: number
+                example: 400
+        '200':
+          description: Parcel has been cancelled
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Parcel has been cancelled
+              status:
+                type: number
+                example: 200
+              data:
+                $ref: "#/definitions/Parcel"
 
   /parcels/{parcelId}/presentLocation:
     put:
@@ -496,11 +511,25 @@ paths:
           schema:
             type: object
             properties:
-              success:
-                type: boolean
               message:
                 type: string
-
+                example: Present location Updated
+              status:
+                type: number
+                example: 200
+              data:
+                $ref: "#/definitions/Parcel"
+        '404':
+          description: Parcel not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Parcel not found
+              status:
+                type: number
+                example: 404
   /parcels/{parcelId}/status:
     put:
       security:
@@ -524,14 +553,40 @@ paths:
               
       responses:
         '200':
-          description: return a parcel object
+          description: Parcel Status Updated
           schema:
             type: object
             properties:
-              success:
-                type: boolean
               message:
                 type: string
+                example: Parcel Status Updated
+              status:
+                type: number
+                example: 200
+              data:
+                $ref: "#/definitions/Parcel"
+        '202':
+          description: Change status failed, Parcel has been arrived, delivered or cancelled
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Change status failed, Parcel has been arrived, delivered or cancelled
+              status:
+                type: number
+                example: 202
+        '404':
+          description: Parcel not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Parcel not found
+              status:
+                type: number
+                example: 404
   /parcels/{parcelId}/destination:
     put:
       security:
@@ -555,14 +610,40 @@ paths:
               
       responses:
         '200':
-          description: Parcel destination updated successfully
+          description: Destination of Parcel has been changed
           schema:
             type: object
             properties:
-              success:
-                type: boolean
               message:
                 type: string
+                example: Destination of Parcel has been changed
+              status:
+                type: number
+                example: 200
+              data:
+                $ref: "#/definitions/Parcel"
+        '202':
+          description: Change destination failed, Parcel has been arrived, delivered or cancelled
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Change destination failed, Parcel has been arrived, delivered or cancelled
+              status:
+                type: number
+                example: 202
+        '404':
+          description: Parcel not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Parcel not found
+              status:
+                type: number
+                example: 404
 
 definitions:
   User:
