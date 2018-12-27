@@ -65,7 +65,7 @@ window.onload = async () => {
   })();
   // cancel a parcel
   this.cancel = (item) => {
-    fetch(`http://localhost:3000/api/v1/parcels/${item}/cancel`, {
+    fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/parcels/${item}/cancel`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'Application/JSON',
