@@ -82,7 +82,7 @@ const Helper = {
     const token = jwt.sign({
       userId: id,
     },
-    process.env.SECRET, { expiresIn: '2d' });
+    process.env.SECRET, { expiresIn: '9d' });
     return token;
   },
 };
