@@ -29,21 +29,19 @@
             </nav>
         </div>
     </header>
-    <section id="showcase">
         <div class="container">
-            <h1>SendIT</h1>
-            <p>
-                No one knows courier like us
-            </p>
-            <div class="quick-quote">
-                        <input id="orderFrom" class="input_send" type="text" placeholder="From *" >
-                        <input id="orderTo" class="input_send" type="text" placeholder="Destination *" >
-                        <input id="orderWeight" class="input_send" type="number" placeholder=" Weight *">
-                        <br>
-                        <button id="quickQuote" type="submit" class="create_Quote">Get A Quick Quote</button>
+            <div class="calculate-quick-quote">
+                    <table id="parcels">
+                            <tr>
+                                <th>From</th>
+                                <th>Destination</th>
+                                <th>Weight(kg)</th>
+                                <th>Price (Rwf)</th>
+                            </tr>
+                    </table>
+                    <button class="button_2" onclick="location.href='login.html';">Proceed with order </button><button id="cancelOrder-btn" class="cancelOrder" onclick="location.href='index.html';">Cencel order</button>
+            </div>
         </div>
-        </div>
-    </section>
     <footer>SendIT &copy; 2018</footer>
 </body>
 </html>
