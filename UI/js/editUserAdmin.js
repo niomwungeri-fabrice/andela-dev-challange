@@ -7,7 +7,7 @@ window.onload = () => {
   const uptateBtn = document.getElementById('edituser');
   (this.viewDetail = async () => {
     const token = await localStorage.getItem('token');
-    fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/users/${id}`, {
+    fetch(`http://localhost:3000/api/v1/users/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'Application/JSON',
@@ -34,7 +34,7 @@ window.onload = () => {
     const userRole = document.getElementById('userRole-user').value;
 
     // change userRole
-    fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/users/${id}/update`, {
+    fetch(`http://localhost:3000/api/v1/users/${id}/update`, {
       method: 'PUT',
       body: JSON.stringify({
         userRole,

@@ -1,20 +1,34 @@
 /* eslint-disable no-undef */
 window.onload = () => {
-  const location = document.getElementById('location-parcel');
+  const fromQuickQuote = localStorage.getItem('QuickQuote');
+  let location = '';
+  let destination = '';
+  let weight = 0;
+  console.log(fromQuickQuote);
+  if(fromQuickQuote){
+     location = localStorage.getItem('orderFrom');
+     destination = localStorage.getItem('orderTo');
+     weight = localStorage.getItem('orderWeight');
+     document.getElementById('location-parcel').value = location;
+     document.getElementById('destination-parcel').value = destination;
+     document.getElementById('weight-parcel').value = weight;
+  }else{
+    location = document.getElementById('location-parcel').value;
+    destination = document.getElementById('destination-parcel').value;
+    weight = document.getElementById('weight-parcel').value;
+  }
   const presentLocation = document.getElementById('present-location-parcel');
-  const destination = document.getElementById('destination-parcel');
-  const weight = document.getElementById('weight-parcel');
   const phone = document.getElementById('phone-parcel');
   const createBtn = document.getElementById('createbtn-parcel');
   const createParcel = async () => {
     const token = await localStorage.getItem('token');
-    fetch('https://andela-dev-challenge.herokuapp.com/api/v1/parcels', {
+    fetch('http://localhost:3000/api/v1/parcels', {
       method: 'POST',
       body: JSON.stringify({
-        location: location.value,
-        destination: destination.value,
+        location: location,
+        destination: destination,
         presentLocation: presentLocation.value,
-        weight: parseInt(weight.value, 10),
+        weight: parseInt(weight, 10),
         receiverPhone: phone.value,
       }),
       headers: {
@@ -29,6 +43,7 @@ window.onload = () => {
           document.getElementById('output-success').style.display = 'block';
           document.getElementById('output-success').innerHTML = message;
           setTimeout(() => {
+            localStorage.setItem('QuickQuote', 'created');
             window.location.href = 'viewParcel.html';
           }, 4000);
         } else {
@@ -40,11 +55,13 @@ window.onload = () => {
           document.getElementById('output-error').style.display = 'none';
           document.getElementById('output-success').style.display = 'none';
         }, 4000);
+
       }).catch(err => err);
     });
   };
 
   if (createBtn) {
     createBtn.addEventListener('click', createParcel);
+
   }
 };
