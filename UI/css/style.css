@@ -37,7 +37,16 @@ ul{
     padding-left: 20px;
     padding-right: 20px;
     color: white;
-    font-weight: bold;
+}
+.cancelOrder{
+    float: right;
+    height: 38px;
+    background: red;
+    border: 0;
+    margin-right: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
 }
 .btn_send{
     margin-top: 15px;
@@ -144,10 +153,14 @@ header a:hover{
 /* Showcase */
 #showcase{
    
-    min-height: 600px;
+    min-height: 650px;
     background: url('../img/graphicDesign.jpg') no-repeat 0 -400px;
     text-align: center;
     color: #ffffff;
+}
+.calculate-quick-quote{
+    margin-top: 10%;
+    text-align: center;
 }
 #showcase2{
     margin-top: 8%;

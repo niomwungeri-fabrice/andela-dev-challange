@@ -16,8 +16,11 @@ window.onload = () => {
         const { token, data, message } = results;
         if (token) {
           await localStorage.setItem('token', token);
+          const quote = localStorage.getItem('QuickQuote');
           if (data.user_role === 'ADMIN') {
             window.location.href = 'admin.html';
+          } else if (quote === 'QuickQuote') {
+            window.location.href = 'createParcel.html';
           } else {
             window.location.href = 'viewParcel.html';
           }

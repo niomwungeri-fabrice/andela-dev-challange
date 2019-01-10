@@ -232,6 +232,7 @@ const Parcels = {
         || response.rows[0].status === parcelStatus.CANCELLED) {
         return res.status(202).send({ message: 'Change status failed, Parcel has been arrived, delivered or cancelled ', status: 202 });
       }
+      // send email
       mailSender.newUserEmail(
         userResponse.rows[0].email,
         userResponse.rows[0].first_name,
