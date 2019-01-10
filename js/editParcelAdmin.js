@@ -5,6 +5,13 @@ window.onload = () => {
   const url = new URL(urlString);
   const id = url.searchParams.get('id');
   const uptateBtn = document.getElementById('update-parcel');
+  const parcelStatusObj = {
+    PENDING: 'PENDING',
+    IN_TRANSIT: 'IN_TRANSIT',
+    ARRIVED: 'ARRIVED',
+    DELIVERED: 'DELIVERED',
+    CANCELLED: 'CANCELLED',
+  };
   (this.viewDetail = async () => {
     const token = await localStorage.getItem('token');
     fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}/admin`, {
@@ -25,7 +32,19 @@ window.onload = () => {
         document.getElementById('weight-parcel').disabled = true;
         document.getElementById('phone-parcel').value = data.receiver_phone;
         document.getElementById('phone-parcel').disabled = true;
-        document.getElementById('status-parcel').value = data.status;
+        const parcelStatus = data.status;
+        const selectBlock = document.querySelector('.select-block');
+        selectBlock.innerHTML = `
+            <select id="parStatus">
+              <option value="" ${parcelStatus === '' ? 'selected' : ''}>Select status</option>
+              <option value="1" ${parcelStatus === 'PENDING' ? 'selected' : ''}>${parcelStatusObj.PENDING}</option>
+              <option value="2" ${parcelStatus === 'IN_TRANSIT' ? 'selected' : ''}>${parcelStatusObj.IN_TRANSIT}</option>
+              <option value="3" ${parcelStatus === 'ARRIVED' ? 'selected' : ''}>${parcelStatusObj.ARRIVED}</option>
+              <option value="4" ${parcelStatus === 'DELIVERED' ? 'selected' : ''}>${parcelStatusObj.DELIVERED}</option>
+              <option value="5" ${parcelStatus === 'CANCELLED' ? 'selected' : ''}>${parcelStatusObj.CANCELLED}</option>
+            </select>
+          `;
+
         let dateString = data.created_date;
         dateString = new Date(dateString).toUTCString();
         dateString = dateString.split(' ').slice(0, 5).join(' ');
@@ -37,7 +56,10 @@ window.onload = () => {
 
   this.updateParcel = async () => {
     const token = await localStorage.getItem('token');
-    const parcelStatus = document.getElementById('status-parcel').value;
+
+    const e = document.getElementById('parStatus');
+    const parcelStatus = e.options[e.selectedIndex].text;
+
     const parcelpresentLocation = document.getElementById('present-location-parcel').value;
     // change present location
     fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}/presentLocation`, {
