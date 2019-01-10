@@ -4,15 +4,14 @@ window.onload = () => {
   let location = '';
   let destination = '';
   let weight = 0;
-  console.log(fromQuickQuote);
-  if(fromQuickQuote){
-     location = localStorage.getItem('orderFrom');
-     destination = localStorage.getItem('orderTo');
-     weight = localStorage.getItem('orderWeight');
-     document.getElementById('location-parcel').value = location;
-     document.getElementById('destination-parcel').value = destination;
-     document.getElementById('weight-parcel').value = weight;
-  }else{
+  if (fromQuickQuote) {
+    location = localStorage.getItem('orderFrom');
+    destination = localStorage.getItem('orderTo');
+    weight = localStorage.getItem('orderWeight');
+    document.getElementById('location-parcel').value = location;
+    document.getElementById('destination-parcel').value = destination;
+    document.getElementById('weight-parcel').value = weight;
+  } else {
     location = document.getElementById('location-parcel').value;
     destination = document.getElementById('destination-parcel').value;
     weight = document.getElementById('weight-parcel').value;
@@ -22,11 +21,11 @@ window.onload = () => {
   const createBtn = document.getElementById('createbtn-parcel');
   const createParcel = async () => {
     const token = await localStorage.getItem('token');
-    fetch('http://localhost:3000/api/v1/parcels', {
+    fetch('https://andela-dev-challenge.herokuapp.com/api/v1/parcels', {
       method: 'POST',
       body: JSON.stringify({
-        location: location,
-        destination: destination,
+        location,
+        destination,
         presentLocation: presentLocation.value,
         weight: parseInt(weight, 10),
         receiverPhone: phone.value,
@@ -55,13 +54,11 @@ window.onload = () => {
           document.getElementById('output-error').style.display = 'none';
           document.getElementById('output-success').style.display = 'none';
         }, 4000);
-
       }).catch(err => err);
     });
   };
 
   if (createBtn) {
     createBtn.addEventListener('click', createParcel);
-
   }
 };

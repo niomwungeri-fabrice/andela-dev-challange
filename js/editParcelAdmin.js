@@ -7,7 +7,7 @@ window.onload = () => {
   const uptateBtn = document.getElementById('update-parcel');
   (this.viewDetail = async () => {
     const token = await localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/v1/parcels/${id}/admin`, {
+    fetch(`hhttps://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}/admin`, {
       method: 'GET',
       headers: {
         'Content-Type': 'Application/JSON',
@@ -40,7 +40,7 @@ window.onload = () => {
     const parcelStatus = document.getElementById('status-parcel').value;
     const parcelpresentLocation = document.getElementById('present-location-parcel').value;
     // change present location
-    fetch(`http://localhost:3000/api/v1/parcels/${id}/presentLocation`, {
+    fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}/presentLocation`, {
       method: 'PUT',
       body: JSON.stringify({
         presentLocation: parcelpresentLocation,
@@ -51,7 +51,7 @@ window.onload = () => {
       },
     });
     // change status
-    fetch(`http://localhost:3000/api/v1/parcels/${id}/status`, {
+    fetch(`hhttps://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({
         status: parcelStatus,

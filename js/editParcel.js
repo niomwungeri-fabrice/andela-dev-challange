@@ -7,7 +7,7 @@ window.onload = () => {
 
   (this.viewDetail = async () => {
     const token = await localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/v1/parcels/${id}`, {
+    fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'Application/JSON',
@@ -33,7 +33,7 @@ window.onload = () => {
   this.updateParcel = async () => {
     const token = await localStorage.getItem('token');
     const destination = document.getElementById('destination-parcel').value;
-    fetch(`http://localhost:3000/api/v1/parcels/${id}/destination`, {
+    fetch(`https://andela-dev-challenge.herokuapp.com/api/v1/parcels/${id}/destination`, {
       method: 'PUT',
       body: JSON.stringify({
         destination,
