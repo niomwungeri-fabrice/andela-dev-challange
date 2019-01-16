@@ -1,11 +1,23 @@
-import sgMail from '@sendgrid/mail';
+// file modified from https://nodemailer.com/about/
+import nodemailer from 'nodemailer';
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+async function newUserEmail(email, firstName, lastName, status, presentationLocation) {
+  // create reusable transporter object using the default SMTP transport
+  const transporter = nodemailer.createTransport({
+    // host: 'smtp.ethereal.email',
+    // port: 587,
+    // secure: false, // true for 465, false for other ports
+    service: 'gmail',
+    auth: {
+      user: 'nyf2k16@gmail.com', // generated ethereal user
+      pass: 'CIERRY12', // generated ethereal password
+    },
+  });
 
-const newUserEmail = (email, firstName, lastName, status, presentationLocation) => {
-  const msg = {
+  // setup email data with unicode symbols
+  const mailOptions = {
+    from: '"Send It 👻" <no-reply@sendit.com>',
     to: email,
-    from: 'niomwungeri.fabrice@gmail.com',
     subject: 'Parcel delivery information',
     html: `Dear ${firstName} ${lastName}, <br><br>
     Your parcel delivery order information has been changed as follows: <br> <br>
@@ -17,10 +29,13 @@ const newUserEmail = (email, firstName, lastName, status, presentationLocation) 
     Thank you for using our platform.
     `,
   };
-  sgMail.send(msg)
-    .then(sent => (sent))
-    .catch(error => (error));
-};
+
+  // send mail with defined transport object
+  await transporter.sendMail(mailOptions);
+  console.log('reached!');
+}
+
+newUserEmail().catch(console.error);
 
 
 export default {
