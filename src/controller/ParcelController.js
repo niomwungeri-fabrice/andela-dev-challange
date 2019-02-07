@@ -40,7 +40,6 @@ WHERE id=$3 AND owner_id = $4 returning *`;
 const getUserQuery = 'SELECT * FROM users WHERE id = $1';
 
 const Parcels = {
-  // Create a parcel delivery order
   async create(req, res) {
     const {
       location, destination, presentLocation, weight, receiverPhone,

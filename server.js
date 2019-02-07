@@ -17,7 +17,7 @@ const swaggerDocument = YAML.load('api-docs.yml');
 
 app.use(express.json());
 app.use(cors());
-app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to home SendIT API', status: 200 }));
+app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to home SendIT API v2', status: 200 }));
 
 app.use('/docs', swaggerDocs.serve, swaggerDocs.setup(swaggerDocument));
 
