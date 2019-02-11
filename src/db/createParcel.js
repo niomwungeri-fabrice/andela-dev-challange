@@ -19,7 +19,7 @@ setTimeout(() => {
   db.query(createParcelsTable)
     .then(() => {
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
+      // console.log(err);
     });
-}, 50);
+}, 10);
